@@ -6,6 +6,10 @@ namespace dx_engine {
         bool _system::update() {
             return ProcessMessage() == 0 && ScreenFlip() == 0 && ClearDrawScreen() == 0;
         }
+
+        _system::~_system() {
+            DxLib_End();
+        }
     }
 
     detail::_system system;
