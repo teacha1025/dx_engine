@@ -145,27 +145,27 @@ namespace dx_engine {
 		}
 
 		template<Number t>
-		constexpr point operator +(T s) const{
+		constexpr point operator +(t s) const{
 			return{ x + s, y + s };
 		}
 
 		template<Number t>
-		constexpr point operator -(T s) const{
+		constexpr point operator -(t s) const{
 			return{ x - s, y - s };
 		}
 
 		template<Number t>
-		constexpr point operator *(T s) const{
+		constexpr point operator *(t s) const{
 			return{ x * s, y * s };
 		}
 
 		template<Number t>
-		constexpr point operator /(T s) const{
+		constexpr point operator /(t s) const{
 			return{ static_cast<t>(x / s), static_cast<t>(y / s) };
 		}
 
 		template<Number t>
-		constexpr point operator %(T s) const{
+		constexpr point operator %(t s) const{
 			return{ fmod(x, s),fmod(y, s) };
 		}
 
@@ -177,28 +177,28 @@ namespace dx_engine {
 		}
 
 		template<Number t>
-		constexpr point& operator -=(T s) {
+		constexpr point& operator -=(t s) {
 			x -= s;
 			y -= s;
 			return *this;
 		}
 
 		template<Number t>
-		constexpr point& operator *=(T s) {
+		constexpr point& operator *=(t s) {
 			x *= s;
 			y *= s;
 			return *this;
 		}
 
 		template<Number t>
-		constexpr point& operator /=(T s) {
+		constexpr point& operator /=(t s) {
 			x /= s;
 			y /= s;
 			return *this;
 		}
 
 		template<Number t>
-		constexpr point& operator %=(T s) {
+		constexpr point& operator %=(t s) {
 			x = fmodf(x, s);
 			y = fmodf(y, s);
 			return *this;
@@ -217,14 +217,14 @@ namespace dx_engine {
 		}
 
 		template<Number t>
-		constexpr point& operator ++(t) {
+		constexpr point& operator ++() {
 			x++;
 			y++;
 			return *this;
 		}
 
 		template<Number t>
-		constexpr point& operator --(t) {
+		constexpr point& operator --() {
 			x--;
 			y--;
 			return *this;
