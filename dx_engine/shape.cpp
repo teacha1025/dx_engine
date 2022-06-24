@@ -24,6 +24,14 @@ namespace dx_engine {
 			_position = position;
 			return *this;
 		}
+		shape& shape::fill(bool flag) {
+			_fill_flag = flag;
+			return *this;
+		}
+		shape& shape::thick(float thick) {
+			_thick = thick;
+			return *this;
+		}
 
 		point<float> shape::position() const {
 			return _position;

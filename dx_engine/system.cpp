@@ -25,6 +25,10 @@ namespace dx_engine {
                 cnt++;
             }
 
+            keyboard.update();
+            mouse.update();
+
+
             return ProcessMessage() == 0 && ScreenFlip() == 0 && ClearDrawScreen() == 0;
         }
 

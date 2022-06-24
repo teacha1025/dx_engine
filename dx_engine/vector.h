@@ -17,8 +17,8 @@ namespace dx_engine {
 		template<typename t>
 		point<t> rotate(const point<t>& p, const double& angle) {
 			t x, y;
-			x = p.x * std::cos(angle) - p.y * std::sin(angle);
-			y = p.x * std::sin(angle) + p.y * std::cos(angle);
+			x = (t)(p.x * std::cos(angle) - p.y * std::sin(angle));
+			y = (t)(p.x * std::sin(angle) + p.y * std::cos(angle));
 			return { x,y };
 		}
 

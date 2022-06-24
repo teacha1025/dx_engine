@@ -3,7 +3,6 @@
 
 namespace dx_engine {
 	rect::rect() {
-		resize({ 64,64 });
 		_center = { 32,32 };
 	}
 
@@ -35,6 +34,6 @@ namespace dx_engine {
 		auto p2 = vector::rotate(_B, _angle) + _position;
 		auto p3 = vector::rotate(_D, _angle) + _position;
 		auto p4 = vector::rotate(_C, _angle) + _position;
-		DrawQuadrangleAA(static_cast<float>(p1.x), static_cast<float>(p1.y), static_cast<float>(p2.x), static_cast<float>(p2.y), static_cast<float>(p3.x), static_cast<float>(p3.y), static_cast<float>(p4.x), static_cast<float>(p4.y), _color.to_int(), true);
+		DrawQuadrangleAA(static_cast<float>(p1.x), static_cast<float>(p1.y), static_cast<float>(p2.x), static_cast<float>(p2.y), static_cast<float>(p3.x), static_cast<float>(p3.y), static_cast<float>(p4.x), static_cast<float>(p4.y), _color.to_int(), _fill_flag, _thick);
 	}
 }

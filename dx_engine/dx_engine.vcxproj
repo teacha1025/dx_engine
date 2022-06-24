@@ -182,20 +182,32 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="circle.cpp" />
     <ClCompile Include="color.cpp" />
+    <ClCompile Include="device.cpp" />
+    <ClCompile Include="device_dase.cpp" />
+    <ClCompile Include="key.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mouse.cpp" />
     <ClCompile Include="rect.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="system.cpp" />
+    <ClCompile Include="texture.cpp" />
     <ClCompile Include="vector.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="color.h" />
+    <ClInclude Include="device.h" />
+    <ClInclude Include="device_base.h" />
     <ClInclude Include="dx_engine.h" />
     <ClInclude Include="heads.h" />
+    <ClInclude Include="key.h" />
+    <ClInclude Include="mouse.h" />
+    <ClInclude Include="pallet.h" />
     <ClInclude Include="point.h" />
+    <ClInclude Include="step.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
