@@ -2,6 +2,7 @@
 #include <string>
 #include <format>
 #include <vector>
+#include <numbers>
 #include <DxLib.h>
 
 #include "point.h"
@@ -11,6 +12,12 @@
 #include "device.h"
 
 namespace dx_engine {
+
+	constexpr auto PI = std::numbers::pi;
+	constexpr auto PI_F = std::numbers::pi_v<float>;
+	constexpr auto PI_2 = std::numbers::pi * 2.0;
+	constexpr auto PI_2F = std::numbers::pi_v<float> * 2.0;
+
 	using uint = unsigned int;
 
 	enum class blend {
@@ -175,6 +182,14 @@ namespace dx_engine {
 
 		texture operator [](const uint& i)const;
 	};
+
+	std::vector<std::string> split(const std::string& str, const std::string& splt);
+
+	constexpr double degree(double radian);
+	constexpr double radian(double degree);
+
+	constexpr float degree_f(float radian);
+	constexpr float radian_f(float degree);
 
 	extern detail::_system system;
 	extern detail::_window window;

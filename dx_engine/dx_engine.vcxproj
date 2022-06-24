@@ -186,6 +186,7 @@
     <ClCompile Include="color.cpp" />
     <ClCompile Include="device.cpp" />
     <ClCompile Include="device_dase.cpp" />
+    <ClCompile Include="functions.cpp" />
     <ClCompile Include="key.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mouse.cpp" />
