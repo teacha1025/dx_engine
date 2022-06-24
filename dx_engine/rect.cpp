@@ -2,17 +2,22 @@
 #include "dx_engine.h"
 
 namespace dx_engine {
+	rect::rect() {
+		resize({ 64,64 });
+		_center = { 32,32 };
+	}
+
 	rect::rect(const point<float> size) {
 		resize(size);
 		_center = size / 2.0f;
 	}
 
 	point<float> rect::size() const {
-
+		return _size;
 	}
 
 	void rect::resize(const point<float>& size) {
-
+		_size = size;
 	}
 
 	void rect::draw() {

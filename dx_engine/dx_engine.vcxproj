@@ -186,6 +186,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="rect.cpp" />
     <ClCompile Include="shape.cpp" />
+    <ClCompile Include="string.cpp" />
     <ClCompile Include="system.cpp" />
     <ClCompile Include="vector.cpp" />
     <ClCompile Include="window.cpp" />
