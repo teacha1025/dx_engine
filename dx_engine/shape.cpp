@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "dx_engine.h"
+#include "heads.h"
 
 namespace dx_engine {
 	namespace detail {

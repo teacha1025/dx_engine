@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "dx_engine.h"
+#include "heads.h"
 
 namespace dx_engine {
     namespace detail {
@@ -18,7 +18,7 @@ namespace dx_engine {
                 now = GetTickCount64();
                 auto d = now - old;
                 if (d >= 0.25 * 1000) {
-                    _fps = cnt / static_cast<float>(d) * 1000;
+                    _fps = cnt / SCAST(float, d) * 1000;
                     old = now;
                     cnt = 0;
                 }

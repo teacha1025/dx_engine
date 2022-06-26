@@ -14,3 +14,7 @@
 #pragma comment(lib, "dx_engine")
 #endif
 #endif
+
+#ifdef SCAST
+#undef SCAST
+#endif 

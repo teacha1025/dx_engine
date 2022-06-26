@@ -3,6 +3,10 @@
 #include <cmath>
 #include <concepts>
 
+#ifndef SCAST
+#define SCAST(t, v) static_cast<t>((v))
+#endif
+
 namespace dx_engine {
 	template<typename T>
 	concept Number = std::integral<T> || std::floating_point<T>;
@@ -21,10 +25,10 @@ namespace dx_engine {
 		constexpr point(T _x, T _y) noexcept : x(_x), y(_y) {}
 
 		template<class X, class Y>
-		constexpr point(X _x, Y _y) noexcept : x(static_cast<T>(_x)), y(static_cast<T>(_y)) {}
+		constexpr point(X _x, Y _y) noexcept : x(SCAST(T, _x)), y(SCAST(T, _y)) {}
 
 		template<class t>
-		constexpr point(const point<t>& p) noexcept : x(static_cast<T>(p.x)), y(static_cast<T>(p.y)) {}
+		constexpr point(const point<t>& p) noexcept : x(SCAST(T, p.x)), y(SCAST(T, p.y)) {}
 
 		constexpr point operator +() const{
 			return *this;
@@ -56,22 +60,22 @@ namespace dx_engine {
 
 		template<Number t>
 		constexpr point operator +(const point<t>& other) const{
-			return{ x + static_cast<T>(other.x), y + static_cast<T>(other.y) };
+			return{ x + SCAST(T, other.x), y + SCAST(T, other.y) };
 		}
 
 		template<Number t>
 		constexpr point operator -(const point<t>& other) const{
-			return{ x - static_cast<T>(other.x), y - static_cast<T>(other.y) };
+			return{ x - SCAST(T, other.x), y - SCAST(T, other.y) };
 		}
 
 		template<Number t>
 		constexpr point operator *(const point<t>& other) const{
-			return{ x * static_cast<T>(other.x), y * static_cast<T>(other.y) };
+			return{ x * SCAST(T, other.x), y * SCAST(T, other.y) };
 		}
 
 		template<Number t>
 		constexpr point operator /(const point<t>& other) const{
-			return{ x / static_cast<T>(other.x), y / static_cast<T>(other.y) };
+			return{ x / SCAST(T, other.x), y / SCAST(T, other.y) };
 		}
 
 		template<Number t>
@@ -161,7 +165,7 @@ namespace dx_engine {
 
 		template<Number t>
 		constexpr point operator /(t s) const{
-			return{ static_cast<t>(x / s), static_cast<t>(y / s) };
+			return{ SCAST(T, x / s), SCAST(T, y / s) };
 		}
 
 		template<Number t>
@@ -285,10 +289,10 @@ namespace dx_engine {
 		constexpr vector3(T _x, T _y, T _z) noexcept : x(_x), y(_y), z(_z) {}
 
 		template<class X, class Y>
-		constexpr vector3(X _x, Y _y, T _z) noexcept : x(static_cast<T>(_x)), y(static_cast<T>(_y)), z(static_cast<T>(_z)) {}
+		constexpr vector3(X _x, Y _y, T _z) noexcept : x(SCAST(T, _x)), y(SCAST(T, _y)), z(SCAST(T, _z)) {}
 
 		template<class t>
-		constexpr vector3(const vector3<t>& p) noexcept : x(static_cast<T>(p.x)), y(static_cast<T>(p.y)), z(static_cast<T>(p.z)) {}
+		constexpr vector3(const vector3<t>& p) noexcept : x(SCAST(T, p.x)), y(SCAST(T, p.y)), z(SCAST(T, p.z)) {}
 
 		constexpr vector3 operator +() const {
 			return *this;
@@ -320,22 +324,22 @@ namespace dx_engine {
 
 		template<Number t>
 		constexpr vector3 operator +(const vector3<t>& other) const {
-			return{ x + static_cast<T>(other.x), y + static_cast<T>(other.y), z + static_cast<T>(other.z) };
+			return{ x + SCAST(T, other.x), y + SCAST(T, other.y), z + SCAST(T, other.z) };
 		}
 
 		template<Number t>
 		constexpr vector3 operator -(const vector3<t>& other) const {
-			return{ x - static_cast<T>(other.x), y - static_cast<T>(other.y), z - static_cast<T>(other.z) };
+			return{ x - SCAST(T, other.x), y - SCAST(T, other.y), z - SCAST(T, other.z) };
 		}
 
 		template<Number t>
 		constexpr vector3 operator *(const vector3<t>& other) const {
-			return{ x * static_cast<T>(other.x), y * static_cast<T>(other.y), z * static_cast<T>(other.z) };
+			return{ x * SCAST(T, other.x), y * SCAST(T, other.y), z * SCAST(T, other.z) };
 		}
 
 		template<Number t>
 		constexpr vector3 operator /(const vector3<t>& other) const {
-			return{ x / static_cast<T>(other.x), y / static_cast<T>(other.y), z / static_cast<T>(other.z) };
+			return{ x / SCAST(T, other.x), y / SCAST(T, other.y), z / SCAST(T, other.z) };
 		}
 
 		template<Number t>
@@ -435,7 +439,7 @@ namespace dx_engine {
 
 		template<Number t>
 		constexpr vector3 operator /(T s) const {
-			return{ static_cast<t>(x / s), static_cast<t>(y / s), static_cast<t>(z / s) };
+			return{ SCAST(T, x / s), SCAST(T, y / s), SCAST(T, z / s) };
 		}
 
 		template<Number t>

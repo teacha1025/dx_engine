@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "dx_engine.h"
+#include "heads.h"
 #include "step.h"
 
 namespace dx_engine {
@@ -11,6 +11,7 @@ namespace dx_engine {
 		_handle = MakeGraph(size.x, size.y);
 		_size = size;
 		_center = size / 2.0;
+		_position = {};
 		FillGraph(_handle, fill_color.r, fill_color.g, fill_color.b);
 	}
 
@@ -22,8 +23,9 @@ namespace dx_engine {
 		_handle = handle;
 		float x, y;
 		GetGraphSizeF(handle, &x, &y);
-		_size = { static_cast<double>(x), static_cast<double>(y) };
+		_size = { SCAST(double, x), SCAST(double, y) };
 		_center = _size / 2.0;
+		_position = {};
 	}
 
 	texture::texture(const std::string& path) {
@@ -34,8 +36,9 @@ namespace dx_engine {
 			*this = texture();
 			return;
 		}
-		_size = { static_cast<double>(x), static_cast<double>(y) };
+		_size = { SCAST(double, x), SCAST(double, y) };
 		_center = _size / 2.0;
+		_position = {};
 
 		auto result = LoadGraph(path.c_str());
 		if (result < 0) {
@@ -59,12 +62,12 @@ namespace dx_engine {
 			}
 			return;
 		}
-		_size = { static_cast<double>(x), static_cast<double>(y) };
+		_size = { SCAST(double, x), SCAST(double, y) };
 		_size /= divnum;
 		_center = _size / 2.0;
 
-		_div_handle.resize(divnum.x * divnum.y);
-		auto resutlt = LoadDivGraphF(path.c_str(), divnum.x * divnum.y, divnum.x, divnum.y, static_cast<float>(_size.x), static_cast<float>(_size.y), &_div_handle[0]);
+		_div_handle.resize(SCAST(size_t, divnum.x * divnum.y));
+		auto resutlt = LoadDivGraphF(path.c_str(), divnum.x * divnum.y, divnum.x, divnum.y, SCAST(float, _size.x), SCAST(float, _size.y), &_div_handle[0]);
 		if (resutlt < 0) {
 			int handle = texture(point<int>(x, y))._handle;
 			_div_handle.clear();
@@ -115,7 +118,7 @@ namespace dx_engine {
 			return texture(_div_handle.at(i));
 		}
 		else {
-			int h = MakeGraph(static_cast<int>(_size.x), static_cast<int>(_size.y));
+			int h = MakeGraph(SCAST(int, _size.x), SCAST(int, _size.y));
 			FillGraph(h, 255, 255, 255);
 			return texture(h);
 		}
@@ -127,16 +130,16 @@ namespace dx_engine {
 
 	void texture::draw() {
 		if (_isdiv) {
-			_handle = MakeGraph(static_cast<int>(_size.x), static_cast<int>(_size.y));
+			_handle = MakeGraph(SCAST(int, _size.x), SCAST(int, _size.y));
 			FillGraph(_handle, 255, 255, 255);
 		}
-		SetDrawBlendMode(static_cast<int>(_blend), _blendparam);
-		SetDrawMode(static_cast<int>(_draw_mode));
+		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
+		SetDrawMode(SCAST(int, _draw_mode));
 		if (_center == _size / 2.0) {
-			DrawRotaGraphF(static_cast<float>(_position.x), static_cast<float>(_position.y), _rate, _angle, _handle, TRUE, _isturn, _isflip);
+			DrawRotaGraphF(SCAST(float, _position.x), SCAST(float, _position.y), _rate, _angle, _handle, TRUE, _isturn, _isflip);
 		}
 		else {
-			DrawRotaGraph2F(static_cast<float>(_position.x), static_cast<float>(_position.y), static_cast<float>(_center.x), static_cast<float>(_center.y), _rate, _angle, _handle, TRUE, _isturn, _isflip);
+			DrawRotaGraph2F(SCAST(float, _position.x), SCAST(float, _position.y), SCAST(float, _center.x), SCAST(float, _center.y), _rate, _angle, _handle, TRUE, _isturn, _isflip);
 		}
 	}
 }
