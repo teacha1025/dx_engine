@@ -212,8 +212,10 @@
     <ClInclude Include="pallet.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="shape.h" />
     <ClInclude Include="step.h" />
     <ClInclude Include="text.h" />
+    <ClInclude Include="texture.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

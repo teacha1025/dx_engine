@@ -1,4 +1,12 @@
 #pragma once
+#include "def.h"
+#include "draw_param.h"
+#include "point.h"
+#include "vector.h"
+#include "color.h"
+#include "pallet.h"
+#include "text.h"
+#include "device.h"
 
 namespace dx_engine {
 	namespace detail {

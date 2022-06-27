@@ -1,5 +1,6 @@
 #include "DxLib.h"
-#include "heads.h"
+#include "def.h"
+#include "shape.h"
 
 namespace dx_engine {
 	rect::rect() {

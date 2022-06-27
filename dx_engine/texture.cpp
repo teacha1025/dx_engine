@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "heads.h"
+#include "texture.h"
 #include "step.h"
 
 namespace dx_engine {

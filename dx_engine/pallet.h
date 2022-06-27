@@ -1,6 +1,6 @@
 #pragma once
 #include "color.h"
-#define define constexpr auto
+#include "def.h"
 
 namespace dx_engine {
 	namespace pallet {

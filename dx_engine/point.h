@@ -3,9 +3,7 @@
 #include <cmath>
 #include <concepts>
 
-#ifndef SCAST
-#define SCAST(t, v) static_cast<t>((v))
-#endif
+#include "def.h"
 
 namespace dx_engine {
 	template<typename T>
