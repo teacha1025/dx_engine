@@ -40,7 +40,7 @@ public:
 	}
 };
 
-int Main() {
+int main() {
 	text memory_disp, fps;
 	memory_disp.set_font("メイリオ", 10u, 1u, font_type::edge);
 	fps.set_font("メイリオ", 16u, 1u, font_type::anti_aliasing);
