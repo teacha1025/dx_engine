@@ -43,8 +43,10 @@ namespace dx_engine {
 		auto result = LoadGraph(path.c_str());
 		if (result < 0) {
 			*this = texture(_size);
+			_failer = true;
 			return;
 		}
+		_failer = false;
 		_handle = result;
 	}
 
@@ -55,8 +57,9 @@ namespace dx_engine {
 		_div_num = divnum;
 		int r = GetImageSize_File(path.c_str(), &x, &y);
 		if (r < 0) {
-			_size = { x,y };
-			int handle = texture(point<int>(x, y))._handle;
+			_failer = true;
+			_size = { 64,64 };
+			int handle = texture(point<int>(64, 64))._handle;
 			for (auto& h : step(divnum.x* divnum.y)) {
 				_div_handle.push_back(handle);
 			}
@@ -69,6 +72,7 @@ namespace dx_engine {
 		_div_handle.resize(SCAST(size_t, divnum.x * divnum.y));
 		auto resutlt = LoadDivGraphF(path.c_str(), divnum.x * divnum.y, divnum.x, divnum.y, SCAST(float, _size.x), SCAST(float, _size.y), &_div_handle[0]);
 		if (resutlt < 0) {
+			_failer = true;
 			int handle = texture(point<int>(x, y))._handle;
 			_div_handle.clear();
 			for (auto& h : step(divnum.x* divnum.y)) {
@@ -76,6 +80,7 @@ namespace dx_engine {
 			}
 			return;
 		}
+		_failer = false;
 	}
 
 
@@ -88,9 +93,9 @@ namespace dx_engine {
 		_angle = angle;
 		return *this;
 	}
-	texture& texture::blend(dx_engine::blend mode, int param) {
+	texture& texture::blend(dx_engine::blend mode, range<0, 255> param) {
 		_blend = mode;
-		_blendparam = param;
+		_blendparam = param.get();
 		return *this;
 	}
 	texture& texture::at(const dx_engine::point<float>& position) {

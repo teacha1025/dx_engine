@@ -6,16 +6,19 @@
 #include "pallet.h"
 #include "draw_param.h"
 #include "def.h"
+#include "range.h"
 namespace dx_engine {
 	class text {
 	private:
 		std::string _str;
-		point<float> _position = { 0,0 }, _center = { 0,0 };
+		point<float> _position = { 0,0 }, _center = { 0,0 }, _size = { 0,0 };
 		color _color = pallet::black, _edgecolor = pallet::black;
 		blend _blend = blend::alpha;
 		byte _blendparam = 255;
 
 		int _fonthandle = 0;
+
+		void setsize();
 	public:
 		text() = default;
 		text(const text&) = default;
@@ -23,7 +26,7 @@ namespace dx_engine {
 		text(const char* str);
 		text& centered(const dx_engine::point<float>& center);
 		text& colored(const dx_engine::color& color, const dx_engine::color& edge = pallet::black);
-		text& blend(dx_engine::blend mode, int param);
+		text& blend(dx_engine::blend mode, range<0, 255> param);
 		text& at(const dx_engine::point<float>& position);
 
 		point<float> position() const;
@@ -36,6 +39,12 @@ namespace dx_engine {
 
 		text operator = (const std::string& str);
 		text operator = (const char* str);
+
+		template<Number T>
+		text operator = (T number) {
+			this->_str = std::to_string(number);
+			return *this;
+		}
 	};
 
 }

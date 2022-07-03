@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "details.h"
+#include "range.h"
 
 namespace dx_engine {
 	namespace detail {
@@ -15,9 +16,9 @@ namespace dx_engine {
 			_color = color;
 			return *this;
 		}
-		shape& shape::blend(dx_engine::blend mode, int param) {
+		shape& shape::blend(dx_engine::blend mode, range<0, 255> param) {
 			_blend = mode;
-			_blendparam = param;
+			_blendparam = param.get();
 			return *this;
 		}
 		shape& shape::at(const point<float>& position) {

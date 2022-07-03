@@ -5,6 +5,7 @@
 #include "pallet.h"
 #include "draw_param.h"
 #include "point.h"
+#include "range.h"
 
 namespace dx_engine {
 	class texture {
@@ -21,6 +22,8 @@ namespace dx_engine {
 		double _angle = 0.0, _rate = 1.0;
 		point<int> _div_num = { 1,1 };
 		int _draw_mode = DX_DRAWMODE_NEAREST;
+
+		bool _failer = false;
 	public:
 		texture();
 		texture(const point<int>& size, const color& fill_color = pallet::white);
@@ -30,7 +33,7 @@ namespace dx_engine {
 
 		texture& centered(const dx_engine::point<float>& center);
 		texture& rotateed(float angle);
-		texture& blend(dx_engine::blend mode, int param);
+		texture& blend(dx_engine::blend mode, range<0, 255> param);
 		texture& at(const dx_engine::point<float>& position);
 		texture& extended(float rate);
 		texture& turned(bool flag);

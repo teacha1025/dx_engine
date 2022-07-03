@@ -7,7 +7,7 @@
 #include "pallet.h"
 #include "details.h"
 
-#define SCENE_CONSTRUCTOR (const data_s& data){ constructor(data); init();}
+#define SCENE_CONSTRUCTOR(cls) cls()=default;cls(const data_s& data){ constructor(data); init();}
 
 namespace dx_engine {
 	extern detail::_window window;
@@ -52,8 +52,7 @@ namespace dx_engine {
 		}
 	public:
 
-		scene() = default;
-		scene SCENE_CONSTRUCTOR;
+		SCENE_CONSTRUCTOR(scene)
 
 		void constructor(const data_s& data) {
 			_scn_mng = data._scn_mng;
