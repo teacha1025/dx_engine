@@ -25,6 +25,7 @@
 #include "range.h"
 #include "coroutines.h"
 #include "clock.h"
+#include "audio.h"
 
 
 

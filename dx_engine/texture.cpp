@@ -95,7 +95,7 @@ namespace dx_engine {
 	}
 	texture& texture::blend(dx_engine::blend mode, range<0, 255> param) {
 		_blend = mode;
-		_blendparam = param.get();
+		_blendparam = param;
 		return *this;
 	}
 	texture& texture::at(const dx_engine::point<float>& position) {

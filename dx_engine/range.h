@@ -26,5 +26,9 @@ namespace dx_engine {
 			val = std::clamp(v, min, max);
 			return *this;
 		}
+
+		operator type () const{
+			return get();
+		}
 	};
 }

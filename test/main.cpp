@@ -46,14 +46,16 @@ int main() {
 	fps.set_font("ÉÅÉCÉäÉI", 16u, 1u, font_type::anti_aliasing);
 
 	texture t("test_2.bmp", {4,3});
-
+	audio pan("test.wav", false);
+	audio music("07 G Free.mp3", false);
 
 	scene_manager<> scnmng;
 	scnmng.add<testscene>(0);
 
 	scnmng.set(0);
-	
+	//music.play();
 	while (systems.update()) {
+		
 		fps = std::format("{:2.2f} fps", systems.fps());
 		fps.colored(pallet::white).centered({ fps.size().x,0 }).at({ 1280,0 }).draw();
 		memory_disp = std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage());
@@ -62,6 +64,15 @@ int main() {
 		t[4].extended(5.0).blend(blend::none, 255).centered({0,0}).at(window.size() / 2).draw();
 		console << true;
 		scnmng.update();
+		auto p = systems.mouse.position().x * 2.0 / 1280.0 - 1.0f;
+		console << p;
+		console << systems.mouse.position();
+		music.pan(p);
+		if (systems.keyboard.Return.count() % 16 == 0) {
+			music.play();
+			console << "play";
+			
+		}
 	}
 
 	return 0;

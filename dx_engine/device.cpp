@@ -248,10 +248,11 @@ namespace dx_engine {
 				Button8 = _mouse(MOUSE_INPUT_8);
 			}
 
-			point<unsigned int> mouse::position() const {
+			point<int> mouse::position() const {
 				point<int> p;
 				GetMousePoint(&p.x, &p.y);
-				return { (unsigned int)p.x, (unsigned int)p.y };
+
+				return { p.x, p.y };
 			}
 
 			void mouse::update() {
