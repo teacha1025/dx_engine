@@ -578,7 +578,7 @@ namespace dx_engine {
 				_mouse Button7;
 				_mouse Button8;
 
-				point<unsigned int> position() const;
+				point<int> position() const;
 				void update();
 			};
 		}
