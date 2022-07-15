@@ -77,70 +77,67 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="heads.h">
+    <ClInclude Include="..\details\details.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="point.h">
+    <ClInclude Include="..\details\device.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="color.h">
+    <ClInclude Include="..\details\device_base.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="vector.h">
+    <ClInclude Include="..\details\draw_param.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="pallet.h">
+    <ClInclude Include="..\details\heads.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="device.h">
+    <ClInclude Include="..\details\key.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="device_base.h">
+    <ClInclude Include="..\details\mouse.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="key.h">
+    <ClInclude Include="..\details\pallet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="mouse.h">
+    <ClInclude Include="..\details\point.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="step.h">
+    <ClInclude Include="..\details\range.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="text.h">
+    <ClInclude Include="..\details\scene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="draw_param.h">
+    <ClInclude Include="..\details\shape.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="def.h">
+    <ClInclude Include="..\details\step.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="scene.h">
+    <ClInclude Include="..\details\text.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="details.h">
+    <ClInclude Include="..\details\texture.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="shape.h">
+    <ClInclude Include="..\details\vector.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="texture.h">
+    <ClInclude Include="..\details\audio.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="coroutines.h">
+    <ClInclude Include="..\details\clock.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="range.h">
+    <ClInclude Include="..\details\color.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="clock.h">
+    <ClInclude Include="..\details\coroutines.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\libs\dx_engine.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="audio.h">
+    <ClInclude Include="..\details\def.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

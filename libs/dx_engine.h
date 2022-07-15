@@ -1,5 +1,5 @@
 #pragma once
-#include "../dx_engine/heads.h"
+#include "../details/heads.h"
 
 #ifdef _DEBUG
 #ifdef _M_X64
