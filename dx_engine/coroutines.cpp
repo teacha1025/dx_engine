@@ -1,5 +1,5 @@
-#include "def.h"
-#include "coroutines.h"
+#include "../details/def.h"
+#include "../details/coroutines.h"
 
 namespace dx_engine {
 	namespace coroutines {

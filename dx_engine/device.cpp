@@ -1,7 +1,7 @@
 #include <DxLib.h>
-#include "key.h"
-#include "device.h"
-#include "point.h"
+#include "../details/key.h"
+#include "../details/device.h"
+#include "../details/point.h"
 
 namespace dx_engine {
 	namespace detail {

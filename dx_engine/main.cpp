@@ -1,5 +1,5 @@
 #include <DxLib.h>
-#include "heads.h"
+#include "../details/heads.h"
 
 extern void init();
 extern int main();

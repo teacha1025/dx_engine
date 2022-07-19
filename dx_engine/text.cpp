@@ -1,6 +1,6 @@
 #include <string>
 #include "DxLib.h"
-#include "heads.h"
+#include "../details/heads.h"
 
 namespace dx_engine {
 	text::text(const std::string& str) {

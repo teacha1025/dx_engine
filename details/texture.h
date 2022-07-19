@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <array>
 #include "def.h"
 #include "color.h"
 #include "pallet.h"
@@ -42,6 +43,8 @@ namespace dx_engine {
 		point<float> position() const;
 
 		void draw();
+
+		void modofication_draw(const std::array<point<float>, 4>& position);
 
 		texture operator [](const uint& i)const;
 	};

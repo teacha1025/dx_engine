@@ -1,6 +1,6 @@
 #include "DxLib.h"
-#include "details.h"
-#include "range.h"
+#include "../details/details.h"
+#include "../details/range.h"
 
 namespace dx_engine {
 	namespace detail {

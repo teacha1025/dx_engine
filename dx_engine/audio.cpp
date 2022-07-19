@@ -1,8 +1,8 @@
 #include <string>
 #include <DxLib.h>
-#include "audio.h"
-#include "range.h"
-#include "details.h"
+#include "../details/audio.h"
+#include "../details/range.h"
+#include "../details/heads.h"
 
 
 namespace dx_engine {

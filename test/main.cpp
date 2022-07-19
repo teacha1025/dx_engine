@@ -3,10 +3,12 @@
 using namespace dx_engine;
 
 void init() {
-	ChangeWindowMode(TRUE);
+	window.fullscreen(false);
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
+
+	window.extends(1.0);
 }
 
 class testscene : public scene<> {
@@ -41,9 +43,10 @@ public:
 };
 
 int main() {
-	text memory_disp, fps;
+	text memory_disp, fps, mpos;
 	memory_disp.set_font("メイリオ", 10u, 1u, font_type::edge);
 	fps.set_font("メイリオ", 16u, 1u, font_type::anti_aliasing);
+	mpos.set_font("メイリオ", 16u, 1u, font_type::anti_aliasing);
 
 	texture t("test_2.bmp", {4,3});
 	audio pan("test.wav", false);
@@ -54,12 +57,15 @@ int main() {
 
 	scnmng.set(0);
 	//music.play();
+	//systems.debug_mode = false;
 	while (systems.update()) {
 		
 		fps = std::format("{:2.2f} fps", systems.fps());
 		fps.colored(pallet::white).centered({ fps.size().x,0 }).at({ 1280,0 }).draw();
 		memory_disp = std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage());
 		memory_disp.at({0,0}).colored(pallet::white).draw();
+		mpos = systems.mouse.position();
+		mpos.at({ 0,20 }).colored(pallet::white).draw();
 		
 		t[4].extended(5.0).blend(blend::none, 255).centered({0,0}).at(window.size() / 2).draw();
 		console << true;

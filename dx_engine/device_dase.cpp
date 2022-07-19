@@ -1,4 +1,4 @@
-#include "device_base.h"
+#include "../details/device_base.h"
 #include <DxLib.h>
 namespace dx_engine {
 	namespace detail {

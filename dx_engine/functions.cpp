@@ -2,7 +2,7 @@
 #include <numbers>
 #include <string>
 #include <vector>
-#include "heads.h"
+#include "../details/heads.h"
 
 namespace dx_engine {
 	std::vector<std::string> split(const std::string& source, const std::string& splt) {

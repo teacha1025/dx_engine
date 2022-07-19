@@ -1,6 +1,6 @@
 #include "DxLib.h"
-#include "texture.h"
-#include "step.h"
+#include "../details/texture.h"
+#include "../details/step.h"
 
 namespace dx_engine {
 	texture::texture() {
@@ -146,5 +146,9 @@ namespace dx_engine {
 		else {
 			DrawRotaGraph2F(SCAST(float, _position.x), SCAST(float, _position.y), SCAST(float, _center.x), SCAST(float, _center.y), _rate, _angle, _handle, TRUE, _isturn, _isflip);
 		}
+	}
+
+	void texture::modofication_draw(const std::array<point<float>, 4>& position) {
+		DrawModiGraphF(position.at(0).x, position.at(0).y, position.at(1).x, position.at(1).y, position.at(2).x, position.at(2).y, position.at(3).x, position.at(3).y, _handle, TRUE);
 	}
 }

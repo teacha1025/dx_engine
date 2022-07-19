@@ -1,5 +1,5 @@
 #include<DxLib.h>
-#include "Mouse.h"
+#include "../details/Mouse.h"
 namespace dx_engine {
 	namespace detail {
 		_mouse::_mouse(const unsigned int code) {

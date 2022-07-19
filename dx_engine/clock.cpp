@@ -1,6 +1,6 @@
 #define NOMINMAX
-#include "clock.h"
-#include "def.h"
+#include "../details/clock.h"
+#include "../details/def.h"
 
 namespace dx_engine {
 	namespace clock {

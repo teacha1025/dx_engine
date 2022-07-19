@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "heads.h"
+#include "../details/details.h"
 
 namespace dx_engine {
 	namespace detail {
@@ -17,8 +17,24 @@ namespace dx_engine {
 		}
 
 		void _window::background(const color& bg) {
-			//_background = bg;
 			SetBackgroundColor(SCAST(int, bg.r), SCAST(int, bg.g), SCAST(int, bg.b));
+		}
+
+		float _window::extends() const {
+			return _rate;
+		}
+
+		void _window::extends(float rate) {
+			SetWindowSize(_size.x * rate, _size.y*rate);
+		}
+
+		bool _window::fullscreen() const {
+			return _fullscreen;
+		}
+
+		void _window::fullscreen(bool flag) {
+			ChangeWindowMode(flag ? FALSE : TRUE);
+			_fullscreen = flag;
 		}
 
 	}
