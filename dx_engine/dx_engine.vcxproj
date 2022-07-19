@@ -204,6 +204,7 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\details\animation.h" />
     <ClInclude Include="..\details\audio.h" />
     <ClInclude Include="..\details\clock.h" />
     <ClInclude Include="..\details\color.h" />
