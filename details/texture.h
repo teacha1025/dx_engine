@@ -25,6 +25,7 @@ namespace dx_engine {
 		int _draw_mode = DX_DRAWMODE_NEAREST;
 
 		bool _failer = false;
+		texture(const point<int>& size, const point<int>& pos, const point<int>& center, blend blend, byte param, int handle, bool turn, bool flip, double angle, double rate, int mode);
 	public:
 		texture();
 		texture(const point<int>& size, const color& fill_color = pallet::white);

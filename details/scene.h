@@ -68,13 +68,13 @@ namespace dx_engine {
 		virtual void draw_fadein(const double& rate) {
 			draw();
 			int alpha = static_cast<int>((1.0 - rate) * 255);
-			rect(window.size()).at({ 0,0 }).colored(pallet::black).blend(blend::alpha, alpha).draw();
+			rect(window.size()).centered({0,0}).at({0,0}).colored(pallet::black).blend(blend::alpha, alpha).draw();
 		}
 
 		virtual void draw_fadeout(const double& rate) {
 			draw();
 			int alpha = static_cast<int>(rate * 255);
-			rect(window.size()).at({ 0,0 }).colored(pallet::black).blend(blend::alpha, alpha).draw();
+			rect(window.size()).centered({ 0,0 }).at({ 0,0 }).colored(pallet::black).blend(blend::alpha, alpha).draw();
 		}
 
 		virtual void update_fadein(const double& rate) {

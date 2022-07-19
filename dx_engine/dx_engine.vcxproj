@@ -182,6 +182,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animation.cpp" />
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="circle.cpp" />
     <ClCompile Include="clock.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="..\details\text.h" />
     <ClInclude Include="..\details\texture.h" />
     <ClInclude Include="..\details\vector.h" />
+    <ClInclude Include="..\libs\dx_engine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

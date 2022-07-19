@@ -1,10 +1,25 @@
 #include "DxLib.h"
 #include "../details/texture.h"
 #include "../details/step.h"
+#include "../details/draw_param.h"
 
 namespace dx_engine {
 	texture::texture() {
 		*this = texture(point<int>(64, 64));
+	}
+
+	texture::texture(const point<int>& size, const point<int>& pos, const point<int>& center, dx_engine::blend blend, byte param, int handle, bool turn, bool flip, double angle, double rate, int mode) {
+		_size = size;
+		_position = pos;
+		_center = center;
+		_blend = blend;
+		_blendparam = param;
+		_handle = handle;
+		_isturn = turn;
+		_isflip = flip;
+		_angle = angle;
+		_rate = rate;
+		_draw_mode = mode;
 	}
 
 	texture::texture(const point<int>& size, const color& fill_color) {
@@ -120,12 +135,12 @@ namespace dx_engine {
 			return *this;
 		}
 		else if (0 <= i && i < _div_handle.size()) {
-			return texture(_div_handle.at(i));
+			return texture(_size, _position, _center, _blend, _blendparam, _div_handle.at(i), _isturn, _isflip, _angle, _rate, _draw_mode);
 		}
 		else {
 			int h = MakeGraph(SCAST(int, _size.x), SCAST(int, _size.y));
 			FillGraph(h, 255, 255, 255);
-			return texture(h);
+			return texture(_size, _position, _center, _blend, _blendparam, h, _isturn, _isflip, _angle, _rate, _draw_mode);
 		}
 	}
 

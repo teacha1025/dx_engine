@@ -6,7 +6,6 @@
 
 
 namespace dx_engine {
-	extern detail::_console console;
 	audio::audio(const std::string& path, bool loop) {
 		_handle = LoadSoundMem(path.c_str(), 8);
 		_loop = loop;
