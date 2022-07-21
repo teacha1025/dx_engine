@@ -33,7 +33,7 @@ namespace dx_engine {
 	}
 
 	void audio::play() {
-		if (_handle > 0) {
+		if (_handle > 0 && !is_playing()) {
 			PlaySoundMem(_handle, _loop ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK, _start_at_head ? 1 : 0);
 		}
 	}

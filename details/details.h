@@ -147,6 +147,8 @@ namespace dx_engine {
 			double processor_usage() const;
 			SYSTEM_INFO system_info() const;
 
+			point<uint> monitor_size() const;
+
 			~_system();
 		};
 
@@ -167,6 +169,8 @@ namespace dx_engine {
 
 			void extends(float rate);
 			float extends() const;
+
+			
 		};
 
 		class shape {

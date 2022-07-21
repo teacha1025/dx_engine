@@ -29,7 +29,7 @@ namespace dx_engine {
 	public:
 		texture();
 		texture(const point<int>& size, const color& fill_color = pallet::white);
-		texture(const int& handle);
+		texture(int handle);
 		texture(const std::string& path);
 		texture(const std::string& path, const point<int>& divnum);
 

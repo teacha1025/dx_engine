@@ -30,7 +30,7 @@ namespace dx_engine {
 		FillGraph(_handle, fill_color.r, fill_color.g, fill_color.b);
 	}
 
-	texture::texture(const int& handle) {
+	texture::texture(int handle) {
 		if (handle < 0) {
 			*this = texture();
 			return;
@@ -164,6 +164,8 @@ namespace dx_engine {
 	}
 
 	void texture::modofication_draw(const std::array<point<float>, 4>& position) {
+		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
+		SetDrawMode(SCAST(int, _draw_mode));
 		DrawModiGraphF(position.at(0).x, position.at(0).y, position.at(1).x, position.at(1).y, position.at(2).x, position.at(2).y, position.at(3).x, position.at(3).y, _handle, TRUE);
 	}
 }

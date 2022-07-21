@@ -116,6 +116,13 @@ namespace dx_engine {
 		SYSTEM_INFO _system::system_info() const {
 			return _sysinfo;
 		}
+
+		point<uint> _system::monitor_size() const {
+			static uint x = (uint)GetSystemMetrics(SM_CXSCREEN);
+			static uint y = (uint)GetSystemMetrics(SM_CYSCREEN);
+
+			return { x, y };
+		}
 	}
 
 	detail::_system systems;

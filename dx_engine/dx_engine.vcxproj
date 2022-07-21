@@ -215,6 +215,7 @@
     <ClInclude Include="..\details\device.h" />
     <ClInclude Include="..\details\device_base.h" />
     <ClInclude Include="..\details\draw_param.h" />
+    <ClInclude Include="..\details\event.h" />
     <ClInclude Include="..\details\heads.h" />
     <ClInclude Include="..\details\key.h" />
     <ClInclude Include="..\details\mouse.h" />

@@ -77,7 +77,7 @@ public:
 		updater.next();
 
 		if (systems.keyboard.Num1.down()) {
-			change_scene(1);
+			change_scene(1,40);
 		}
 	}
 };
@@ -88,8 +88,8 @@ int main() {
 	fps.set_font("メイリオ", 16u, 1u, font_type::anti_aliasing);
 	mpos.set_font("メイリオ", 16u, 1u, font_type::anti_aliasing);
 
-	texture t("player.png", {8,3});
-	animation anm(t);
+	//texture t("player.png", {8,3});
+	animation anm("player.png", { 8,3 });
 	anm.add(0, { 0,1,2,3,4,5,6,7 }, 5, true);
 	anm.add(1, { 12,13,14,15 }, 5, true);
 	anm.add(2, { 20,21,22,23 }, 5, true);
@@ -100,6 +100,8 @@ int main() {
 	scnmng.add<testscene2>(2);
 
 	scnmng.set(1);
+
+	event_manager e;
 
 	while (systems.update()) {
 
@@ -114,8 +116,9 @@ int main() {
 		mpos = systems.mouse.position();
 		mpos.at({ 0,20 }).colored(pallet::white).draw();
 
-		scnmng.update();
+		
 		console << std::format("scene : {}", scnmng.get_current_scene_id());
+		console << std::format("monitor : {}", systems.monitor_size().to_string());
 
 		if (systems.keyboard.Num8.down()) {
 			anm.set(0);
@@ -126,7 +129,16 @@ int main() {
 		else if (systems.keyboard.Num9.down()) {
 			anm.set(2);
 		}
+
+		if (systems.keyboard.Space.down()) {
+			anm.pause();
+		}
+		if (systems.keyboard.Space.up()) {
+			anm.resume();
+		}
 		anm.at(window.size() * 3.0 / 4.0).extended(2.0f).play();
+
+		scnmng.update();
 	}
 
 	return 0;

@@ -22,20 +22,21 @@ namespace dx_engine {
 		using identifier = unsigned int;
 		using data_type = data;
 		using data_ptr = std::shared_ptr<data_type>;
+		using manager_ptr = scene_manager<data_type>*;
 	public:
 		struct data_s {
-			scene_manager<data_type>* _scn_mng;
+			manager_ptr _scn_mng;
 			std::shared_ptr<data_type> _data_ptr;
 			identifier _id;
 
-			data_s(scene_manager<data_type>* sceneMng, const std::shared_ptr<data_type>& data_ptr, const identifier& id) {
+			data_s(manager_ptr sceneMng, const std::shared_ptr<data_type>& data_ptr, const identifier& id) {
 				_scn_mng = sceneMng;
 				_data_ptr = data_ptr;
 				_id = id;
 			}
 		};
 	private:
-		scene_manager<data_type>* _scn_mng;
+		manager_ptr _scn_mng = nullptr;
 		data_ptr _datas = nullptr;
 		identifier _id = UINT_MAX;
 	protected:
@@ -52,7 +53,7 @@ namespace dx_engine {
 		}
 	public:
 
-		SCENE_CONSTRUCTOR(scene)
+		//SCENE_CONSTRUCTOR(scene)
 
 		void constructor(const data_s& data) {
 			_scn_mng = data._scn_mng;
