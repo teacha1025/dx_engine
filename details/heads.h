@@ -26,6 +26,7 @@
 #include "coroutines.h"
 #include "clock.h"
 #include "audio.h"
+#include "animation.h"
 
 
 

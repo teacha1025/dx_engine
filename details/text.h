@@ -24,6 +24,16 @@ namespace dx_engine {
 		text(const text&) = default;
 		text(const std::string& str);
 		text(const char* str);
+		template<Number T>
+		text(const point<T>& pos) {
+			_str = pos.to_string();
+			setsize();
+		}
+		template<Number T>
+		text(T number) {
+			_str = std::to_string(number);
+			setsize();
+		}
 		text& centered(const dx_engine::point<float>& center);
 		text& colored(const dx_engine::color& color, const dx_engine::color& edge = pallet::black);
 		text& blend(dx_engine::blend mode, range<0, 255> param);
@@ -43,6 +53,11 @@ namespace dx_engine {
 		template<Number T>
 		text operator = (T number) {
 			this->_str = std::to_string(number);
+			return *this;
+		}
+		template<Number T>
+		text operator = (const point<T>& pos) {
+			this->_str = pos.to_string();
 			return *this;
 		}
 	};

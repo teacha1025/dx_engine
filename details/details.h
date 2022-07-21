@@ -153,15 +153,20 @@ namespace dx_engine {
 		class _window final {
 		private:
 			point<uint> _size = { 1280, 960 };
-			//color _background;
 			bool _fullscreen = false, _vsync = false;
-			//std::string _title = "";
+			float _rate;
 		public:
 			void background(const color& bg);
 			void title(const std::string& title);
 
+			void fullscreen(bool flag);
+			bool fullscreen() const;
+
 			void size(const point<uint>& size);
 			point<uint> size() const;
+
+			void extends(float rate);
+			float extends() const;
 		};
 
 		class shape {

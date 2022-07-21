@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <array>
 #include "def.h"
 #include "color.h"
 #include "pallet.h"
@@ -24,6 +25,7 @@ namespace dx_engine {
 		int _draw_mode = DX_DRAWMODE_NEAREST;
 
 		bool _failer = false;
+		texture(const point<int>& size, const point<int>& pos, const point<int>& center, blend blend, byte param, int handle, bool turn, bool flip, double angle, double rate, int mode);
 	public:
 		texture();
 		texture(const point<int>& size, const color& fill_color = pallet::white);
@@ -42,6 +44,8 @@ namespace dx_engine {
 		point<float> position() const;
 
 		void draw();
+
+		void modofication_draw(const std::array<point<float>, 4>& position);
 
 		texture operator [](const uint& i)const;
 	};

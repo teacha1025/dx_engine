@@ -1,5 +1,5 @@
 #include<DxLib.h>
-#include "key.h"
+#include "../details/key.h"
 namespace dx_engine {
 	namespace detail {
 		_key::_key(const unsigned int code) {

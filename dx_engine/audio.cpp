@@ -1,12 +1,11 @@
 #include <string>
 #include <DxLib.h>
-#include "audio.h"
-#include "range.h"
-#include "details.h"
+#include "../details/audio.h"
+#include "../details/range.h"
+#include "../details/heads.h"
 
 
 namespace dx_engine {
-	extern detail::_console console;
 	audio::audio(const std::string& path, bool loop) {
 		_handle = LoadSoundMem(path.c_str(), 8);
 		_loop = loop;

@@ -1,5 +1,5 @@
-﻿#include "details.h"
-#include "shape.h"
+﻿#include "../details/details.h"
+#include "../details/shape.h"
 
 namespace dx_engine {
 	namespace detail {

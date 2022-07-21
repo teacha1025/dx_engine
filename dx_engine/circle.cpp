@@ -1,7 +1,7 @@
 #include "DxLib.h"
-#include "def.h"
-#include "shape.h"
-#include "draw_param.h"
+#include "../details/def.h"
+#include "../details/shape.h"
+#include "../details/draw_param.h"
 
 namespace dx_engine {
 	circle::circle() {
