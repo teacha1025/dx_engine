@@ -1,5 +1,6 @@
+#include <format>
 #include "DxLib.h"
-#include "../details/heads.h"
+#include "../details/details.h"
 
 #pragma comment(lib, "pdh.lib")
 

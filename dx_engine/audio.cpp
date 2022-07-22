@@ -2,7 +2,6 @@
 #include <DxLib.h>
 #include "../details/audio.h"
 #include "../details/range.h"
-#include "../details/heads.h"
 
 
 namespace dx_engine {

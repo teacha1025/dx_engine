@@ -82,6 +82,30 @@ public:
 	}
 };
 
+class evt : public::dx_engine::event {
+private:
+	uint _time;
+public:
+	evt(uint time) :_time(time) {}
+
+	bool update(uint count) override {
+		dx_engine::console >> "event" >> count;
+		return count < _time;
+	}
+};
+
+class evt2 : public::dx_engine::event {
+private:
+	uint _time;
+public:
+	evt2(uint time) :_time(time) {}
+
+	bool update(uint count) override {
+		dx_engine::console >> "event2" >> count;
+		return count < _time;
+	}
+};
+
 int main() {
 	text memory_disp, fps, mpos;
 	memory_disp.set_font("ƒƒCƒŠƒI", 10u, 1u, font_type::edge);
@@ -98,7 +122,7 @@ int main() {
 	scene_manager<> scnmng;
 	scnmng.add<testscene>(1);
 	scnmng.add<testscene2>(2);
-
+	
 	scnmng.set(1);
 
 	event_manager e;
@@ -131,14 +155,14 @@ int main() {
 		}
 
 		if (systems.keyboard.Space.down()) {
-			anm.pause();
-		}
-		if (systems.keyboard.Space.up()) {
-			anm.resume();
+			e.add<evt>(60);
+			e.add<evt2>(60);
 		}
 		anm.at(window.size() * 3.0 / 4.0).extended(2.0f).play();
 
 		scnmng.update();
+
+		e.update();
 	}
 
 	return 0;

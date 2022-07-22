@@ -198,4 +198,8 @@ namespace dx_engine {
 			virtual void draw() = 0;
 		};
 	}
+
+	extern detail::_system systems;
+	extern detail::_window window;
+	extern detail::_console console;
 }

@@ -45,8 +45,4 @@ namespace dx_engine {
 
 	constexpr float degree_f(float radian);
 	constexpr float radian_f(float degree);
-
-	extern detail::_system systems;
-	extern detail::_window window;
-	extern detail::_console console;
 }

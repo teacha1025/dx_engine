@@ -1,5 +1,6 @@
 #include "DxLib.h"
-#include "../details/heads.h"
+#include "../details/def.h"
+#include "../details/color.h"
 
 namespace dx_engine {
 	unsigned int color::to_int() const {
