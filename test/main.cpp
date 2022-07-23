@@ -155,8 +155,13 @@ int main() {
 		}
 
 		if (systems.keyboard.Space.down()) {
-			e.add<evt>(60);
-			e.add<evt2>(60);
+			//e.add<evt>(60);
+			//e.add<evt2>(40);
+
+			e.add([](uint counter) {
+				console >> "event 3" >> counter;
+				return counter < 60;
+				});
 		}
 		anm.at(window.size() * 3.0 / 4.0).extended(2.0f).play();
 

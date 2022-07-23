@@ -15,15 +15,17 @@ namespace dx_engine {
 
 	class event_manager {
 	private:
-		std::vector<std::tuple<std::function<bool(int)>, std::shared_ptr<event>, uint>> _event_list;
+		using func_type = std::function<bool(uint)>;
+		using list_type = std::pair<func_type, uint>;
+		std::vector<list_type> _event_list;
 
 	public:
 		template<class event_t, class... Args>
 		void add(Args&&... args) {
-			std::function<bool(int)> p = &event_t(args...)::update;
-			_event_list.push_back(std::make_pair(p, 0));
-			
+			_event_list.push_back(std::make_pair(std::bind(&event::update, std::make_shared<event_t>(args...), std::placeholders::_1), 0));
 		}
+
+		void add(func_type func);
 
 		void update();
 	};
