@@ -24,6 +24,7 @@ namespace dx_engine {
 
 	void circle::draw() {
 		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
+		SetDrawMode(SCAST(int, _filter));
 
 		DrawCircleAA(_position.x - _center.x, _position.y - _center.y, _r, (int)(_r * 3), _color.to_int(), _fill_flag, _thick);
 	}

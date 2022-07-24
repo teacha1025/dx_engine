@@ -1,4 +1,4 @@
-﻿#include "../details/details.h"
+﻿#include "../details/console.h"
 #include "../details/shape.h"
 
 namespace dx_engine {

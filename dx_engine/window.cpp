@@ -25,7 +25,7 @@ namespace dx_engine {
 		}
 
 		void _window::extends(float rate) {
-			SetWindowSize(_size.x * rate, _size.y*rate);
+			SetWindowSize((int)(_size.x * rate), (int)(_size.y * rate));
 		}
 
 		bool _window::fullscreen() const {

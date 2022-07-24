@@ -1,6 +1,8 @@
 #include <format>
 #include "DxLib.h"
+#include "../details/def.h"
 #include "../details/details.h"
+#include "../details/console.h"
 
 #pragma comment(lib, "pdh.lib")
 
@@ -53,8 +55,8 @@ namespace dx_engine {
 
 				now = GetTickCount64();
 				auto d = now - old;
-				if (d >= 0.25 * 1000) {
-					_fps = cnt / SCAST(float, d) * 1000;
+				if (d >= 0.25 / MILLI) {
+					_fps = cnt / SCAST(float, d) / MILLI_F;
 					old = now;
 					cnt = 0;
 
@@ -64,6 +66,29 @@ namespace dx_engine {
 					_cpu_usage = _fmt.doubleValue / _sysinfo.dwNumberOfProcessors;
 				}
 				cnt++;
+				if (_max_fps != HUGE_VALF) {
+					{
+						static auto old_h = GetNowHiPerformanceCount(), now_h = GetNowHiPerformanceCount();
+						static int cnt_h = 0;
+
+						now = GetNowHiPerformanceCount();
+						auto _d = now_h - old_h;
+						if (_d >= 0.25 / MICRO) {
+							old_h = now_h;
+							cnt_h = 0;
+						}
+						//_d = now_h - old_h;
+						cnt_h++;
+
+						const auto p = (double)_max_fps + 0.2 * (1.0 / 120.0 * (double)_max_fps + 0.45);
+						double waitTime = ((((double)cnt_h / MICRO - (double)_d * p) / p)) * MILLI;
+						//double waitTime = (cnt * MILLI / _max_fps - (double)(now - old)) * 1;
+						if (waitTime > 0) {
+							WaitTimer((int)waitTime);
+						}
+
+					}
+				}
 			}
 
 			keyboard.update();
@@ -86,6 +111,14 @@ namespace dx_engine {
 
 		float _system::fps() const {
 			return _fps;
+		}
+
+		void _system::vsync(bool flag) {
+			SetWaitVSyncFlag(flag ? TRUE : FALSE);
+		}
+
+		void _system::max_fps(float value) {
+			_max_fps = value;
 		}
 
 		PROCESS_MEMORY_COUNTERS_EX _system::process_memory_info() const{

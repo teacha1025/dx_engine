@@ -8,7 +8,7 @@ namespace dx_engine {
 		*this = texture(point<int>(64, 64));
 	}
 
-	texture::texture(const point<int>& size, const point<int>& pos, const point<int>& center, dx_engine::blend blend, byte param, int handle, bool turn, bool flip, double angle, double rate, int mode) {
+	texture::texture(const point<int>& size, const point<int>& pos, const point<int>& center, dx_engine::blend blend, byte param, int handle, bool turn, bool flip, double angle, double rate, dx_engine::filter mode) {
 		_size = size;
 		_position = pos;
 		_center = center;
@@ -19,7 +19,7 @@ namespace dx_engine {
 		_isflip = flip;
 		_angle = angle;
 		_rate = rate;
-		_draw_mode = mode;
+		_filter = mode;
 	}
 
 	texture::texture(const point<int>& size, const color& fill_color) {
@@ -113,6 +113,10 @@ namespace dx_engine {
 		_blendparam = param;
 		return *this;
 	}
+	texture& texture::filter(dx_engine::filter mode) {
+		_filter = mode;
+		return *this;
+	}
 	texture& texture::at(const dx_engine::point<float>& position) {
 		_position = position;
 		return *this;
@@ -135,12 +139,12 @@ namespace dx_engine {
 			return *this;
 		}
 		else if (0 <= i && i < _div_handle.size()) {
-			return texture(_size, _position, _center, _blend, _blendparam, _div_handle.at(i), _isturn, _isflip, _angle, _rate, _draw_mode);
+			return texture(_size, _position, _center, _blend, _blendparam, _div_handle.at(i), _isturn, _isflip, _angle, _rate, _filter);
 		}
 		else {
 			int h = MakeGraph(SCAST(int, _size.x), SCAST(int, _size.y));
 			FillGraph(h, 255, 255, 255);
-			return texture(_size, _position, _center, _blend, _blendparam, h, _isturn, _isflip, _angle, _rate, _draw_mode);
+			return texture(_size, _position, _center, _blend, _blendparam, h, _isturn, _isflip, _angle, _rate, _filter);
 		}
 	}
 
@@ -154,7 +158,7 @@ namespace dx_engine {
 			FillGraph(_handle, 255, 255, 255);
 		}
 		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
-		SetDrawMode(SCAST(int, _draw_mode));
+		SetDrawMode(SCAST(int, _filter));
 		if (_center == _size / 2.0) {
 			DrawRotaGraphF(SCAST(float, _position.x), SCAST(float, _position.y), _rate, _angle, _handle, TRUE, _isturn, _isflip);
 		}
@@ -165,7 +169,7 @@ namespace dx_engine {
 
 	void texture::modofication_draw(const std::array<point<float>, 4>& position) {
 		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
-		SetDrawMode(SCAST(int, _draw_mode));
+		SetDrawMode(SCAST(int, _filter));
 		DrawModiGraphF(position.at(0).x, position.at(0).y, position.at(1).x, position.at(1).y, position.at(2).x, position.at(2).y, position.at(3).x, position.at(3).y, _handle, TRUE);
 	}
 }

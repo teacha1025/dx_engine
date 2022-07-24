@@ -23,6 +23,7 @@ namespace dx_engine {
 
 	void rect::draw() {
 		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
+		SetDrawMode(SCAST(int, _filter));
 		point <float> _A = { 0,0 };
 		point <float> _B = { _size.x,0 };
 		point <float> _C = { 0,_size.y };

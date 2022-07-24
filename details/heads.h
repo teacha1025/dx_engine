@@ -11,6 +11,7 @@
 
 #include "def.h"
 #include "details.h"
+#include "console.h"
 #include "draw_param.h"
 #include "point.h"
 #include "vector.h"

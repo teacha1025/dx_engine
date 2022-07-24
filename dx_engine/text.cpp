@@ -1,5 +1,8 @@
 #include <string>
+#include <sstream>
+#include <vector>
 #include "DxLib.h"
+#include "../details/def.h"
 #include "../details/text.h"
 
 namespace dx_engine {
@@ -37,6 +40,10 @@ namespace dx_engine {
 		_blendparam = param.get();
 		return *this;
 	}
+	text& text::filter(dx_engine::filter mode) {
+		_filter = mode;
+		return *this;
+	}
 	text& text::at(const point<float>& position) {
 		_position = position;
 		return *this;
@@ -50,6 +57,7 @@ namespace dx_engine {
 	}
 	void text::draw() {
 		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
+		SetDrawMode(SCAST(int, _filter));
 		auto p = _position - _center;
 		if (_fonthandle > 0) {
 			DrawStringFToHandle(p.x, p.y, _str.c_str(), _color.to_int(), _fonthandle, _edgecolor.to_int());
@@ -83,5 +91,42 @@ namespace dx_engine {
 		this->_str = str;
 		setsize();
 		return *this;
+	}
+
+
+	std::vector<std::string> split(const std::string& s, char split_char, bool is_contain_lastempty) {
+		std::vector<std::string> v;
+		std::stringstream ss(s);
+		std::string buf;
+		while (std::getline(ss, buf, split_char)) {
+			v.emplace_back(buf);
+		}
+		if (!is_contain_lastempty && !s.empty() && s.back() == ',') {
+			v.emplace_back();
+		}
+
+		return v;
+	}
+
+	std::string replace_string(std::string source, const std::string& old_val, const std::string& new_val) {
+		std::string::size_type  Pos(source.find(old_val));
+
+		while (Pos != std::string::npos)
+		{
+			source.replace(Pos, old_val.length(), new_val);
+			Pos = source.find(old_val, Pos + new_val.length());
+		}
+
+		return source;
+	}
+
+
+	std::wstring to_wstring(const std::string& src) {
+		int len = ::MultiByteToWideChar(CP_ACP, 0, src.c_str(), -1, nullptr, 0);
+		wchar_t* wsbuf = (wchar_t*)new wchar_t[len];
+		::MultiByteToWideChar(CP_ACP, 0, src.c_str(), -1, wsbuf, len);
+		std::wstring ws(wsbuf, wsbuf + len - 1);
+		delete[] wsbuf;
+		return ws;
 	}
 }

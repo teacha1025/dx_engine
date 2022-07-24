@@ -28,4 +28,20 @@ namespace dx_engine {
 
 		void draw() override;
 	};
+
+	class line : public detail::draw_object{
+	private:
+		std::vector<point<float>> _position;
+		float _thick = 1.0f;
+		color _color;
+	public:
+		line& at(const std::vector<point<float>>& point);
+		line& blend(dx_engine::blend mode, range<0, 255> param);
+		line& filter(dx_engine::filter mode);
+		line& colored(const color& color);
+		line& thick(float thick);
+
+		void draw();
+		std::vector<point<float>> position() const;
+	};
 }

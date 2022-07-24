@@ -21,6 +21,10 @@ namespace dx_engine {
 			_blendparam = param;
 			return *this;
 		}
+		shape& shape::filter(dx_engine::filter mode) {
+			_filter = mode;
+			return *this;
+		}
 		shape& shape::at(const point<float>& position) {
 			_position = position;
 			return *this;
@@ -34,7 +38,7 @@ namespace dx_engine {
 			return *this;
 		}
 
-		point<float> shape::position() const {
+		point<float> shape::position() const{
 			return _position;
 		}
 

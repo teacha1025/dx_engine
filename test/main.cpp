@@ -2,13 +2,17 @@
 
 using namespace dx_engine;
 
+define N = 60.0;
+
 void init() {
 	window.fullscreen(false);
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
-
 	window.extends(1.0);
+
+	systems.vsync(false);
+	systems.max_fps(N);
 }
 
 class testscene : public scene<> {
@@ -16,11 +20,13 @@ private:
 	text testtext;
 	uint counter = 0;
 	task updater{ c_update()};
+	clock::stopwatch sw;
+	uint i = 0;
 public:
 	SCENE_CONSTRUCTOR(testscene)
 
 	virtual void init() override {
-
+		sw.restart();
 	}
 
 	task c_update() {
@@ -38,11 +44,19 @@ public:
 	}
 
 	virtual void update() override {
-		updater.next();
+		//updater.next();
+		if (systems.keyboard.Return.down()) {
+			sw.restart();
+			i = 0;
+		}
+		auto v = i++ / N - sw.get_sec();
+		console << v << v / sw.get_sec();
 
 		if (systems.keyboard.Num2.down()) {
 			change_scene(2);
 		}
+
+		
 	}
 };
 
@@ -127,6 +141,10 @@ int main() {
 
 	event_manager e;
 
+	line l;
+	l.thick(1).colored(pallet::white);
+	std::vector<point<float>> llist;
+
 	while (systems.update()) {
 
 		if (systems.keyboard.F3.down()) {
@@ -164,6 +182,17 @@ int main() {
 				});
 		}
 		anm.at(window.size() * 3.0 / 4.0).extended(2.0f).play();
+
+
+		if (systems.mouse.Left.up()) {
+			llist.push_back(systems.mouse.position());
+		}
+		if (systems.mouse.Right.up()) {
+			llist.clear();
+			llist.shrink_to_fit();
+		}
+
+		l.at(llist).draw();
 
 		scnmng.update();
 
