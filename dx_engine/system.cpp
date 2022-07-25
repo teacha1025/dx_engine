@@ -66,6 +66,13 @@ namespace dx_engine {
 					_cpu_usage = _fmt.doubleValue / _sysinfo.dwNumberOfProcessors;
 				}
 				cnt++;
+
+				/*const auto p = (double)_max_fps + 0.2 * (1.0 / 120.0 * (double)_max_fps + 0.45);
+				double waitTime = ((((double)cnt / MICRO - (double)(now - old) * p) / p)) * MILLI;
+				//double waitTime = (cnt * MILLI / _max_fps - (double)(now - old)) * 1;
+				if (waitTime > 0) {
+					WaitTimer((int)waitTime);
+				}
 				if (_max_fps != HUGE_VALF) {
 					{
 						static auto old_h = GetNowHiPerformanceCount(), now_h = GetNowHiPerformanceCount();
@@ -81,14 +88,14 @@ namespace dx_engine {
 						cnt_h++;
 
 						const auto p = (double)_max_fps + 0.2 * (1.0 / 120.0 * (double)_max_fps + 0.45);
-						double waitTime = ((((double)cnt_h / MICRO - (double)_d * p) / p)) * MILLI;
+						double waitTime = ((((double)cnt_h / MICRO - (double)(now_h - old_h) * p) / p)) * MILLI;
 						//double waitTime = (cnt * MILLI / _max_fps - (double)(now - old)) * 1;
 						if (waitTime > 0) {
-							WaitTimer((int)waitTime);
+						//	WaitTimer((int)waitTime);
 						}
 
 					}
-				}
+				}*/
 			}
 
 			keyboard.update();
