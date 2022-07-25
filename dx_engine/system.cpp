@@ -125,6 +125,7 @@ namespace dx_engine {
 		}
 
 		void _system::max_fps(float value) {
+#pragma message(__func__ "this function wont work") 
 			_max_fps = value;
 		}
 
