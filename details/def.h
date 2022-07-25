@@ -18,6 +18,7 @@ namespace dx_engine {
 	define PI_2 = std::numbers::pi * 2.0;
 	define PI_2F = std::numbers::pi_v<float> *2.0f;
 
+
 	define YOCTO = 1e-24;
 	define YOCTO_F = (float)YOCTO;
 
