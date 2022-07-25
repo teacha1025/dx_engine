@@ -159,7 +159,7 @@ int main() {
 		mpos.at({ 0,20 }).colored(pallet::white).draw();
 
 		
-		console << std::format("scene : {}", scnmng.get_current_scene_id(), 5, 3, "a");
+		console << std::format("scene : {}", scnmng.get_current_scene_id());
 		console << std::format("monitor : {}", systems.monitor_size().to_string());
 
 		if (systems.keyboard.Num8.down()) {
