@@ -11,8 +11,8 @@ void init() {
 	window.title("TEST");
 	window.extends(1.0);
 
-	systems.vsync(false);
-	systems.max_fps(N);
+	//systems.vsync(false);
+	//systems.max_fps(N);
 }
 
 class testscene : public scene<> {
