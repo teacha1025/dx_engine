@@ -19,7 +19,7 @@ namespace dx_engine {
 		class _system final {
 		private:
 			ULONGLONG delta_msec = 0;
-			float _fps, _max_fps = HUGE_VALF;
+			float _fps = 0, _max_fps = HUGE_VALF;
 			bool _vsync = true;
 
 			HANDLE _handle;
@@ -31,7 +31,7 @@ namespace dx_engine {
 
 			PDH_HQUERY _hquery;
 			PDH_HCOUNTER _hcounter;
-			PDH_FMT_COUNTERVALUE _fmt;
+			PDH_FMT_COUNTERVALUE _fmt{};
 
 			double _cpu_usage = 0;
 		public:

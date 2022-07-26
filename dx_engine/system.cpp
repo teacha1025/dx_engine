@@ -125,12 +125,12 @@ namespace dx_engine {
 		}
 
 		void _system::max_fps(float value) {
-#pragma message(__func__ "this function wont work") 
+#pragma message("max_fps : this function wont work") 
 			_max_fps = value;
 		}
 
 		PROCESS_MEMORY_COUNTERS_EX _system::process_memory_info() const{
-			PROCESS_MEMORY_COUNTERS_EX pmc;
+			PROCESS_MEMORY_COUNTERS_EX pmc{};
 			BOOL isSuccess = GetProcessMemoryInfo(
 				_handle,
 				(PROCESS_MEMORY_COUNTERS*)&pmc,
