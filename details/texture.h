@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <array>
-#include "details.h"
+#include "shape.h"
 #include "def.h"
 #include "color.h"
 #include "pallet.h"

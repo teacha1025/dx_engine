@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "../details/details.h"
+#include "../details/shape.h"
 #include "../details/range.h"
 
 namespace dx_engine {

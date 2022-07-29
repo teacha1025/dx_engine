@@ -6,7 +6,7 @@
 #include "draw_param.h"
 #include "def.h"
 #include "range.h"
-#include "../details/details.h"
+#include "shape.h"
 
 namespace dx_engine {
 	
