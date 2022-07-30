@@ -36,6 +36,30 @@ namespace dx_engine {
 			virtual void move(const dx_engine::point<float>& value);
 		};
 	}
+	/*struct vertex_2d;
+	namespace detail {
+		struct uv {
+			float u, v;
+		};
+
+		VERTEX2D convert_vertex2d(dx_engine::vertex_2d* vertex);
+	}
+
+	struct vertex_2d {
+		point<float> pos;
+		color color;
+		detail::uv uv;
+	};
+
+	class polygon : public detail::draw_object {
+	private:
+
+	public:
+		polygon& blend(dx_engine::blend mode, range<0, 255> param);
+		polygon& filter(dx_engine::filter mode);
+		virtual void draw() override;
+	};*/
+
 	class rect : public detail::shape {
 	private:
 		point<float> _size;
@@ -67,12 +91,14 @@ namespace dx_engine {
 		std::vector<point<float>> _position;
 		float _thick = 1.0f;
 		color _color;
+		bool _round_edge = true;
 	public:
 		line& at(const std::vector<point<float>>& point);
 		line& blend(dx_engine::blend mode, range<0, 255> param);
 		line& filter(dx_engine::filter mode);
 		line& colored(const color& color);
 		line& thick(float thick);
+		line& round(bool flag);
 
 		void draw();
 		std::vector<point<float>> position() const;

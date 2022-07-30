@@ -26,7 +26,7 @@ public:
 	SCENE_CONSTRUCTOR(testscene)
 
 	virtual void init() override {
-		sw.restart();
+		//sw.restart();
 	}
 
 	task c_update() {
@@ -45,12 +45,12 @@ public:
 
 	virtual void update() override {
 		//updater.next();
-		if (systems.keyboard.Return.down()) {
+		/*if (systems.keyboard.Return.down()) {
 			sw.restart();
 			i = 0;
 		}
 		auto v = i++ / N - sw.get_sec();
-		console << v << v / sw.get_sec();
+		console << v << v / sw.get_sec();*/
 
 		if (systems.keyboard.Num2.down()) {
 			change_scene(2);
@@ -127,23 +127,24 @@ int main() {
 	mpos.set_font("ƒƒCƒŠƒI", 16u, 1u, font_type::anti_aliasing);
 
 	//texture t("player.png", {8,3});
-	animation anm("player.png", { 8,3 });
-	anm.add(0, { 0,1,2,3,4,5,6,7 }, 5, true);
-	anm.add(1, { 12,13,14,15 }, 5, true);
-	anm.add(2, { 20,21,22,23 }, 5, true);
-	anm.set(0);
-
-	scene_manager<> scnmng;
-	scnmng.add<testscene>(1);
-	scnmng.add<testscene2>(2);
-	
-	scnmng.set(1);
+	//animation anm("player.png", { 8,3 });
+	//anm.add(0, { 0,1,2,3,4,5,6,7 }, 5, true);
+	//anm.add(1, { 12,13,14,15 }, 5, true);
+	//anm.add(2, { 20,21,22,23 }, 5, true);
+	//anm.set(0);
+	//
+	//scene_manager<> scnmng;
+	//scnmng.add<testscene>(1);
+	//scnmng.add<testscene2>(2);
+	//
+	//scnmng.set(1);
 
 	event_manager e;
 
 	line l;
-	l.thick(1).colored(pallet::white);
+	l.thick(32).colored(pallet::white);
 	std::vector<point<float>> llist;
+
 
 	while (systems.update()) {
 
@@ -159,18 +160,18 @@ int main() {
 		mpos.at({ 0,20 }).colored(pallet::white).draw();
 
 		
-		console << std::format("scene : {}", scnmng.get_current_scene_id());
-		console << std::format("monitor : {}", systems.monitor_size().to_string());
+		//console << std::format("scene : {}", scnmng.get_current_scene_id());
+		//console << std::format("monitor : {}", systems.monitor_size().to_string());
 
-		if (systems.keyboard.Num8.down()) {
-			anm.set(0);
-		}
-		else if (systems.keyboard.Num7.down()) {
-			anm.set(1);
-		}
-		else if (systems.keyboard.Num9.down()) {
-			anm.set(2);
-		}
+		//if (systems.keyboard.Num8.down()) {
+		//	anm.set(0);
+		//}
+		//else if (systems.keyboard.Num7.down()) {
+		//	anm.set(1);
+		//}
+		//else if (systems.keyboard.Num9.down()) {
+		//	anm.set(2);
+		//}
 
 		if (systems.keyboard.Space.down()) {
 			//e.add<evt>(60);
@@ -181,8 +182,9 @@ int main() {
 				return counter < 60;
 				});
 		}
-		anm.at(window.size() * 3.0 / 4.0).extended(2.0f).play();
+		//anm.at(window.size() * 3.0 / 4.0).extended(2.0f).play();
 
+		l.round(systems.keyboard.Space.press());
 
 		if (systems.mouse.Left.up()) {
 			llist.push_back(systems.mouse.position());
@@ -194,7 +196,7 @@ int main() {
 
 		l.at(llist).draw();
 
-		scnmng.update();
+		//scnmng.update();
 
 		e.update();
 	}

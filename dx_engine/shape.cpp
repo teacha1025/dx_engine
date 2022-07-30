@@ -45,5 +45,9 @@ namespace dx_engine {
 		void shape::move(const point<float>& value) {
 			_position += value;
 		}
+
+		/*VERTEX2D convert_vertex2d(dx_engine::vertex_2d* vertex) {
+			return VERTEX2D{ .pos{.x = vertex->pos.x, .y = vertex->pos.y, .z = 0},.rhw = 0.0f,.dif = GetColorU8(static_cast<int>(vertex->color.r),static_cast<int>(vertex->color.g),static_cast<int>(vertex->color.b),static_cast<int>(vertex->color.a)),.u = vertex->uv.u,.v = vertex->uv.v };
+		}*/
 	}
 }

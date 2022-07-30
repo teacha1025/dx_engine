@@ -12,6 +12,7 @@ namespace dx_engine {
 		bool _loop;
 		bool _playing = false, _start_at_head = true;
 	public:
+		audio() = default;
 		audio(const std::string& path, bool loop);
 
 		audio& pan(range<-1.0f, 1.0f> panpal);

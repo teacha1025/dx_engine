@@ -11,6 +11,7 @@
 
 #include "def.h"
 #include "details.h"
+#include "console.h"
 #include "draw_param.h"
 #include "point.h"
 #include "vector.h"
@@ -26,6 +27,8 @@
 #include "coroutines.h"
 #include "clock.h"
 #include "audio.h"
+#include "animation.h"
+#include "event.h"
 
 
 

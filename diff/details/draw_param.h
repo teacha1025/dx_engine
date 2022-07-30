@@ -16,6 +16,13 @@ namespace dx_engine {
 		pma_inv_src = 20, //乗算済みαブレンドモードの描画元の色を反転する
 	};
 
+	enum class filter {
+		nearest = 0, //ニアレスト
+		bilinear = 1, //バイリニア
+		anisotropic = 2, //異方性フィルタリング
+		other = 3, //その他
+	};
+
 	enum class font_type {
 		normal = 0, //ノーマルフォント
 		edge = 1, //エッジ付きフォント

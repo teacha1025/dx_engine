@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include "def.h"
 #include "point.h"
 
 namespace dx_engine {
@@ -39,6 +40,27 @@ namespace dx_engine {
 		template<typename t>
 		t cross(const point<t>& v1, const point<t>& v2) {
 			return v1.x * v2.y - v1.y * v2.x;
+		}
+
+		template<typename t>
+		t dot(const point<t>& v1, const point<t>& v2) {
+			return v1.x * v2.x + v1.y * v2.y;
+		}
+
+		template<typename t>
+		double angle(const point<t>& v) {
+			if (v.x == 0) {
+				return v.y >= 0 ? PI_HALF : -PI_HALF;
+			}
+			if (v.y == 0) {
+				return v.x >= 0 ? 0 : PI;
+			}
+			return atan(v.y / v.x);
+		}
+
+		template<typename t>
+		double angle(const point<t>& v1, const point<t>& v2) {
+			return angle(v2 - v1);
 		}
 	}
 }
