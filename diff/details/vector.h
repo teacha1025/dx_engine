@@ -12,7 +12,7 @@ namespace dx_engine {
 
 		template<typename t>
 		double size(const point<t>& p) {
-			return std::sqrt(SizeSquare(p));
+			return std::sqrt(size_square(p));
 		}
 
 		template<typename t>

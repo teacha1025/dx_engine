@@ -100,11 +100,11 @@ namespace dx_engine {
 
 
 
-	texture& texture::centered(const dx_engine::point<float>& center) {
+	texture& texture::centered(const dx_engine::point<double>& center) {
 		_center = center;
 		return *this;
 	}
-	texture& texture::rotateed(float angle) {
+	texture& texture::rotateed(double angle) {
 		_angle = angle;
 		return *this;
 	}
@@ -117,11 +117,11 @@ namespace dx_engine {
 		_filter = mode;
 		return *this;
 	}
-	texture& texture::at(const dx_engine::point<float>& position) {
+	texture& texture::at(const dx_engine::point<double>& position) {
 		_position = position;
 		return *this;
 	}
-	texture& texture::extended(float rate) {
+	texture& texture::extended(double rate) {
 		_rate = rate;
 		return *this;
 	}
@@ -148,7 +148,7 @@ namespace dx_engine {
 		}
 	}
 
-	point<float> texture::position() const {
+	point<double> texture::position() const {
 		return _position;
 	}
 
@@ -167,9 +167,9 @@ namespace dx_engine {
 		}
 	}
 
-	void texture::modofication_draw(const std::array<point<float>, 4>& position) {
+	void texture::modofication_draw(const std::array<point<double>, 4>& position) {
 		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
 		SetDrawMode(SCAST(int, _filter));
-		DrawModiGraphF(position.at(0).x, position.at(0).y, position.at(1).x, position.at(1).y, position.at(2).x, position.at(2).y, position.at(3).x, position.at(3).y, _handle, TRUE);
+		DrawModiGraphF(SCAST(float, position.at(0).x), SCAST(float, position.at(0).y), SCAST(float, position.at(1).x), SCAST(float, position.at(1).y), SCAST(float, position.at(2).x), SCAST(float, position.at(2).y), SCAST(float, position.at(3).x), SCAST(float, position.at(3).y), _handle, TRUE);
 	}
 }

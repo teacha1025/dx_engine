@@ -36,15 +36,15 @@ namespace dx_engine {
 		void add(uint id, const std::vector<uint>& order, uint interval, bool loop = false);
 		void set(uint id, bool reset_count = true);
 
-		animation& centered(const dx_engine::point<float>& center);
-		animation& rotateed(float angle);
+		animation& centered(const dx_engine::point<double>& center);
+		animation& rotateed(double angle);
 		animation& blend(dx_engine::blend mode, range<0, 255> param);
-		animation& at(const dx_engine::point<float>& position);
-		animation& extended(float rate);
+		animation& at(const dx_engine::point<double>& position);
+		animation& extended(double rate);
 		animation& turned(bool flag);
 		animation& fliped(bool flag);
 
-		void modofication_play(const std::array<point<float>, 4>& position);
+		void modofication_play(const std::array<point<double>, 4>& position);
 
 		void play();
 		void pause();

@@ -113,96 +113,96 @@ namespace dx_engine {
 
 		template<Number t>
 		constexpr point& operator +=(const point<t>& other) {
-			x += other.x;
-			y += other.y;
+			x += SCAST(T, other.x);
+			y += SCAST(T, other.y);
 			return *this;
 		}
 
 		template<Number t>
 		constexpr point& operator -=(const point<t>& other) {
-			x -= other.x;
-			y -= other.y;
+			x -= SCAST(T, other.x);
+			y -= SCAST(T, other.y);
 			return *this;
 		}
 
 		template<Number t>
 		constexpr point& operator *=(const point<t>& other) {
-			x *= other.x;
-			y *= other.y;
+			x *= SCAST(T, other.x);
+			y *= SCAST(T, other.y);
 			return *this;
 		}
 
 		template<Number t>
 		constexpr point& operator /=(const point<t>& other) {
-			x /= other.x;
-			y /= other.y;
+			x /= SCAST(T, other.x);
+			y /= SCAST(T, other.y);
 			return *this;
 		}
 
 		template<Number t>
 		constexpr point& operator %=(const point<t>& other) {
-			x = fmod(x, other.x);
-			y = fmod(y, other.y);
+			x = fmod(x, SCAST(T, other.x));
+			y = fmod(y, SCAST(T, other.y));
 			return *this;
 		}
 
 		template<Number t>
 		constexpr point operator +(t s) const{
-			return{ x + s, y + s };
+			return{ x + SCAST(T, s), y + SCAST(T, s) };
 		}
 
 		template<Number t>
 		constexpr point operator -(t s) const{
-			return{ x - s, y - s };
+			return{ x - SCAST(T, s), y - SCAST(T, s) };
 		}
 
 		template<Number t>
 		constexpr point operator *(t s) const{
-			return{ x * s, y * s };
+			return{ x * SCAST(T, s), y * SCAST(T, s) };
 		}
 
 		template<Number t>
 		constexpr point operator /(t s) const{
-			return{ SCAST(T, x / s), SCAST(T, y / s) };
+			return{ x / SCAST(T, s), y / SCAST(T, s) };
 		}
 
 		template<Number t>
 		constexpr point operator %(t s) const{
-			return{ fmod(x, s),fmod(y, s) };
+			return{ fmod(x, SCAST(T, s)),fmod(y, SCAST(T, s)) };
 		}
 
 		template<Number t>
 		constexpr point& operator +=(T s) {
-			x += s;
-			y += s;
+			x += SCAST(T, s);
+			y += SCAST(T, s);
 			return *this;
 		}
 
 		template<Number t>
 		constexpr point& operator -=(t s) {
-			x -= s;
-			y -= s;
+			x -= SCAST(T, s);
+			y -= SCAST(T, s);
 			return *this;
 		}
 
 		template<Number t>
 		constexpr point& operator *=(t s) {
-			x *= s;
-			y *= s;
+			x *= SCAST(T, s);
+			y *= SCAST(T, s);
 			return *this;
 		}
 
 		template<Number t>
 		constexpr point& operator /=(t s) {
-			x /= s;
-			y /= s;
+			x /= SCAST(T, s);
+			y /= SCAST(T, s);
 			return *this;
 		}
 
 		template<Number t>
 		constexpr point& operator %=(t s) {
-			x = fmodf(x, s);
-			y = fmodf(y, s);
+			x = fmodf(x, SCAST(T, s));
+			y = fmodf(y, SCAST(T, s));
 			return *this;
 		}
 

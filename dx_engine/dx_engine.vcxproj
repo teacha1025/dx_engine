@@ -190,6 +190,7 @@
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="circle.cpp" />
     <ClCompile Include="clock.cpp" />
+    <ClCompile Include="collision.cpp" />
     <ClCompile Include="color.cpp" />
     <ClCompile Include="console.cpp" />
     <ClCompile Include="coroutines.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="..\details\animation.h" />
     <ClInclude Include="..\details\audio.h" />
     <ClInclude Include="..\details\clock.h" />
+    <ClInclude Include="..\details\collision.h" />
     <ClInclude Include="..\details\color.h" />
     <ClInclude Include="..\details\console.h" />
     <ClInclude Include="..\details\coroutines.h" />

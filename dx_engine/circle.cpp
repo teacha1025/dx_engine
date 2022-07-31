@@ -9,16 +9,16 @@ namespace dx_engine {
 		_center = { 0,0 };
 	}
 
-	circle::circle(float r) {
+	circle::circle(double r) {
 		resize(r);
 		_center = { 0,0 };
 	}
 
-	float circle::size() const {
+	double circle::size() const {
 		return _r;
 	}
 
-	void circle::resize(float r) {
+	void circle::resize(double r) {
 		_r = r;
 	}
 
@@ -26,6 +26,6 @@ namespace dx_engine {
 		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
 		SetDrawMode(SCAST(int, _filter));
 
-		DrawCircleAA(_position.x - _center.x, _position.y - _center.y, _r, (int)(_r * 3), _color.to_int(), _fill_flag, _thick);
+		DrawCircleAA(SCAST(float, _position.x - _center.x), SCAST(float, _position.y - _center.y), SCAST(float, _r), (int)(_r * 3), _color.to_int(), _fill_flag, _thick);
 	}
 }

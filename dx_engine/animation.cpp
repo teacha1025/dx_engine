@@ -23,11 +23,11 @@ namespace dx_engine {
 		}
 	}
 
-	animation& animation::centered(const dx_engine::point<float>& center) {
+	animation& animation::centered(const dx_engine::point<double>& center) {
 		_tex.centered(center);
 		return *this;
 	}
-	animation& animation::rotateed(float angle) {
+	animation& animation::rotateed(double angle) {
 		_tex.rotateed(angle);
 		return *this;
 	}
@@ -35,11 +35,11 @@ namespace dx_engine {
 		_tex.blend(mode, param);
 		return *this;
 	}
-	animation& animation::at(const dx_engine::point<float>& position) {
+	animation& animation::at(const dx_engine::point<double>& position) {
 		_tex.at(position);
 		return *this;
 	}
-	animation& animation::extended(float rate) {
+	animation& animation::extended(double rate) {
 		_tex.extended(rate);
 		return *this;
 	}
@@ -70,7 +70,7 @@ namespace dx_engine {
 		}
 	}
 
-	void animation::modofication_play(const std::array<point<float>, 4>& position) {
+	void animation::modofication_play(const std::array<point<double>, 4>& position) {
 		if (_data.contains(_id) && !_end) {
 			update_index();
 			_tex[_data.at(_id)._order.at(_index)].modofication_draw(position);

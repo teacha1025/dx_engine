@@ -29,6 +29,7 @@
 #include "audio.h"
 #include "animation.h"
 #include "event.h"
+#include "collision.h"
 
 
 
