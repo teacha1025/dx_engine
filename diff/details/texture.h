@@ -12,7 +12,7 @@
 namespace dx_engine {
 	class texture : public detail::draw_object{
 	private:
-		point<float> _size{}, _position{}, _center{};
+		point<double> _size{}, _position{}, _center{};
 
 		int _handle = 0;
 		std::vector<int> _div_handle;
@@ -31,20 +31,20 @@ namespace dx_engine {
 		texture(const std::string& path);
 		texture(const std::string& path, const point<int>& divnum);
 
-		texture& centered(const dx_engine::point<float>& center);
-		texture& rotateed(float angle);
+		texture& centered(const dx_engine::point<double>& center);
+		texture& rotateed(double angle);
 		texture& blend(dx_engine::blend mode, range<0, 255> param);
 		texture& filter(dx_engine::filter mode);
-		texture& at(const dx_engine::point<float>& position);
-		texture& extended(float rate);
+		texture& at(const dx_engine::point<double>& position);
+		texture& extended(double rate);
 		texture& turned(bool flag);
 		texture& fliped(bool flag);
 
-		point<float> position() const;
+		point<double> position() const;
 
 		virtual void draw() override;
 
-		void modofication_draw(const std::array<point<float>, 4>& position);
+		void modofication_draw(const std::array<point<double>, 4>& position);
 
 		texture operator [](const uint& i)const;
 	};

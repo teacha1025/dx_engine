@@ -126,79 +126,46 @@ int main() {
 	fps.set_font("メイリオ", 16u, 1u, font_type::anti_aliasing);
 	mpos.set_font("メイリオ", 16u, 1u, font_type::anti_aliasing);
 
-	//texture t("player.png", {8,3});
-	//animation anm("player.png", { 8,3 });
-	//anm.add(0, { 0,1,2,3,4,5,6,7 }, 5, true);
-	//anm.add(1, { 12,13,14,15 }, 5, true);
-	//anm.add(2, { 20,21,22,23 }, 5, true);
-	//anm.set(0);
-	//
-	//scene_manager<> scnmng;
-	//scnmng.add<testscene>(1);
-	//scnmng.add<testscene2>(2);
-	//
-	//scnmng.set(1);
-
-	event_manager e;
-
 	line l;
-	l.thick(32).colored(pallet::white);
-	std::vector<point<float>> llist;
+	l.thick(1).at({ {128, 128}, {920, 648}, {640, 64} });
 
+	rect r({240,240});
+	r.centered({ 32,32 }).rotateed(1*PI/4.0).at({0, 0});
+	rect r2({ 120,20 });
+	r2.centered({ 32,32 }).rotateed(0.8 * PI / 4.0).at({ 250, 480 });
+
+	circle c(64);
+	c.centered({ -20, -20 }).at({ 640, 480 });
+	circle c2(28);
+	c2.centered({ -20, -20 }).at({ 640, 480 });
+
+	color cl = pallet::blue;
+
+	point<double> p;
 
 	while (systems.update()) {
 
 		if (systems.keyboard.F3.down()) {
 			systems.debug_mode ^= 1;
 		}
-
+		
 		fps = std::format("{:2.2f} fps", systems.fps());
 		fps.colored(pallet::white).centered({ fps.size().x,0 }).at({ 1280,0 }).draw();
 		memory_disp = std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage());
 		memory_disp.at({ 0,0 }).colored(pallet::white).draw();
 		mpos = systems.mouse.position();
 		mpos.at({ 0,20 }).colored(pallet::white).draw();
-
+		p = systems.mouse.position();
+		c.at(p);
+		if (collision(c, c2)) {
+			cl = pallet::red;
+		}
+		else {
+			cl = pallet::blue;
+		}
 		
-		//console << std::format("scene : {}", scnmng.get_current_scene_id());
-		//console << std::format("monitor : {}", systems.monitor_size().to_string());
-
-		//if (systems.keyboard.Num8.down()) {
-		//	anm.set(0);
-		//}
-		//else if (systems.keyboard.Num7.down()) {
-		//	anm.set(1);
-		//}
-		//else if (systems.keyboard.Num9.down()) {
-		//	anm.set(2);
-		//}
-
-		if (systems.keyboard.Space.down()) {
-			//e.add<evt>(60);
-			//e.add<evt2>(40);
-
-			e.add([](uint counter) {
-				console >> "event 3" >> counter;
-				return counter < 60;
-				});
-		}
-		//anm.at(window.size() * 3.0 / 4.0).extended(2.0f).play();
-
-		l.round(systems.keyboard.Space.press());
-
-		if (systems.mouse.Left.up()) {
-			llist.push_back(systems.mouse.position());
-		}
-		if (systems.mouse.Right.up()) {
-			llist.clear();
-			llist.shrink_to_fit();
-		}
-
-		l.at(llist).draw();
-
-		//scnmng.update();
-
-		e.update();
+		c2.colored(cl).draw();
+		c.colored(cl).draw();
 	}
 
 	return 0;

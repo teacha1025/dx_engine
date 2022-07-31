@@ -1,4 +1,5 @@
 #pragma once
+#include <tuple>
 #include "details.h"
 #include "point.h"
 
@@ -15,25 +16,27 @@ namespace dx_engine {
 
 		class shape : public draw_object {
 		protected:
-			point<float> _position{}, _center{};
-			float _angle = 0;
+			point<double> _position{}, _center{};
+			double _angle = 0;
 			float _thick = 1.0f;
 			color _color;
 
 			bool _fill_flag = true;
 		public:
-			virtual shape& centered(const dx_engine::point<float>& center);
-			virtual shape& rotateed(float angle);
+			virtual shape& centered(const dx_engine::point<double>& center);
+			virtual shape& rotateed(double angle);
 			virtual shape& colored(const color& color);
 			virtual shape& blend(dx_engine::blend mode, range<0, 255> param);
 			virtual shape& filter(filter mode);
-			virtual shape& at(const dx_engine::point<float>& position);
+			virtual shape& at(const dx_engine::point<double>& position);
 			virtual shape& fill(bool flag);
 			virtual shape& thick(float thick);
 
-			virtual point<float> position() const;
+			virtual point<double> position() const;
+			virtual point<double> center() const;
+			virtual double rotate() const;
 
-			virtual void move(const dx_engine::point<float>& value);
+			virtual void move(const dx_engine::point<double>& value);
 		};
 	}
 	/*struct vertex_2d;
@@ -59,41 +62,14 @@ namespace dx_engine {
 		polygon& filter(dx_engine::filter mode);
 		virtual void draw() override;
 	};*/
-
-	class rect : public detail::shape {
+	class line : public detail::draw_object {
 	private:
-		point<float> _size;
-	public:
-		rect();
-		rect(const dx_engine::point<float> size);
-
-		point<float> size() const;
-		void resize(const dx_engine::point<float>& size);
-
-		void draw() override;
-	};
-
-	class circle : public detail::shape {
-	private:
-		float _r;
-	public:
-		circle();
-		circle(float r);
-
-		float size() const;
-		void resize(float r);
-
-		void draw() override;
-	};
-
-	class line : public detail::draw_object{
-	private:
-		std::vector<point<float>> _position;
+		std::vector<point<double>> _position;
 		float _thick = 1.0f;
 		color _color;
 		bool _round_edge = true;
 	public:
-		line& at(const std::vector<point<float>>& point);
+		line& at(const std::vector<point<double>>& point);
 		line& blend(dx_engine::blend mode, range<0, 255> param);
 		line& filter(dx_engine::filter mode);
 		line& colored(const color& color);
@@ -101,6 +77,38 @@ namespace dx_engine {
 		line& round(bool flag);
 
 		void draw();
-		std::vector<point<float>> position() const;
+		std::vector<point<double>> position() const;
 	};
+
+	class rect : public detail::shape {
+	private:
+		point<double> _size;
+	public:
+		rect();
+		rect(const dx_engine::point<double> size);
+
+		point<double> size() const;
+		void resize(const dx_engine::point<double>& size);
+
+		void draw() override;
+
+		std::tuple<point<double>, point<double>, point<double>, point<double>> verteces() const;
+
+		line edge() const;
+	};
+
+	class circle : public detail::shape {
+	private:
+		double _r;
+	public:
+		circle();
+		circle(double r);
+
+		double size() const;
+		void resize(double r);
+
+		void draw() override;
+	};
+
+	
 }

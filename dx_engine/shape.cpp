@@ -4,11 +4,11 @@
 
 namespace dx_engine {
 	namespace detail {
-		shape& shape::centered(const point<float>& center) {
+		shape& shape::centered(const point<double>& center) {
 			_center = center;
 			return *this;
 		}
-		shape& shape::rotateed(float angle) {
+		shape& shape::rotateed(double angle) {
 			_angle = angle;
 			return *this;
 		}
@@ -25,7 +25,7 @@ namespace dx_engine {
 			_filter = mode;
 			return *this;
 		}
-		shape& shape::at(const point<float>& position) {
+		shape& shape::at(const point<double>& position) {
 			_position = position;
 			return *this;
 		}
@@ -38,11 +38,19 @@ namespace dx_engine {
 			return *this;
 		}
 
-		point<float> shape::position() const{
+		point<double> shape::position() const{
 			return _position;
 		}
 
-		void shape::move(const point<float>& value) {
+		point<double> shape::center() const {
+			return _center;
+		}
+
+		double shape::rotate() const {
+			return _angle;
+		}
+
+		void shape::move(const point<double>& value) {
 			_position += value;
 		}
 
