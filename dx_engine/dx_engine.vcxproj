@@ -188,6 +188,7 @@
   <ItemGroup>
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="audio.cpp" />
+    <ClCompile Include="button.cpp" />
     <ClCompile Include="circle.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="collision.cpp" />
