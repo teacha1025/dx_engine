@@ -567,6 +567,9 @@ namespace dx_engine {
 			};
 
 			struct mouse {
+			private:
+				//LPSTR _cursor_type = IDC_ARROW;
+			public:
 				mouse();
 
 				_mouse Left;
@@ -579,6 +582,9 @@ namespace dx_engine {
 				_mouse Button8;
 
 				point<int> position() const;
+				void position(const point<int>& p);
+				//LPSTR type() const;
+				//void type(LPSTR type);
 				void update();
 			};
 		}

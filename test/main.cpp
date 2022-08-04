@@ -144,15 +144,13 @@ int main() {
 	circle btn_obj(40);
 	btn_obj.at(window.size()/2).colored(pallet::white);
 	
-	gui::button<circle> btn(btn_obj);
-	btn.set_font("ÉÅÉCÉäÉI", 16u, 1u, font_type::anti_aliasing);
-	btn.set_text(systems.debug_mode ? "release" : "debug");
-	//btn.set_function_hovered([](circle r, text t) {r.resize(30); r.colored(pallet::lightgreen).draw(); t.draw(); });
+	gui::button<circle> btn(btn_obj, systems.debug_mode ? "release" : "debug", false);
+	btn.set_function_hovered([](circle r, text t) {r.colored(pallet::lightgreen).draw(); t.draw(); });
 
 	while (systems.update()) {
 
 		if (btn()) {
-			btn.at({GetRand(1280 - 128) + 64,GetRand(960 - 128) + 64 });
+			btn.at({GetRand(1280 - 32) + 64,GetRand(960 - 32) + 64 });
 			systems.debug_mode ^= 1;
 			btn.set_text(systems.debug_mode ? "release" : "debug");
 		}

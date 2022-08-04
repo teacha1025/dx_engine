@@ -255,6 +255,18 @@ namespace dx_engine {
 				return { p.x, p.y };
 			}
 
+			void mouse::position(const point<int>& p) {
+				SetMousePoint(p.x, p.y);
+			}
+
+			//HCURSOR mouse::type() const {
+			//	return GetCursor();
+			//}
+
+			//void mouse::type(LPSTR type) {
+			//	SetCursor(LoadCursor(NULL, type));
+			//}
+
 			void mouse::update() {
 				auto input = GetMouseInput();
 				Left.update(input);
