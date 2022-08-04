@@ -141,14 +141,20 @@ int main() {
 
 	color cl = pallet::blue;
 
-	point<double> p;
-	rect btn_obj({ 120,40 });
+	circle btn_obj(40);
 	btn_obj.at(window.size()/2).colored(pallet::white);
-	gui::button<rect> btn(btn_obj);
+	
+	gui::button<circle> btn(btn_obj);
+	btn.set_font("ÉÅÉCÉäÉI", 16u, 1u, font_type::anti_aliasing);
+	btn.set_text(systems.debug_mode ? "release" : "debug");
+	btn.set_function_hovered([](circle r, text t) {r.resize(30); r.colored(pallet::lightgreen).draw(); t.draw(); });
+
 	while (systems.update()) {
 
 		if (btn()) {
+			btn.at({GetRand(1280 - 32) + 64,GetRand(960 - 32) + 64 });
 			systems.debug_mode ^= 1;
+			btn.set_text(systems.debug_mode ? "release" : "debug");
 		}
 		
 		fps = std::format("{:2.2f} fps", systems.fps());
@@ -157,17 +163,8 @@ int main() {
 		memory_disp.at({ 0,0 }).colored(pallet::white).draw();
 		mpos = systems.mouse.position();
 		mpos.at({ 0,20 }).colored(pallet::white).draw();
-		p = systems.mouse.position();
-		c.at(p);
-		if (collision(c, c2)) {
-			cl = pallet::red;
-		}
-		else {
-			cl = pallet::blue;
-		}
 		
-		c2.colored(cl).draw();
-		c.colored(cl).draw();
+		console << "debug";
 	}
 
 	return 0;
