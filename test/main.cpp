@@ -142,10 +142,12 @@ int main() {
 	color cl = pallet::blue;
 
 	point<double> p;
-
+	rect btn_obj({ 120,40 });
+	btn_obj.at(window.size()/2).colored(pallet::white);
+	gui::button<rect> btn(btn_obj);
 	while (systems.update()) {
 
-		if (systems.keyboard.F3.down()) {
+		if (btn()) {
 			systems.debug_mode ^= 1;
 		}
 		

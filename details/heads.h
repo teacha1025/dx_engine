@@ -30,6 +30,7 @@
 #include "animation.h"
 #include "event.h"
 #include "collision.h"
+#include "gui.h"
 
 
 
