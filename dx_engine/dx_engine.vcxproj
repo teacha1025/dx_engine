@@ -188,6 +188,7 @@
   <ItemGroup>
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="audio.cpp" />
+    <ClCompile Include="button.cpp" />
     <ClCompile Include="circle.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="collision.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="..\details\device_base.h" />
     <ClInclude Include="..\details\draw_param.h" />
     <ClInclude Include="..\details\event.h" />
+    <ClInclude Include="..\details\gui.h" />
     <ClInclude Include="..\details\heads.h" />
     <ClInclude Include="..\details\key.h" />
     <ClInclude Include="..\details\mouse.h" />
