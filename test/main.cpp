@@ -121,6 +121,17 @@ public:
 	}
 };
 
+struct save_struct {
+	int a, b, c, d;
+	float e, f, g;
+	std::string h;
+
+	template<class Archive>
+	void serialize(Archive& archive) {
+		archive(a, b, c, d, e, f, g, h);
+	}
+};
+
 int main() {
 	text memory_disp, fps, mpos;
 	memory_disp.set_font("ÉÅÉCÉäÉI", 10u, 1u, font_type::edge);
@@ -152,6 +163,14 @@ int main() {
 
 	gui::button<circle> btn(btn_obj, systems.debug_mode ? "release" : "debug", true);
 	//btn.set_function_hovered([](circle r, text t) {r.colored(pallet::lightgreen).draw(); t.draw(); });
+
+	save_struct sv, sva;
+	sv.a = sv.b = sv.c = sv.d = 0;
+	sv.e = sv.f = sv.g = 1.0f;
+	sv.h = "name";
+
+	export_binary("save.dat", sv);
+	import_binary("save.dat", sva);
 
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));

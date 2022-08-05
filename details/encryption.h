@@ -1,7 +1,8 @@
 #pragma once
 #include <stdio.h>
 #include <string>
-
+#ifndef DX_ENGINE_ENCRYPTION
+#define DX_ENGINE_ENCRYPTION
 namespace MELON_LZSS {
     struct LZSS_ENCODE_INFO
     {
@@ -249,3 +250,15 @@ namespace MELON_ENCRYPT {
         return press;
     }
 }
+
+#else
+namespace MELON_LZSS {
+    extern int LZSS_Encode(void* Src, int SrcSize, void* Dest);
+    int LZSS_Decode(void* Press, void* Dest);
+}
+namespace MELON_ENCRYPT {
+    char* makesalt(int key);
+    std::string encode(std::string plane);
+    std::string decode(std::string press);
+}
+#endif

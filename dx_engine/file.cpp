@@ -151,5 +151,17 @@ namespace dx_engine {
 			return get(path);
 		}
 	}
+
+	void export_file(const std::string& path, const std::string& data, std::ios::ios_base::openmode mode) {
+		std::ofstream ofs(path, mode);
+		if (!ofs)
+		{
+			//std::cout << "ファイルが開けませんでした。" << std::endl;
+			return;
+		}
+
+		ofs << data;
+	}
+
 	detail::_file file;
 }

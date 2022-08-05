@@ -49,7 +49,7 @@ namespace dx_engine {
 		int x, y;
 		_isdiv = false;
 		auto image_str = file.get(path);
-		int r = GetImageSize_Mem(image_str.data(), image_str.size(), &x, &y);
+		int r = GetImageSize_Mem(image_str.data(), (int)image_str.size(), &x, &y);
 		if (r < 0) {
 			*this = texture();
 			return;
@@ -58,7 +58,7 @@ namespace dx_engine {
 		_center = _size / 2.0;
 		_position = {};
 
-		auto result = CreateGraphFromMem(image_str.data(), image_str.size());
+		auto result = CreateGraphFromMem(image_str.data(), (int)image_str.size());
 		if (result < 0) {
 			*this = texture(_size);
 			_failer = true;
@@ -74,7 +74,7 @@ namespace dx_engine {
 		_isdiv = true;
 		_div_num = divnum;
 		auto image_str = file.get(path);
-		int r = GetImageSize_Mem(image_str.data(), image_str.size(), &x, &y);
+		int r = GetImageSize_Mem(image_str.data(), (int)image_str.size(), &x, &y);
 		if (r < 0) {
 			_failer = true;
 			_size = { 64,64 };
@@ -89,7 +89,7 @@ namespace dx_engine {
 		_center = _size / 2.0;
 
 		_div_handle.resize(SCAST(size_t, divnum.x * divnum.y));
-		auto result = CreateDivGraphFromMem(image_str.data(), image_str.size(), divnum.x * divnum.y, divnum.x, divnum.y, SCAST(float, _size.x), SCAST(float, _size.y), &_div_handle[0]);
+		auto result = CreateDivGraphFromMem(image_str.data(), (int)image_str.size(), divnum.x * divnum.y, divnum.x, divnum.y, SCAST(int, _size.x), SCAST(int, _size.y), &_div_handle[0]);
 		if (result < 0) {
 			_failer = true;
 			int handle = texture(point<int>(x, y))._handle;
