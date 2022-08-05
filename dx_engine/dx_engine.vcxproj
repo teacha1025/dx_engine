@@ -195,6 +195,7 @@
     <ClCompile Include="color.cpp" />
     <ClCompile Include="console.cpp" />
     <ClCompile Include="coroutines.cpp" />
+    <ClCompile Include="csv.cpp" />
     <ClCompile Include="device.cpp" />
     <ClCompile Include="device_dase.cpp" />
     <ClCompile Include="event.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="..\details\color.h" />
     <ClInclude Include="..\details\console.h" />
     <ClInclude Include="..\details\coroutines.h" />
+    <ClInclude Include="..\details\csv.h" />
     <ClInclude Include="..\details\def.h" />
     <ClInclude Include="..\details\details.h" />
     <ClInclude Include="..\details\device.h" />
