@@ -10,6 +10,7 @@ void init() {
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
 	window.extends(1.0);
+	file.load("Resource.dat");
 
 	//systems.vsync(false);
 	//systems.max_fps(N);
@@ -144,25 +145,32 @@ int main() {
 	circle btn_obj(40);
 	btn_obj.at(window.size()/2).colored(pallet::white);
 	
-	gui::button<circle> btn(btn_obj, systems.debug_mode ? "release" : "debug", false);
-	btn.set_function_hovered([](circle r, text t) {r.colored(pallet::lightgreen).draw(); t.draw(); });
+	texture tex("Resource/test.jpg");
+	texture texp("Resource/player.png", { 8,3 });
+
+	audio pan("Resource/test.wav", false);
+
+	gui::button<circle> btn(btn_obj, systems.debug_mode ? "release" : "debug", true);
+	//btn.set_function_hovered([](circle r, text t) {r.colored(pallet::lightgreen).draw(); t.draw(); });
 
 	while (systems.update()) {
-
-		if (btn()) {
-			btn.at({GetRand(1280 - 32) + 64,GetRand(960 - 32) + 64 });
+		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
+		if (systems.keyboard.F3.down() || btn()) {
+			//btn.at({GetRand(1280 - 32) + 64,GetRand(960 - 32) + 64 });
 			systems.debug_mode ^= 1;
-			btn.set_text(systems.debug_mode ? "release" : "debug");
+			//btn.set_text(systems.debug_mode ? "release" : "debug");
+			pan.play();
 		}
-		
-		fps = std::format("{:2.2f} fps", systems.fps());
-		fps.colored(pallet::white).centered({ fps.size().x,0 }).at({ 1280,0 }).draw();
-		memory_disp = std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage());
-		memory_disp.at({ 0,0 }).colored(pallet::white).draw();
-		mpos = systems.mouse.position();
-		mpos.at({ 0,20 }).colored(pallet::white).draw();
-		
-		console << "debug";
+
+		console >> std::format("{:2.2f} fps", systems.fps());
+		if (systems.debug_mode) {
+			//memory_disp = std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage());
+			//memory_disp.at({ 0,0 }).colored(pallet::white).draw();
+		}
+		console << systems.mouse.position();
+
+		//tex.at({ 128,128 }).centered({ 0,0 }).trans(false).draw();
+		//texp[5].at({ 256, 256 }).draw();
 	}
 
 	return 0;

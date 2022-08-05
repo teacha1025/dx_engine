@@ -2,11 +2,13 @@
 #include <DxLib.h>
 #include "../details/audio.h"
 #include "../details/range.h"
+#include "../details/file.h"
 
 
 namespace dx_engine {
+	extern detail::_file file;
 	audio::audio(const std::string& path, bool loop) {
-		_handle = LoadSoundMem(path.c_str(), 8);
+		_handle = LoadSoundMemByMemImage(file.get(path).data(), file.get(path).size());
 		_loop = loop;
 		ChangeVolumeSoundMem((int)(_volume * (235 + (abs(_pan)) * 20)), _handle);
 		ChangePanSoundMem((int)(_pan * 255), _handle);
@@ -32,7 +34,7 @@ namespace dx_engine {
 	}
 
 	void audio::play() {
-		if (_handle > 0 && !is_playing()) {
+		if (_handle > 0 && (!is_playing() || !_loop)) {
 			PlaySoundMem(_handle, _loop ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK, _start_at_head ? 1 : 0);
 		}
 	}

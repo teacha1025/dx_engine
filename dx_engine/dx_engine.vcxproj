@@ -198,6 +198,7 @@
     <ClCompile Include="device.cpp" />
     <ClCompile Include="device_dase.cpp" />
     <ClCompile Include="event.cpp" />
+    <ClCompile Include="file.cpp" />
     <ClCompile Include="functions.cpp" />
     <ClCompile Include="key.cpp" />
     <ClCompile Include="line.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="..\details\device_base.h" />
     <ClInclude Include="..\details\draw_param.h" />
     <ClInclude Include="..\details\event.h" />
+    <ClInclude Include="..\details\file.h" />
     <ClInclude Include="..\details\gui.h" />
     <ClInclude Include="..\details\heads.h" />
     <ClInclude Include="..\details\key.h" />
