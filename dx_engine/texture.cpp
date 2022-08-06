@@ -1,9 +1,11 @@
 #include "DxLib.h"
+#include "../details/file.h"
 #include "../details/texture.h"
 #include "../details/step.h"
 #include "../details/draw_param.h"
 
 namespace dx_engine {
+	extern detail::_file file;
 	texture::texture() {
 		*this = texture(point<int>(64, 64));
 	}
@@ -46,7 +48,8 @@ namespace dx_engine {
 	texture::texture(const std::string& path) {
 		int x, y;
 		_isdiv = false;
-		int r = GetImageSize_File(path.c_str(), &x, &y);
+		auto image_str = file.get(path);
+		int r = GetImageSize_Mem(image_str.data(), (int)image_str.size(), &x, &y);
 		if (r < 0) {
 			*this = texture();
 			return;
@@ -55,7 +58,7 @@ namespace dx_engine {
 		_center = _size / 2.0;
 		_position = {};
 
-		auto result = LoadGraph(path.c_str());
+		auto result = CreateGraphFromMem(image_str.data(), (int)image_str.size());
 		if (result < 0) {
 			*this = texture(_size);
 			_failer = true;
@@ -70,7 +73,8 @@ namespace dx_engine {
 		int x, y;
 		_isdiv = true;
 		_div_num = divnum;
-		int r = GetImageSize_File(path.c_str(), &x, &y);
+		auto image_str = file.get(path);
+		int r = GetImageSize_Mem(image_str.data(), (int)image_str.size(), &x, &y);
 		if (r < 0) {
 			_failer = true;
 			_size = { 64,64 };
@@ -85,8 +89,8 @@ namespace dx_engine {
 		_center = _size / 2.0;
 
 		_div_handle.resize(SCAST(size_t, divnum.x * divnum.y));
-		auto resutlt = LoadDivGraphF(path.c_str(), divnum.x * divnum.y, divnum.x, divnum.y, SCAST(float, _size.x), SCAST(float, _size.y), &_div_handle[0]);
-		if (resutlt < 0) {
+		auto result = CreateDivGraphFromMem(image_str.data(), (int)image_str.size(), divnum.x * divnum.y, divnum.x, divnum.y, SCAST(int, _size.x), SCAST(int, _size.y), &_div_handle[0]);
+		if (result < 0) {
 			_failer = true;
 			int handle = texture(point<int>(x, y))._handle;
 			_div_handle.clear();
@@ -133,6 +137,10 @@ namespace dx_engine {
 		_isflip = flag;
 		return *this;
 	}
+	texture& texture::trans(bool flag) {
+		_istrans = flag;
+		return *this;
+	}
 
 	texture texture::operator [](const uint& i)const {
 		if (!_isdiv) {
@@ -160,16 +168,16 @@ namespace dx_engine {
 		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
 		SetDrawMode(SCAST(int, _filter));
 		if (_center == _size / 2.0) {
-			DrawRotaGraphF(SCAST(float, _position.x), SCAST(float, _position.y), _rate, _angle, _handle, TRUE, _isturn, _isflip);
+			DrawRotaGraphF(SCAST(float, _position.x), SCAST(float, _position.y), _rate, _angle, _handle, _istrans, _isturn, _isflip);
 		}
 		else {
-			DrawRotaGraph2F(SCAST(float, _position.x), SCAST(float, _position.y), SCAST(float, _center.x), SCAST(float, _center.y), _rate, _angle, _handle, TRUE, _isturn, _isflip);
+			DrawRotaGraph2F(SCAST(float, _position.x), SCAST(float, _position.y), SCAST(float, _center.x), SCAST(float, _center.y), _rate, _angle, _handle, _istrans, _isturn, _isflip);
 		}
 	}
 
 	void texture::modofication_draw(const std::array<point<double>, 4>& position) {
 		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
 		SetDrawMode(SCAST(int, _filter));
-		DrawModiGraphF(SCAST(float, position.at(0).x), SCAST(float, position.at(0).y), SCAST(float, position.at(1).x), SCAST(float, position.at(1).y), SCAST(float, position.at(2).x), SCAST(float, position.at(2).y), SCAST(float, position.at(3).x), SCAST(float, position.at(3).y), _handle, TRUE);
+		DrawModiGraphF(SCAST(float, position.at(0).x), SCAST(float, position.at(0).y), SCAST(float, position.at(1).x), SCAST(float, position.at(1).y), SCAST(float, position.at(2).x), SCAST(float, position.at(2).y), SCAST(float, position.at(3).x), SCAST(float, position.at(3).y), _handle, _istrans);
 	}
 }

@@ -56,12 +56,12 @@ namespace dx_engine {
 	template<Number t>
 	bool collision(point<t> p, rect r) {
 		auto [a, b, c, d] = r.verteces();
-
+		point<double> _p = { SCAST(double, p.x), SCAST(double, p.y) };
 		if (
-			vector::cross(b - a, p - a) > 0 &&
-			vector::cross(c - b, p - b) > 0 &&
-			vector::cross(d - c, p - c) > 0 &&
-			vector::cross(a - d, p - d) > 0
+			vector::cross(b - a, _p - a) > 0 &&
+			vector::cross(c - b, _p - b) > 0 &&
+			vector::cross(d - c, _p - c) > 0 &&
+			vector::cross(a - d, _p - d) > 0
 			) {
 			return true;
 		}

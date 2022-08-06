@@ -52,3 +52,7 @@ dx_engine Ver 1.05 [2022/08/01]
 		rectの各頂点を返す vertecies(),各辺を返す関数 edge() を追加
 		各図形の座標、角度、拡大率などをfloatからdoubleへ変更
 		vector名前空間内にベクトルの内積を返す関数 dot() を追加
+		
+	2022/08/06 Ver1.06
+		マウスを使ったボタン gui::button クラスを追加
+		ファイル入出力を扱う file 及び file_io名前空間を追加

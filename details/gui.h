@@ -47,7 +47,7 @@ namespace dx_engine {
 				set_info();
 
 				if (systems.mouse.Left.down()) {
-					if (cursor_info != cursor_info_t::none) {
+					if (cursor_info != cursor_info_t::none && cursor_info != cursor_info_t::disabled) {
 						_down_onshape = true;
 					}
 					else {
@@ -56,7 +56,7 @@ namespace dx_engine {
 					return false;
 				}
 				if (systems.mouse.Left.up()) {
-					if (cursor_info != cursor_info_t::none) {
+					if (cursor_info != cursor_info_t::none && cursor_info != cursor_info_t::disabled) {
 						if (_down_onshape) {
 							_down_onshape = false;
 							return true;
