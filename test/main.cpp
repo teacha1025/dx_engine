@@ -153,7 +153,7 @@ int main() {
 
 	color cl = pallet::blue;
 
-	circle btn_obj(40);
+	circle btn_obj(60);
 	btn_obj.at(window.size()/2).colored(pallet::white);
 	
 	texture tex("Resource/test.jpg");
@@ -161,16 +161,17 @@ int main() {
 
 	audio pan("Resource/test.wav", false);
 
-	gui::button<circle> btn(btn_obj, systems.debug_mode ? "release" : "debug", true);
-	//btn.set_function_hovered([](circle r, text t) {r.colored(pallet::lightgreen).draw(); t.draw(); });
+	gui::button<circle> btn(btn_obj, "‹N”š", true);
+	btn.set_font("‚l‚rƒSƒVƒbƒN", 32, 12, font_type::anti_aliasing);
+	btn.set_function_normal([](circle r, text t) {r.colored(pallet::orangered).draw(); t.colored(pallet::white).draw(); });
 
-	save_struct sv, sva;
+	/*save_struct sv, sva;
 	sv.a = sv.b = sv.c = sv.d = 0;
 	sv.e = sv.f = sv.g = 1.0f;
 	sv.h = "name";
 
 	file_io::export_binary("save.dat", sv, true);
-	file_io::import_binary("save.dat", sva, true);
+	file_io::import_binary("save.dat", sva, true);*/
 
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
