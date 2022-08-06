@@ -53,9 +53,9 @@ int main() {
 		dt = MELON_ENCRYPT::encode(dt);
 
 		string pressed;
-		int ps = MELON_LZSS::LZSS_Encode(dt.data(), dt.size(), NULL);
+		int ps = MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), NULL);
 		pressed.resize(ps);
-		MELON_LZSS::LZSS_Encode(dt.data(), dt.size(), pressed.data());
+		MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), pressed.data());
 
 		fout << pressed;
 	}

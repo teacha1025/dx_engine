@@ -34,43 +34,45 @@ namespace dx_engine {
 	}
 	extern detail::_file file;
 
-	void export_file(const std::string& path, const std::string& data, std::ios::ios_base::openmode mode = std::ios::trunc);
+	namespace file_io {
+		void export_file(const std::string& path, const std::string& data, std::ios::ios_base::openmode mode = std::ios::trunc);
 
-	template <class T, class Archive>
-	concept seriarize = requires(T& data, Archive& archive) {
-		data.serialize(archive);
-	};
+		//template <class T, class Archive>
+		//concept seriarize = requires(T & data, Archive & archive) {
+		//	data.serialize(archive);
+		//};
 
-	template <class T>
-	void export_binary(const std::string& path, T& data) {
-		std::stringstream ss;
-		cereal::BinaryOutputArchive archive(ss);
-		archive(data);
+		template <class T>
+		void export_binary(const std::string& path, T& data) {
+			std::stringstream ss;
+			cereal::BinaryOutputArchive archive(ss);
+			archive(data);
 
-		auto dt = ss.str();
-		dt = MELON_ENCRYPT::encode(dt);
+			auto dt = ss.str();
+			dt = MELON_ENCRYPT::encode(dt);
 
-		std::string pressed;
-		int ps = MELON_LZSS::LZSS_Encode(dt.data(), dt.size(), NULL);
-		pressed.resize(ps);
-		MELON_LZSS::LZSS_Encode(dt.data(), dt.size(), pressed.data());
-		export_file(path, pressed);
-	}
+			std::string pressed;
+			int ps = MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), NULL);
+			pressed.resize(ps);
+			MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), pressed.data());
+			export_file(path, pressed);
+		}
 
-	template <class T>
-	void import_binary(const std::string& path, T& data) {
-		std::stringstream ss;
+		template <class T>
+		void import_binary(const std::string& path, T& data) {
+			std::stringstream ss;
 
-		std::string pln;
+			std::string pln;
 
-		int ps = MELON_LZSS::LZSS_Decode(file[path].data(), NULL);
-		pln.resize(ps);
-		MELON_LZSS::LZSS_Decode(file[path].data(), pln.data());
+			int ps = MELON_LZSS::LZSS_Decode(file[path].data(), NULL);
+			pln.resize(ps);
+			MELON_LZSS::LZSS_Decode(file[path].data(), pln.data());
 
-		pln = MELON_ENCRYPT::decode(pln);
-		ss << pln;
+			pln = MELON_ENCRYPT::decode(pln);
+			ss << pln;
 
-		cereal::BinaryInputArchive archive(ss);
-		archive(data);
+			cereal::BinaryInputArchive archive(ss);
+			archive(data);
+		}
 	}
 }

@@ -11,7 +11,7 @@ namespace MELON_LZSS {
         int EncodeCode;
     };
 
-    int LZSS_Encode(void* Src, int SrcSize, void* Dest)
+    inline int LZSS_Encode(void* Src, int SrcSize, void* Dest)
     {
         int i;
         unsigned char* SrcPoint, * DestPoint;
@@ -132,7 +132,7 @@ namespace MELON_LZSS {
         return EncodeInfo.PressSize;
     }
 
-    int LZSS_Decode(void* Press, void* Dest)
+    inline int LZSS_Decode(void* Press, void* Dest)
     {
         int PressSize, PressSizeCounter, DestSizeCounter;
         unsigned char* PressPoint, * DestPoint;
@@ -203,7 +203,7 @@ namespace MELON_LZSS {
 }
 
 namespace MELON_ENCRYPT {
-    char* makesalt(int key) {
+    inline char* makesalt(int key) {
         static char salt[10];
         static char saltchar[] = {
           "./0123456789"
@@ -220,7 +220,7 @@ namespace MELON_ENCRYPT {
         return salt;
     }
 
-    std::string encode(std::string plane) {
+    inline std::string encode(std::string plane) {
         int count = 0, length = 0;
         char* salt = makesalt(0);
         for (auto&& d : plane) {
@@ -235,7 +235,7 @@ namespace MELON_ENCRYPT {
         return plane;
     }
 
-    std::string decode(std::string press) {
+    inline std::string decode(std::string press) {
         int count = 0, length = 0;
         char* salt = makesalt(0);
         for (auto&& d : press) {
@@ -251,14 +251,4 @@ namespace MELON_ENCRYPT {
     }
 }
 
-#else
-namespace MELON_LZSS {
-    extern int LZSS_Encode(void* Src, int SrcSize, void* Dest);
-    int LZSS_Decode(void* Press, void* Dest);
-}
-namespace MELON_ENCRYPT {
-    char* makesalt(int key);
-    std::string encode(std::string plane);
-    std::string decode(std::string press);
-}
 #endif
