@@ -169,8 +169,8 @@ int main() {
 	sv.e = sv.f = sv.g = 1.0f;
 	sv.h = "name";
 
-	file_io::export_binary("save.dat", sv);
-	file_io::import_binary("save.dat", sva);
+	file_io::export_binary("save.dat", sv, true);
+	file_io::import_binary("save.dat", sva, true);
 
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));

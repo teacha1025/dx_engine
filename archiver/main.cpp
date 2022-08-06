@@ -8,59 +8,62 @@ using namespace std;
 namespace fs = filesystem;
 
 int main() {
-	cout << "アーカイブ作成" << endl << "作成(y/n)？:";
-	string s;
-	cin >> s;
-	if (s == "yes" || s == "y") {
+	cout << "dx_engine アーカイブ作成ソフト" << endl << endl;
+	//cout << "作成を作成しますか？(y/n)？:";
+	//string s;
+	//cin >> s;
+	if (/*s == "yes" || s == "y"*/true) {
 
 		std::ofstream fout;
 		fs::path path;
 		string ext;
 		string header, data;
-		cout << "Enter extention:";
+		cout << "アーカイブファイルの拡張子を入力:";
 		cin >> ext;
-		cout << "Enter path:";
+		cout << "アーカイブするフォルダを入力:";
 		cin >> path;
 		fout.open(path.string() + "." + ext, std::ios::out | std::ios::binary | std::ios::trunc);
 		header.clear(); header.shrink_to_fit();
 		data.clear(); data.shrink_to_fit();
 
 		if (!fout) {
-			cout << "ファイル開けない" << endl;
+			cout << "エラー:ファイルを書き込めません" << endl;
 		}
-		auto e = fs::recursive_directory_iterator(path);
-		for (auto f : e) {
-			if (fs::status(f.path()).type() == fs::file_type::directory) continue;
-			string fname = f.path().generic_string(), size = std::to_string(fs::file_size(f.path()));
-			ifstream idata;
-			idata.open(fname, std::ios::binary);
-			if (!idata) {
-				cout << endl << "\t" << fname << "をスキップ";
-				continue;
+		else {
+			auto e = fs::recursive_directory_iterator(path);
+			for (auto f : e) {
+				if (fs::status(f.path()).type() == fs::file_type::directory) continue;
+				string fname = f.path().generic_string(), size = std::to_string(fs::file_size(f.path()));
+				ifstream idata;
+				idata.open(fname, std::ios::binary);
+				if (!idata) {
+					cout << endl << "\t" << fname << "はスキップされました";
+					continue;
+				}
+
+				cout << endl << "\t" << fname << "\t:" << (int)fs::status(f.path()).type() << "\t" << size << " B";
+
+				stringstream d;
+				d << idata.rdbuf();
+				header += std::to_string(d.str().size()) + (char)'\"' + fname + (char)'\"';
+				data += d.str();
 			}
+			cout << endl << endl;
+			cout << "ファイル " << path.string() + "." + ext << " を作成しました" << endl;
 
-			cout << endl << "\t" << fname << "\t:" << (int)fs::status(f.path()).type() << "\t" << size << " B";
+			auto dt = header + (char)'@' + data;
+			dt = MELON_ENCRYPT::encode(dt);
 
-			stringstream d;
-			d << idata.rdbuf();
-			header += std::to_string(d.str().size()) + (char)'\"' + fname + (char)'\"';
-			data += d.str();
+			string pressed;
+			int ps = MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), NULL);
+			pressed.resize(ps);
+			MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), pressed.data());
+
+			fout << pressed;
 		}
-		cout << endl << endl;
-		cout << "create file" << endl;
-
-		auto dt = header + (char)'@' + data;
-		dt = MELON_ENCRYPT::encode(dt);
-
-		string pressed;
-		int ps = MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), NULL);
-		pressed.resize(ps);
-		MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), pressed.data());
-
-		fout << pressed;
 	}
 	else {
-		string fname;
+		/*string fname;
 		cout << "Enter path:";
 		cin >> fname;
 		ifstream idata;
@@ -102,7 +105,7 @@ int main() {
 					fout << pln;
 				}
 			}
-		}
+		}*/
 	}
 
 	system("pause");

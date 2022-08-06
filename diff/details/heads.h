@@ -19,6 +19,7 @@
 #include "pallet.h"
 #include "text.h"
 #include "shape.h"
+#include "file.h"
 #include "texture.h"
 #include "scene.h"
 #include "device.h"
@@ -30,6 +31,7 @@
 #include "animation.h"
 #include "event.h"
 #include "collision.h"
+#include "gui.h"
 
 
 
@@ -51,4 +53,5 @@ namespace dx_engine {
 	extern detail::_system systems;
 	extern detail::_window window;
 	extern detail::_console console;
+	extern detail::_file file;
 }

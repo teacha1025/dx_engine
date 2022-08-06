@@ -41,7 +41,7 @@ namespace dx_engine {
 
 				auto h = split(head, '\"', false);
 				int c = 0;
-				for (int i = 0; i < h.size(); i += 2) {
+				for (uint i = 0; i < h.size(); i += 2) {
 					int size = std::stoi(h.at(i));
 					auto sb = body.substr(c, c + size);
 					c += size;
@@ -84,7 +84,7 @@ namespace dx_engine {
 
 					auto h = split(head, '\"', false);
 					int c = 0;
-					for (int i = 0; i < h.size(); i += 2) {
+					for (uint i = 0; i < h.size(); i += 2) {
 						int size = std::stoi(h[i]);
 						auto sb = body.substr(c, c + size);
 						c += size;

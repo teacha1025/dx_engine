@@ -43,34 +43,42 @@ namespace dx_engine {
 		//};
 
 		template <class T>
-		void export_binary(const std::string& path, T& data) {
+		void export_binary(const std::string& path, T& data, bool encrypt = true) {
 			std::stringstream ss;
+			std::string exports;
 			cereal::BinaryOutputArchive archive(ss);
 			archive(data);
+			if (encrypt) {
+				auto dt = ss.str();
+				dt = MELON_ENCRYPT::encode(dt);
 
-			auto dt = ss.str();
-			dt = MELON_ENCRYPT::encode(dt);
-
-			std::string pressed;
-			int ps = MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), NULL);
-			pressed.resize(ps);
-			MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), pressed.data());
-			export_file(path, pressed);
+				int ps = MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), NULL);
+				exports.resize(ps);
+				MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), exports.data());
+			}
+			else {
+				exports = ss.str();
+			}
+			export_file(path, exports);
 		}
 
 		template <class T>
-		void import_binary(const std::string& path, T& data) {
+		void import_binary(const std::string& path, T& data, bool encrypt = true) {
 			std::stringstream ss;
 
-			std::string pln;
+			if (encrypt) {
+				std::string pln;
 
-			int ps = MELON_LZSS::LZSS_Decode(file[path].data(), NULL);
-			pln.resize(ps);
-			MELON_LZSS::LZSS_Decode(file[path].data(), pln.data());
+				int ps = MELON_LZSS::LZSS_Decode(file[path].data(), NULL);
+				pln.resize(ps);
+				MELON_LZSS::LZSS_Decode(file[path].data(), pln.data());
 
-			pln = MELON_ENCRYPT::decode(pln);
-			ss << pln;
-
+				pln = MELON_ENCRYPT::decode(pln);
+				ss << pln;
+			}
+			else {
+				ss << file[path];
+			}
 			cereal::BinaryInputArchive archive(ss);
 			archive(data);
 		}

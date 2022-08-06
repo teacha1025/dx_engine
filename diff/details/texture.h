@@ -19,6 +19,7 @@ namespace dx_engine {
 		bool _isdiv = false;
 		bool _isturn = false;
 		bool _isflip = false;
+		bool _istrans = true;
 		double _angle = 0.0, _rate = 1.0;
 		point<int> _div_num = { 1,1 };
 
@@ -39,6 +40,7 @@ namespace dx_engine {
 		texture& extended(double rate);
 		texture& turned(bool flag);
 		texture& fliped(bool flag);
+		texture& trans(bool flag);
 
 		point<double> position() const;
 
