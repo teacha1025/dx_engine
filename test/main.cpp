@@ -172,6 +172,8 @@ int main() {
 
 	file_io::export_binary("save.dat", sv, true);
 	file_io::import_binary("save.dat", sva, true);*/
+	double t = 0;
+	std::vector<point<double>> bez_cp = { {0,0},{240,480},{640,620},{1080,960} };
 
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
@@ -191,6 +193,13 @@ int main() {
 
 		//tex.at({ 128,128 }).centered({ 0,0 }).trans(false).draw();
 		//texp[5].at({ 256, 256 }).draw();
+		for (auto&& p : bez_cp) {
+			circle(8).at(p).colored(pallet::black).draw();
+		}
+		circle(4).at(lerp::bezier(bez_cp, t)).colored(pallet::blue).draw();
+
+		t += 0.001;
+		t = fmod(t, 1.0);
 	}
 
 	return 0;
