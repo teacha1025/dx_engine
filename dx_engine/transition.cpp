@@ -21,7 +21,7 @@ define d1 = 2.75;
 #define it (1.0 - t)
 
 namespace dx_engine {
-	constexpr double cexp_pow(double p, uint n)
+	double cexp_pow(double p, uint n)
 	{
 		double s = 1.0;
 
@@ -31,10 +31,10 @@ namespace dx_engine {
 		}
 		return s;
 	}
-	constexpr double bernsterin(uint n, uint i, double _t) {
+	double bernsterin(uint n, uint i, double _t) {
 		return binomial(n, i) * cexp_pow(_t, i) * cexp_pow(1 - _t, n - i);
 	}
-	constexpr double B_base(int i, int m, double _t, const std::vector<float>& knot_vector) {
+	double B_base(int i, int m, double _t, const std::vector<float>& knot_vector) {
 		double w1 = 0.0f, w2 = 0.0f;
 		if (m == 0) {
 			if (knot_vector[i] <= _t && _t <= knot_vector[i + 1]) {
@@ -161,33 +161,33 @@ namespace dx_engine {
 				return t < 0.5 ? (1 - out::bounce(1 - 2 * t)) / 2.0 : (1 + out::bounce(2 * t - 1)) / 2.0;
 			}
 		}
-		namespace lerp {
-			point<double> bezier(std::vector<point<double>> cp, const range<0.0, 1.0>& T) {
-				point<double> p{ 0,0 };
-				for (uint i = 0; i < cp.size(); i++) {
-					p += cp.at(i) * bernsterin((uint)cp.size(), i, t);
-				}
-				return p;
+	}
+	namespace lerp {
+		point<double> bezier(std::vector<point<double>> cp, const range<0.0, 1.0>& T) {
+			point<double> p{ 0,0 };
+			for (uint i = 0; i < cp.size(); i++) {
+				p += cp.at(i) * bernsterin((uint)cp.size() - 1, i, t);
 			}
-			point<double> b_spline(std::vector<point<double>> cp, double _t, int _degree) {
-				std::vector<float> knot_vector;
-				int knotNum = (int)cp.size() + _degree + 1;
-				for (int i = 0; i < _degree; i++) {
-					knot_vector.insert(knot_vector.begin(), 0.0f);
-					knot_vector.push_back(1.0f);
-				}
-				knotNum -= _degree * 2 + 1;
-				for (int i = 0; i <= knotNum; i++) {
-					knot_vector.insert(knot_vector.begin() + _degree + i, (1.0f / knotNum) * i);
-				}
-
-				point<double> p{ 0,0 };
-				for (int j = 0; j < cp.size(); j++) {
-					p += cp[j] * B_base(j, _degree, _t, knot_vector);
-				}
-
-				return p;
+			return p;
+		}
+		point<double> b_spline(std::vector<point<double>> cp, double _t, int _degree) {
+			std::vector<float> knot_vector;
+			int knotNum = (int)cp.size() + _degree + 1;
+			for (int i = 0; i < _degree; i++) {
+				knot_vector.insert(knot_vector.begin(), 0.0f);
+				knot_vector.push_back(1.0f);
 			}
+			knotNum -= _degree * 2 + 1;
+			for (int i = 0; i <= knotNum; i++) {
+				knot_vector.insert(knot_vector.begin() + _degree + i, (1.0f / knotNum) * i);
+			}
+
+			point<double> p{ 0,0 };
+			for (int j = 0; j < cp.size(); j++) {
+				p += cp[j] * B_base(j, _degree, _t, knot_vector);
+			}
+
+			return p;
 		}
 	}
 }

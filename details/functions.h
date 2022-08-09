@@ -6,13 +6,12 @@
 namespace dx_engine {
 	std::vector<std::string> split(const std::string& str, const std::string& splt);
 
-	constexpr double degree(double radian);
-	constexpr double radian(double degree);
+	double degree(double radian);
+	double radian(double degree);
 
-	constexpr float degree_f(float radian);
-	constexpr float radian_f(float degree);
+	float degree_f(float radian);
+	float radian_f(float degree);
 
-	constexpr uint factorial(uint n);
-	constexpr uint binomial(uint n, uint k);
-	constexpr double bernsterin(uint n, uint i, double t);
+	uint factorial(uint n);
+	uint binomial(uint n, uint k);
 }

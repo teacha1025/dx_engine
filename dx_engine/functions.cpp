@@ -18,21 +18,21 @@ namespace dx_engine {
 		return result;
 	}
 
-	constexpr double degree(double radian) {
+	double degree(double radian) {
 		return radian * 180.0 * std::numbers::inv_pi;
 	}
-	constexpr double radian(double degree) {
+	double radian(double degree) {
 		return degree * std::numbers::pi / 180.0;
 	}
 
-	constexpr float degree_f(float radian) {
+	float degree_f(float radian) {
 		return radian * 180.0f * std::numbers::inv_pi_v<float>;
 	}
-	constexpr float radian_f(float degree) {
+	float radian_f(float degree) {
 		return degree * std::numbers::pi_v<float> / 180.0f;
 	}
 	
-	constexpr uint factorial(uint n) {
+	uint factorial(uint n) {
 		uint r = 1;
 		for (uint i = 2; i <= n; i++)
 		{
@@ -41,8 +41,7 @@ namespace dx_engine {
 
 		return r;
 	}
-	constexpr uint binomial(uint n, uint k) {
+	uint binomial(uint n, uint k) {
 		return factorial(n) / (factorial(k) * factorial(n - k));
 	}
-	
 }
