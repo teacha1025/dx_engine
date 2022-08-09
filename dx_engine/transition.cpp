@@ -21,17 +21,11 @@ define d1 = 2.75;
 #define it (1.0 - t)
 
 namespace dx_engine {
-	double cexp_pow(double p, uint n)
+	constexpr double cexp_pow(double p, uint n)
 	{
-		double s = 1.0;
-
-		for (uint k = 0; k < n; k++)
-		{
-			s *= p;
-		}
-		return s;
+		return n != 0 ? p * cexp_pow(p, n - 1) : 1;
 	}
-	double bernsterin(uint n, uint i, double _t) {
+	constexpr double bernsterin(uint n, uint i, double _t) {
 		return binomial(n, i) * cexp_pow(_t, i) * cexp_pow(1 - _t, n - i);
 	}
 	double B_base(int i, int m, double _t, const std::vector<float>& knot_vector) {

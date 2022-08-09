@@ -9,7 +9,7 @@ void init() {
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
-	window.extends(0.75);
+	window.extends(systems.monitor_size().x / 1920.0f);
 	file.load("Resource.dat");
 
 	//systems.vsync(false);
@@ -176,7 +176,12 @@ int main() {
 	auto star = [](int i) {
 		return vector::rotate_at(point<double>{640, 200}, point<double>{640, 480}, radian(72 * i));
 	};
-	std::vector<point<double>> bez_cp = { star(0),star(2),star(4),star(1),star(3)};
+	//std::vector<point<double>> bez_cp = { star(0),star(2),star(4),star(1),star(3)};
+	define _a = 600,_b=700;
+	std::vector<point<double>> bez_cp = { 
+		{_a,-160},{_b,-80},{_a,0}, {_b,80},  {_a,160},{_b,240},
+		{_a,320},{_b,400},{_a,480},{_b,560}, {_a,640},{_b,720},
+		{_a,800},{_b,880},{_a,960},{_b,1040},{_a,1120} };
 
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
@@ -202,7 +207,7 @@ int main() {
 		int deg = 2;
 		//circle(4).at(lerp::b_spline(bez_cp, t, 4)).colored(pallet::black).draw();
 		//circle(4).at(lerp::b_spline(bez_cp, t, 1)).colored(pallet::red).draw();
-		//circle(4).at(lerp::b_spline(bez_cp, t, 2)).colored(pallet::yellow).draw();
+		circle(4).at(lerp::b_spline(bez_cp, t, 2)).colored(pallet::yellow).draw();
 		//circle(4).at(lerp::b_spline(bez_cp, t, 3)).colored(pallet::white).draw();
 		//for (auto d = 1; d < bez_cp.size() - 1; d++) {
 			for (auto i = 1; i <= 100; i += 1) {

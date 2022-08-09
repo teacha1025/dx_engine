@@ -18,30 +18,5 @@ namespace dx_engine {
 		return result;
 	}
 
-	double degree(double radian) {
-		return radian * 180.0 * std::numbers::inv_pi;
-	}
-	double radian(double degree) {
-		return degree * std::numbers::pi / 180.0;
-	}
-
-	float degree_f(float radian) {
-		return radian * 180.0f * std::numbers::inv_pi_v<float>;
-	}
-	float radian_f(float degree) {
-		return degree * std::numbers::pi_v<float> / 180.0f;
-	}
 	
-	uint factorial(uint n) {
-		uint r = 1;
-		for (uint i = 2; i <= n; i++)
-		{
-			r *= i;
-		}
-
-		return r;
-	}
-	uint binomial(uint n, uint k) {
-		return factorial(n) / (factorial(k) * factorial(n - k));
-	}
 }
