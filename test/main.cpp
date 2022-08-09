@@ -9,7 +9,7 @@ void init() {
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
-	window.extends(1.0);
+	window.extends(systems.monitor_size().x / 1920.0f);
 	file.load("Resource.dat");
 
 	//systems.vsync(false);
@@ -172,15 +172,25 @@ int main() {
 
 	file_io::export_binary("save.dat", sv, true);
 	file_io::import_binary("save.dat", sva, true);*/
+	double t = 0;
+	auto star = [](int i) {
+		return vector::rotate_at(point<double>{640, 200}, point<double>{640, 480}, radian(72 * i));
+	};
+	//std::vector<point<double>> bez_cp = { star(0),star(2),star(4),star(1),star(3)};
+	define _a = 600,_b=700;
+	std::vector<point<double>> bez_cp = { 
+		{_a,-160},{_b,-80},{_a,0}, {_b,80},  {_a,160},{_b,240},
+		{_a,320},{_b,400},{_a,480},{_b,560}, {_a,640},{_b,720},
+		{_a,800},{_b,880},{_a,960},{_b,1040},{_a,1120} };
 
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
-		if (systems.keyboard.F3.down() || btn()) {
-			//btn.at({GetRand(1280 - 32) + 64,GetRand(960 - 32) + 64 });
-			systems.debug_mode ^= 1;
-			//btn.set_text(systems.debug_mode ? "release" : "debug");
-			pan.play();
-		}
+		//if (systems.keyboard.F3.down() || btn()) {
+		//	//btn.at({GetRand(1280 - 32) + 64,GetRand(960 - 32) + 64 });
+		//	systems.debug_mode ^= 1;
+		//	//btn.set_text(systems.debug_mode ? "release" : "debug");
+		//	pan.play();
+		//}
 
 		console >> std::format("{:2.2f} fps", systems.fps());
 		if (systems.debug_mode) {
@@ -191,6 +201,29 @@ int main() {
 
 		//tex.at({ 128,128 }).centered({ 0,0 }).trans(false).draw();
 		//texp[5].at({ 256, 256 }).draw();
+		for (auto&& p : bez_cp) {
+			circle(8).at(p).colored(pallet::black).draw();
+		}
+		int deg = 2;
+		//circle(4).at(lerp::b_spline(bez_cp, t, 4)).colored(pallet::black).draw();
+		//circle(4).at(lerp::b_spline(bez_cp, t, 1)).colored(pallet::red).draw();
+		circle(4).at(lerp::b_spline(bez_cp, t, 2)).colored(pallet::yellow).draw();
+		//circle(4).at(lerp::b_spline(bez_cp, t, 3)).colored(pallet::white).draw();
+		//for (auto d = 1; d < bez_cp.size() - 1; d++) {
+			for (auto i = 1; i <= 100; i += 1) {
+				auto a = lerp::b_spline(bez_cp, i / 100.0 - 0.01, deg);
+				auto b = lerp::b_spline(bez_cp, i / 100.0, deg);
+				DrawLineAA(a.x, a.y, b.x, b.y, 0xffffff);
+			}
+		//}
+		/*for (auto i = 1; i <= 100; i += 1) {
+			auto a = lerp::bezier(bez_cp, i / 100.0 - 0.01);
+			auto b = lerp::bezier(bez_cp, i / 100.0);
+			DrawLineAA(a.x, a.y, b.x, b.y, 0xff0000);
+		}*/
+		//auto d = degree(5);
+		t += 0.002;
+		t = fmod(t, 1.0);
 	}
 
 	return 0;

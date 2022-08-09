@@ -6,7 +6,8 @@
 #include "../details/csv.h"
 #include "../details/def.h"
 #include "../details/point.h"
-#include "../details/heads.h"
+#include "../details/functions.h"
+#include "../details/text.h"
 
 namespace dx_engine {
 	extern detail::_file file;

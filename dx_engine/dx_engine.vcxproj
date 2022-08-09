@@ -211,6 +211,7 @@
     <ClCompile Include="text.cpp" />
     <ClCompile Include="system.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="transition.cpp" />
     <ClCompile Include="vector.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
@@ -230,6 +231,7 @@
     <ClInclude Include="..\details\draw_param.h" />
     <ClInclude Include="..\details\event.h" />
     <ClInclude Include="..\details\file.h" />
+    <ClInclude Include="..\details\functions.h" />
     <ClInclude Include="..\details\gui.h" />
     <ClInclude Include="..\details\heads.h" />
     <ClInclude Include="..\details\key.h" />
@@ -242,6 +244,7 @@
     <ClInclude Include="..\details\step.h" />
     <ClInclude Include="..\details\text.h" />
     <ClInclude Include="..\details\texture.h" />
+    <ClInclude Include="..\details\transition.h" />
     <ClInclude Include="..\details\vector.h" />
     <ClInclude Include="..\libs\dx_engine.h" />
   </ItemGroup>
