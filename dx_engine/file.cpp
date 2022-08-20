@@ -37,15 +37,22 @@ namespace dx_engine {
 				std::string head, body;
 				auto atpos = pln.find((wchar_t)'@');
 				head = pln.substr(0, atpos);
-				body = pln.substr(atpos + 1, pln.size() - 1);
+				body = pln.substr(atpos + 1);
 
 				auto h = split(head, '\"', false);
 				int c = 0;
 				for (uint i = 0; i < h.size(); i += 2) {
-					int size = std::stoi(h.at(i));
-					auto sb = body.substr(c, c + size);
-					c += size;
-					this->data.insert(std::make_pair(h.at(i + 1), sb));
+					std::string sb;
+					if (i + 2 > h.size()) {
+						sb = body.substr(c);
+					}
+					else {
+						int size = std::stoi(h[i]);
+						sb = body.substr(c, size);
+						c += size;
+					}
+
+					this->data.insert(std::make_pair(h[i + 1], sb));
 				}
 				use_archive = true;
 			}
@@ -80,14 +87,21 @@ namespace dx_engine {
 					std::string head, body;
 					auto atpos = pln.find((wchar_t)'@');
 					head = pln.substr(0, atpos);
-					body = pln.substr(atpos + 1, pln.size() - 1);
+					body = pln.substr(atpos + 1);
 
 					auto h = split(head, '\"', false);
 					int c = 0;
 					for (uint i = 0; i < h.size(); i += 2) {
-						int size = std::stoi(h[i]);
-						auto sb = body.substr(c, c + size);
-						c += size;
+						std::string sb;
+						if (i + 2 > h.size()) {
+							sb = body.substr(c);
+						}
+						else {
+							int size = std::stoi(h[i]);
+							sb = body.substr(c, size);
+							c += size;
+						}
+						
 						this->data.insert(std::make_pair(h[i + 1], sb));
 					}
 					use_archive = true;
@@ -105,8 +119,8 @@ namespace dx_engine {
 			}
 		}
 
-		std::string _file::get(const std::string& path) {
-			if (!data.contains(path)) {
+		std::string _file::get(const std::string& path, bool reload) {
+			if (reload || !data.contains(path)) {
 				std::ifstream idata;
 				idata.open(path, std::ios::binary);
 				if (!idata) {
@@ -115,7 +129,12 @@ namespace dx_engine {
 				}
 				std::stringstream sdata;
 				sdata << idata.rdbuf();
-				data.insert(std::make_pair(path, sdata.str()));
+				if (data.contains(path)) {
+					data.at(path) = sdata.str();
+				}
+				else {
+					data.insert(std::make_pair(path, sdata.str()));
+				}
 			}
 
 			return data[path];

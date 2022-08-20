@@ -32,24 +32,12 @@
 #include "event.h"
 #include "collision.h"
 #include "gui.h"
+#include "functions.h"
+#include "transition.h"
 
 
 
 namespace dx_engine {
-	
-
-	class file final{
-
-	};
-
-	std::vector<std::string> split(const std::string& str, const std::string& splt);
-
-	constexpr double degree(double radian);
-	constexpr double radian(double degree);
-
-	constexpr float degree_f(float radian);
-	constexpr float radian_f(float degree);
-
 	extern detail::_system systems;
 	extern detail::_window window;
 	extern detail::_console console;

@@ -10,7 +10,7 @@ void init() {
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
 	window.extends(systems.monitor_size().x / 1920.0f);
-	file.load("Resource.dat");
+	file.load("resource.dat");
 
 	//systems.vsync(false);
 	//systems.max_fps(N);

@@ -40,9 +40,9 @@ namespace dx_engine {
 	}
 
 	std::string csv::at(const point<uint>& position) const {
-		if (_size == point<uint>{0u, 0u}) return ";";
+		if (_size == point<uint>{0u, 0u}) return "";
 		try {
-			return data[position.y][position.x];
+			return data.at(position.y).at(position.x);
 		}
 		catch (...) {
 			return "";

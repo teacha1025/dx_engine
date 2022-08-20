@@ -24,7 +24,7 @@ namespace dx_engine {
 		public:
 			void load(const std::string& path);
 
-			std::string get(const std::string& path);
+			std::string get(const std::string& path, bool reload = false);
 			bool contain(const std::string& path);
 
 			bool is_use() const;
