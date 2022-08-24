@@ -44,8 +44,8 @@ namespace dx_engine {
 			return _id;
 		}
 
-		void change_scene(const identifier& _id, const unsigned int& fadeinout_count = 60) const {
-			_scn_mng->change(_id, fadeinout_count);
+		void change_scene(const identifier& _id, const unsigned int& fadeinout_count = 60, bool make_new_next_scene = false) const {
+			_scn_mng->change(_id, fadeinout_count, make_new_next_scene);
 		}
 
 		data_ptr data() const {
@@ -92,7 +92,9 @@ namespace dx_engine {
 		using identifier = unsigned int;
 		using scene_ptr = std::shared_ptr<scene<data>>;
 		using data_ptr = std::shared_ptr<data>;
+		using factor = std::function<scene_ptr()>;
 		std::map<identifier, scene_ptr> _scenehash;
+		std::map<identifier, factor> _factorhash;
 
 		data_ptr _pdata;
 		identifier _current_id;
@@ -149,10 +151,10 @@ namespace dx_engine {
 			_p_current_scene = _scenehash[_id];
 		}
 
-		void change(const identifier& _id, const unsigned int& FadeInOutCount = 60) {
+		void change(const identifier& _id, const unsigned int& FadeInOutCount = 60, bool make_new_next_scene = false) {
 			assert(_id != UINT_MAX);
 			_next_id = _id;
-			_p_next_scene = _scenehash[_id];
+			_p_next_scene = make_new_next_scene ? _factorhash[_id]() : _scenehash[_id];
 			_fade_count = FadeInOutCount;
 			_scene_state = fadeout;
 		}
@@ -166,12 +168,14 @@ namespace dx_engine {
 				return std::make_shared<scenes_t>(scene_data_t);
 			};
 
-			auto r = _scenehash.find(_id);
-			if (r != _scenehash.end()) {
+			auto it = _scenehash.find(_id);
+			if (it != _scenehash.end()) {
 				_scenehash[_id] = make_scene_ptr();
+				_factorhash[_id] = make_scene_ptr;
 			}
 			else {
-				_scenehash.insert(std::make_pair(_id, make_scene_ptr()));
+				_scenehash.emplace(_id, make_scene_ptr());
+				_factorhash.emplace(_id, make_scene_ptr);
 			}
 		}
 
