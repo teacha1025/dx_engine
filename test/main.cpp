@@ -7,7 +7,7 @@ define N = 60.0;
 
 void init() {
 	dx_engine::log.set(true, true);
-	window.fullscreen(true);
+	window.fullscreen(false);
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
@@ -21,11 +21,13 @@ void init() {
 class testscene : public scene<> {
 private:
 	uint counter = 0;
+	inputs aaa;
 public:
 	SCENE_CONSTRUCTOR(testscene)
 
 	virtual void init() override {
 		counter = 0;
+		aaa = systems.keyboard.A | systems.keyboard.B;
 	}
 
 	virtual void draw() override {
@@ -38,6 +40,15 @@ public:
 		counter++;
 		if (systems.keyboard.Num2.down()) {
 			change_scene(2, 60, false);
+		}
+		if (aaa.press()) {
+			console << "ab";
+		}
+		if (systems.keyboard.A.press()) {
+			console << "A";
+		}
+		if (systems.keyboard.B.press()) {
+			console << "B";
 		}
 	}
 };
@@ -115,13 +126,12 @@ int main() {
 
 	return 0;
 }
-#endif
 //https://dxlib.xsrv.jp/cgi/patiobbs/patio.cgi?mode=past&no=2506
-#if 0
+#elif 0
 #include"DxLib.h"
 
-#define SCREEN_W		(1280)			//ゲーム自体の画面の横幅
-#define SCREEN_H		(960)			//ゲーム自体の画面の縦幅
+#define SCREEN_W		(640)			//ゲーム自体の画面の横幅
+#define SCREEN_H		(480)			//ゲーム自体の画面の縦幅
 
 // 表示タイプ
 int hyouji_type;
@@ -241,10 +251,168 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	DxLib_End();
 	return 0;
 }
-#endif
+#elif 1 //ボーダーレスウィンドウ
+#include"DxLib.h"
+
+#define SCREEN_W		(640)			//ゲーム自体の画面の横幅
+#define SCREEN_H		(480)			//ゲーム自体の画面の縦幅
+
+// 表示タイプ
+int hyouji_type;
+// 整数倍表示の時のレターボックスの大きさ
+int letterboxsize_x;
+int letterboxsize_y;
+// アスペクト比保持の時のレターボックスの大きさ
+int letterboxsize_n_x;
+int letterboxsize_n_y;
+// ディスプレイ解像度
+int disp_x;
+int disp_y;
+// 描画スクリーン
+int main_screen;
+
+//エンターキーを押したフレームカウント
+int enter;
+
+void letter_box() {
+	// ディスプレイ解像度取得
+	disp_x = GetSystemMetrics(SM_CXSCREEN);
+	disp_y = GetSystemMetrics(SM_CYSCREEN);
+	if (disp_x / (float)SCREEN_W >= disp_y / (float)SCREEN_H) {// 描画画面の比率より横に長いか同じ場合
+		letterboxsize_y = (disp_y % SCREEN_H) / 2;
+		letterboxsize_x = (disp_x - (disp_y / SCREEN_H) * SCREEN_W) / 2;
+		letterboxsize_n_y = 0;
+		letterboxsize_n_x = (disp_x - (disp_y * SCREEN_W / SCREEN_H)) / 2;
+	}
+	else {// 描画画面の比率より縦に長い場合
+		letterboxsize_x = (disp_x % SCREEN_W) / 2;
+		letterboxsize_y = (disp_y - (disp_x / SCREEN_W) * SCREEN_H) / 2;
+		letterboxsize_n_x = 0;
+		letterboxsize_n_y = (disp_y - (disp_x * SCREEN_H / SCREEN_W)) / 2;
+	}
+}
+void screen_hyouji() {
+	switch (hyouji_type) {
+	case 0: {//オリジナル DOT by DOT
+		SetDrawScreen(DX_SCREEN_BACK);
+		ClearDrawScreen();
+		DrawRotaGraph(disp_x / 2, disp_y / 2, 1.0f, 0.0f, main_screen, FALSE, FALSE);
+		SetDrawScreen(main_screen);
+		break;
+	}
+	case 1: {//整数倍
+		SetDrawScreen(DX_SCREEN_BACK);
+		ClearDrawScreen();
+		DrawExtendGraph(letterboxsize_x, letterboxsize_y, disp_x - letterboxsize_x, disp_y - letterboxsize_y, main_screen, FALSE);
+		SetDrawScreen(main_screen);
+		break;
+	}
+	case 2: {//アスペクト比保持　最大表示
+		SetDrawScreen(DX_SCREEN_BACK);
+		ClearDrawScreen();
+		DrawExtendGraph(letterboxsize_n_x, letterboxsize_n_y, disp_x - letterboxsize_n_x, disp_y - letterboxsize_n_y, main_screen, FALSE);
+		SetDrawScreen(main_screen);
+		break;
+	}
+	case 3: {//フル 
+		SetDrawScreen(DX_SCREEN_BACK);
+		ClearDrawScreen();
+		DrawExtendGraph(0, 0, disp_x, disp_y, main_screen, FALSE);
+		SetDrawScreen(main_screen);
+		break;
+	}
+	}
+}
+
+int Enter_Check() {
+	if (CheckHitKey(KEY_INPUT_RETURN))
+		enter++;
+	else
+		enter = 0;
+	return enter;
+}
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
+	hyouji_type = 0;
+
+	int i;
+	int x, y, addX, addY;
+	int DisplayNum;
+	int RectX, RectY, SizeX, SizeY, IsPrimary;
+
+	// モニタの数を取得する
+	DisplayNum = GetDisplayNum();
+
+	// モニタの数だけ繰り返し
+	for (i = 0; i < DisplayNum; i++)
+	{
+		// モニタの情報を取得
+		GetDisplayInfo(i, &RectX, &RectY, &SizeX, &SizeY, &IsPrimary);
+
+		// プライマリモニタではなかったらループ終了
+		if (IsPrimary == TRUE)
+		{
+			break;
+		}
+	}
+
+	//黒枠計算を関数化してみた
+	letter_box();
+	
+
+	// ウィンドウモードで起動
+	ChangeWindowMode(TRUE);
+
+	// タスクバーなし設定
+	SetWindowStyleMode(1);
+
+	// ウィンドウの解像度をモニタの解像度と同じにする
+	SetGraphMode(disp_x, disp_y, 32);
+
+	// ウィンドウの位置をセット
+	SetWindowPosition(RectX, RectY);
+
+	if (DxLib_Init() == -1)return -1;
+
+	main_screen = MakeScreen(SCREEN_W, SCREEN_H);// 描画用のスクリーン作成
+	SetDrawScreen(main_screen);// 描画するスクリーンを変更
+
+	//ループ。ここに鬼のようにコードを書き込む
+	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0) {
+		ClearDrawScreen();
+
+		if (Enter_Check() == 1) {// エンターキーを押した時のみ
+			hyouji_type++;
+			if (hyouji_type > 3)
+				hyouji_type = 0;
+		}
+
+
+		//テスト用仮表示
+		DrawBox(0, 0, SCREEN_W, SCREEN_H, GetColor(255, 211, 63), TRUE);
+		DrawString(200, 100, "もしかして、見えちゃった？", GetColor(63, 0, 0));
+
+
+		switch (hyouji_type) {
+		case 0: {DrawString(0, 0, "オリジナル", GetColor(63, 0, 0)); break; }
+		case 1: {DrawString(0, 0, "整数倍", GetColor(63, 0, 0)); break; }
+		case 2: {DrawString(0, 0, "アスペクト比保持", GetColor(63, 0, 0)); break; }
+		case 3: {DrawString(0, 0, "フル", GetColor(63, 0, 0)); break; }
+		}
+
+		//表示部分を関数化
+		screen_hyouji();
+
+		ScreenFlip();
+	}
+	DxLib_End();
+	return 0;
+}
 //https://dxlib.xsrv.jp/cgi/patiobbs/patio.cgi?mode=view&no=4560
-#if 0
+#else
 #include "DxLib.h"
+constexpr int size_x = 1900;
+constexpr int size_y = 1080;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -263,7 +431,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		GetDisplayInfo(i, &RectX, &RectY, &SizeX, &SizeY, &IsPrimary);
 
 		// プライマリモニタではなかったらループ終了
-		if (IsPrimary == FALSE)
+		if (IsPrimary == TRUE)
 		{
 			break;
 		}
@@ -297,8 +465,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 画面内を跳ね回る
 		x += addX;
 		y += addY;
-		if (x < 0 || x > SizeX - 64) addX = -addX;
-		if (y < 0 || y > SizeY - 64) addY = -addY;
+		if (x < 0 || x > size_x - 64) addX = -addX;
+		if (y < 0 || y > size_y - 64) addY = -addY;
 
 		// 画面のクリア
 		ClearDrawScreen();

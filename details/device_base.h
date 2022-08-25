@@ -13,6 +13,8 @@ namespace dx_engine {
 			unsigned int _code = 0;
 			unsigned int _press_count = 0;
 			device_state _state = device_state::release;
+			input_base* or_other = nullptr;
+			input_base* and_other = nullptr;
 		public:
 			unsigned int count() const;
 
@@ -25,4 +27,11 @@ namespace dx_engine {
 			bool down() const;
 		};
 	}
+	//using inputs = detail::input_base;
+	class inputs : detail::input_base {
+	private:
+
+	public:
+
+	};
 }
