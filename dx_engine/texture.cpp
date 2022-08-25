@@ -1,10 +1,13 @@
+#include <format>
 #include "DxLib.h"
 #include "../details/file.h"
 #include "../details/texture.h"
 #include "../details/step.h"
 #include "../details/draw_param.h"
+#include "../details/logger.h"
 
 namespace dx_engine {
+	extern logger log;
 	extern detail::_file file;
 	texture::texture() {
 		*this = texture(point<int>(64, 64));
@@ -34,6 +37,7 @@ namespace dx_engine {
 
 	texture::texture(int handle) {
 		if (handle < 0) {
+			log.error("‚±‚Ìƒnƒ“ƒhƒ‹‚Í–³Œø‚Å‚·");
 			*this = texture();
 			return;
 		}
@@ -51,6 +55,7 @@ namespace dx_engine {
 		auto image_str = file.get(path);
 		int r = GetImageSize_Mem(image_str.data(), (int)image_str.size(), &x, &y);
 		if (r < 0) {
+			log.error("‰æ‘œ " + path + " ‚ÍŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
 			*this = texture();
 			return;
 		}
@@ -60,6 +65,7 @@ namespace dx_engine {
 
 		auto result = CreateGraphFromMem(image_str.data(), (int)image_str.size());
 		if (result < 0) {
+			log.error("‰æ‘œ " + path + " ‚Í“Ç‚Ýž‚ß‚Ü‚¹‚ñ");
 			*this = texture(_size);
 			_failer = true;
 			return;
@@ -76,6 +82,7 @@ namespace dx_engine {
 		auto image_str = file.get(path);
 		int r = GetImageSize_Mem(image_str.data(), (int)image_str.size(), &x, &y);
 		if (r < 0) {
+			log.error("‰æ‘œ " + path + " ‚ÍŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
 			_failer = true;
 			_size = { 64,64 };
 			int handle = texture(point<int>(64, 64))._handle;
@@ -91,6 +98,7 @@ namespace dx_engine {
 		_div_handle.resize(SCAST(size_t, divnum.x * divnum.y));
 		auto result = CreateDivGraphFromMem(image_str.data(), (int)image_str.size(), divnum.x * divnum.y, divnum.x, divnum.y, SCAST(int, _size.x), SCAST(int, _size.y), &_div_handle[0]);
 		if (result < 0) {
+			log.error("‰æ‘œ " + path + " ‚Í“Ç‚Ýž‚ß‚Ü‚¹‚ñ");
 			_failer = true;
 			int handle = texture(point<int>(x, y))._handle;
 			_div_handle.clear();

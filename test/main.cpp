@@ -5,12 +5,13 @@ using namespace dx_engine;
 define N = 60.0;
 
 void init() {
+	dx_engine::log.set(true, true);
 	window.fullscreen(false);
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
 	window.extends(systems.monitor_size().x / 1920.0f);
-	file.load("resource.dat");
+	//file.load("resource.dat");
 
 	//systems.vsync(false);
 	//systems.max_fps(N);
@@ -133,97 +134,11 @@ struct save_struct {
 };
 
 int main() {
-	text memory_disp, fps, mpos;
-	memory_disp.set_font("メイリオ", 10u, 1u, font_type::edge);
-	fps.set_font("メイリオ", 16u, 1u, font_type::anti_aliasing);
-	mpos.set_font("メイリオ", 16u, 1u, font_type::anti_aliasing);
-
-	line l;
-	l.thick(1).at({ {128, 128}, {920, 648}, {640, 64} });
-
-	rect r({240,240});
-	r.centered({ 32,32 }).rotateed(1*PI/4.0).at({0, 0});
-	rect r2({ 120,20 });
-	r2.centered({ 32,32 }).rotateed(0.8 * PI / 4.0).at({ 250, 480 });
-
-	circle c(64);
-	c.centered({ -20, -20 }).at({ 640, 480 });
-	circle c2(28);
-	c2.centered({ -20, -20 }).at({ 640, 480 });
-
-	color cl = pallet::blue;
-
-	circle btn_obj(60);
-	btn_obj.at(window.size()/2).colored(pallet::white);
 	
-	texture tex("Resource/test.jpg");
-	texture texp("Resource/player.png", { 8,3 });
-
-	audio pan("Resource/test.wav", false);
-
-	gui::button<circle> btn(btn_obj, "起爆", true);
-	btn.set_font("ＭＳゴシック", 32, 12, font_type::anti_aliasing);
-	btn.set_function_normal([](circle r, text t) {r.colored(pallet::orangered).draw(); t.colored(pallet::white).draw(); });
-
-	/*save_struct sv, sva;
-	sv.a = sv.b = sv.c = sv.d = 0;
-	sv.e = sv.f = sv.g = 1.0f;
-	sv.h = "name";
-
-	file_io::export_binary("save.dat", sv, true);
-	file_io::import_binary("save.dat", sva, true);*/
-	double t = 0;
-	auto star = [](int i) {
-		return vector::rotate_at(point<double>{640, 200}, point<double>{640, 480}, radian(72 * i));
-	};
-	//std::vector<point<double>> bez_cp = { star(0),star(2),star(4),star(1),star(3)};
-	define _a = 600,_b=700;
-	std::vector<point<double>> bez_cp = { 
-		{_a,-160},{_b,-80},{_a,0}, {_b,80},  {_a,160},{_b,240},
-		{_a,320},{_b,400},{_a,480},{_b,560}, {_a,640},{_b,720},
-		{_a,800},{_b,880},{_a,960},{_b,1040},{_a,1120} };
-
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
-		//if (systems.keyboard.F3.down() || btn()) {
-		//	//btn.at({GetRand(1280 - 32) + 64,GetRand(960 - 32) + 64 });
-		//	systems.debug_mode ^= 1;
-		//	//btn.set_text(systems.debug_mode ? "release" : "debug");
-		//	pan.play();
-		//}
-
-		console >> std::format("{:2.2f} fps", systems.fps());
-		if (systems.debug_mode) {
-			//memory_disp = std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage());
-			//memory_disp.at({ 0,0 }).colored(pallet::white).draw();
-		}
-		console << systems.mouse.position();
-
-		//tex.at({ 128,128 }).centered({ 0,0 }).trans(false).draw();
-		//texp[5].at({ 256, 256 }).draw();
-		for (auto&& p : bez_cp) {
-			circle(8).at(p).colored(pallet::black).draw();
-		}
-		int deg = 2;
-		//circle(4).at(lerp::b_spline(bez_cp, t, 4)).colored(pallet::black).draw();
-		//circle(4).at(lerp::b_spline(bez_cp, t, 1)).colored(pallet::red).draw();
-		circle(4).at(lerp::b_spline(bez_cp, t, 2)).colored(pallet::yellow).draw();
-		//circle(4).at(lerp::b_spline(bez_cp, t, 3)).colored(pallet::white).draw();
-		//for (auto d = 1; d < bez_cp.size() - 1; d++) {
-			for (auto i = 1; i <= 100; i += 1) {
-				auto a = lerp::b_spline(bez_cp, i / 100.0 - 0.01, deg);
-				auto b = lerp::b_spline(bez_cp, i / 100.0, deg);
-				DrawLineAA(a.x, a.y, b.x, b.y, 0xffffff);
-			}
-		//}
-		/*for (auto i = 1; i <= 100; i += 1) {
-			auto a = lerp::bezier(bez_cp, i / 100.0 - 0.01);
-			auto b = lerp::bezier(bez_cp, i / 100.0);
-			DrawLineAA(a.x, a.y, b.x, b.y, 0xff0000);
-		}*/
-		//auto d = degree(5);
-		t += 0.002;
-		t = fmod(t, 1.0);
+		
+		console << std::format("{:5.2f}fps", systems.fps());
 	}
 
 	return 0;

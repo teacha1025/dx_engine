@@ -12,6 +12,7 @@
 namespace dx_engine {
 	using uint = unsigned int;
 	using ulong = unsigned long;
+	using ulonglong = unsigned long long;
 
 	define PI = std::numbers::pi;
 	define PI_F = std::numbers::pi_v<float>;
@@ -88,6 +89,7 @@ namespace dx_engine {
 
 
 	define ENGINE = 0x00107;
+	define ENGINE_S = "1.07";
 
 
 }

@@ -2,9 +2,11 @@
 #include <DxLib.h>
 #include "../details/animation.h"
 #include "../details/range.h"
-
+#include "../details/logger.h"
 
 namespace dx_engine {
+	extern logger log;
+
 	animation::animation(const std::string& path, const point<uint>& div) {
 		_tex = texture(path, div);
 	}

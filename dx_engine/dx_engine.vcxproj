@@ -99,6 +99,7 @@
       <AdditionalIncludeDirectories>..\libs</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -123,6 +124,7 @@
       <AdditionalIncludeDirectories>..\libs</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -147,6 +149,7 @@
       <AdditionalIncludeDirectories>..\libs</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -171,6 +174,7 @@
       <AdditionalIncludeDirectories>..\libs</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -203,6 +207,7 @@
     <ClCompile Include="functions.cpp" />
     <ClCompile Include="key.cpp" />
     <ClCompile Include="line.cpp" />
+    <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mouse.cpp" />
     <ClCompile Include="rect.cpp" />
@@ -224,7 +229,6 @@
     <ClInclude Include="..\details\console.h" />
     <ClInclude Include="..\details\coroutines.h" />
     <ClInclude Include="..\details\csv.h" />
-    <ClInclude Include="..\details\def.h" />
     <ClInclude Include="..\details\details.h" />
     <ClInclude Include="..\details\device.h" />
     <ClInclude Include="..\details\device_base.h" />
@@ -235,6 +239,7 @@
     <ClInclude Include="..\details\gui.h" />
     <ClInclude Include="..\details\heads.h" />
     <ClInclude Include="..\details\key.h" />
+    <ClInclude Include="..\details\logger.h" />
     <ClInclude Include="..\details\mouse.h" />
     <ClInclude Include="..\details\pallet.h" />
     <ClInclude Include="..\details\point.h" />

@@ -10,6 +10,7 @@
 #include <DxLib.h>
 
 #include "def.h"
+#include "logger.h"
 #include "details.h"
 #include "console.h"
 #include "draw_param.h"
@@ -43,4 +44,5 @@ namespace dx_engine {
 	extern detail::_window window;
 	extern detail::_console console;
 	extern detail::_file file;
+	extern logger log;
 }

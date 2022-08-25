@@ -3,12 +3,17 @@
 #include "../details/audio.h"
 #include "../details/range.h"
 #include "../details/file.h"
-
+#include "../details/logger.h"
 
 namespace dx_engine {
+	extern logger log;
+
 	extern detail::_file file;
 	audio::audio(const std::string& path, bool loop) {
 		_handle = LoadSoundMemByMemImage(file.get(path).data(), file.get(path).size());
+		if (_handle <= 0) {
+			log.error("‰¹º " + path + " ‚Í“Ç‚Ýž‚ß‚Ü‚¹‚ñ");
+		}
 		_loop = loop;
 		ChangeVolumeSoundMem((int)(_volume * (235 + (abs(_pan)) * 20)), _handle);
 		ChangePanSoundMem((int)(_pan * 255), _handle);

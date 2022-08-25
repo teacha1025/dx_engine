@@ -12,14 +12,18 @@
 
 #include "../details/encryption.h"
 
+#include "../details/logger.h"
+
 namespace dx_engine {
+	extern logger log;
+
 	namespace detail {
 
 		void _file::load(const std::string& path) {
 			std::ifstream idata;
 			idata.open(path, std::ios::binary);
 			if (!idata) {
-				//log.error("ファイル " + path + " の読み込みに失敗");
+				log.error("ファイル " + path + " の読み込みに失敗");
 				return;
 			}
 
@@ -57,7 +61,7 @@ namespace dx_engine {
 				use_archive = true;
 			}
 			catch (...) {
-				//log.error("不正なファイルです");
+				log.error(path + " は不正なファイルです");
 			}
 		}
 
@@ -69,7 +73,7 @@ namespace dx_engine {
 				std::ifstream idata;
 				idata.open(path, std::ios::binary);
 				if (!idata) {
-					//log.error("�t�@�C�� " + path + " �̓ǂݍ��݂Ɏ��s");
+					log.error("ファイル " + path + " の読み込みに失敗");
 					return;
 				}
 
@@ -101,13 +105,13 @@ namespace dx_engine {
 							sb = body.substr(c, size);
 							c += size;
 						}
-						
+
 						this->data.insert(std::make_pair(h[i + 1], sb));
 					}
 					use_archive = true;
 				}
 				catch (...) {
-					//log.error("�s���ȃt�@�C���ł�");
+					log.error(path + " は不正なファイルです");
 				}
 			};
 
@@ -124,7 +128,7 @@ namespace dx_engine {
 				std::ifstream idata;
 				idata.open(path, std::ios::binary);
 				if (!idata) {
-					//log.error("\t�t�@�C�� " + path + " �̓ǂݍ��݂Ɏ��s");
+					log.error("ファイル " + path + " は見つかりません");
 					return std::string();
 				}
 				std::stringstream sdata;

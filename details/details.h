@@ -67,6 +67,8 @@ namespace dx_engine {
 			point<uint> _size = { 1280, 960 };
 			bool _fullscreen = false, _vsync = false;
 			float _rate;
+			std::string _title;
+			color bg;
 		public:
 			void background(const color& bg);
 			void title(const std::string& title);
@@ -80,7 +82,7 @@ namespace dx_engine {
 			void extends(float rate);
 			float extends() const;
 
-			
+			void init();
 		};
 
 		
