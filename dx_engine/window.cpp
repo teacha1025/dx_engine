@@ -36,6 +36,10 @@ namespace dx_engine {
 		}
 
 		void _window::init() {
+			if (_fullscreen) {
+				SetFullScreenResolutionMode(DX_FSRESOLUTIONMODE_MAXIMUM);
+				//https://dxlib.xsrv.jp/cgi/patiobbs/patio.cgi?mode=past&no=2506
+			}
 			SetGraphMode(_size.x, _size.y, 32);
 			SetBackgroundColor(SCAST(int, bg.r), SCAST(int, bg.g), SCAST(int, bg.b));
 			SetWindowSize((int)(_size.x * _rate), (int)(_size.y * _rate));

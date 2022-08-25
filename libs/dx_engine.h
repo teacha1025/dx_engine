@@ -19,3 +19,6 @@
 #ifdef SCAST
 #undef SCAST
 #endif 
+#ifdef EXPECT
+#undef EXPECT
+#endif

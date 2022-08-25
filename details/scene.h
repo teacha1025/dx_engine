@@ -6,6 +6,7 @@
 #include <cassert>
 #include "pallet.h"
 #include "details.h"
+#include "exception.h"
 
 #define SCENE_CONSTRUCTOR(cls) cls()=default;cls(const data_s& data){ constructor(data); init();}
 
@@ -97,8 +98,8 @@ namespace dx_engine {
 		std::map<identifier, factor> _factorhash;
 
 		data_ptr _pdata;
-		identifier _current_id;
-		identifier _next_id;
+		identifier _current_id = UINT_MAX;
+		identifier _next_id = UINT_MAX;
 		scene_ptr _p_current_scene;
 		scene_ptr _p_next_scene;
 
@@ -146,13 +147,23 @@ namespace dx_engine {
 		}
 
 		void set(const identifier& _id) {
-			assert(_id != UINT_MAX);
+			if (_id == UINT_MAX) {
+				throw EXCEPT("Cannot register UINT_MAX as Scene ID.");
+			}
+			if (!_scenehash.contains(_id)) {
+				throw EXCEPT(std::format("Scene ID :{} is not registered.", _id));
+			}
 			_current_id = _id;
 			_p_current_scene = _scenehash[_id];
 		}
 
 		void change(const identifier& _id, const unsigned int& FadeInOutCount = 60, bool make_new_next_scene = false) {
-			assert(_id != UINT_MAX);
+			if (_id == UINT_MAX) {
+				throw EXCEPT("Cannot register UINT_MAX as Scene ID.");
+			}
+			if (!_scenehash.contains(_id)) {
+				throw EXCEPT(std::format("Scene ID :{} is not registered.", _id));
+			}
 			_next_id = _id;
 			_p_next_scene = make_new_next_scene ? _factorhash[_id]() : _scenehash[_id];
 			_fade_count = FadeInOutCount;
@@ -161,7 +172,9 @@ namespace dx_engine {
 
 		template<class scenes_t>
 		void add(const identifier& _id) {
-			assert(_id != UINT_MAX);
+			if (_id == UINT_MAX) {
+				throw EXCEPT("Cannot register UINT_MAX as Scene ID.");
+			}
 			typename scenes_t::data_s scene_data_t(this, _pdata, _id);
 
 			auto make_scene_ptr = [=]() {
@@ -177,10 +190,17 @@ namespace dx_engine {
 				_scenehash.emplace(_id, make_scene_ptr());
 				_factorhash.emplace(_id, make_scene_ptr);
 			}
+
+			if (!_p_current_scene) {
+				set(_id);
+			}
 		}
 
 
 		void update() {
+			if (!_p_current_scene) {
+				throw EXCEPT("Scene Ptr is null.");
+			}
 			switch (_scene_state) {
 			case none: {
 				_fade_counter = 0;

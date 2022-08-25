@@ -10,6 +10,7 @@
 #include <DxLib.h>
 
 #include "def.h"
+#include "exception.h"
 #include "logger.h"
 #include "details.h"
 #include "console.h"

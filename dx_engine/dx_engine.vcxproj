@@ -234,6 +234,7 @@
     <ClInclude Include="..\details\device_base.h" />
     <ClInclude Include="..\details\draw_param.h" />
     <ClInclude Include="..\details\event.h" />
+    <ClInclude Include="..\details\exception.h" />
     <ClInclude Include="..\details\file.h" />
     <ClInclude Include="..\details\functions.h" />
     <ClInclude Include="..\details\gui.h" />

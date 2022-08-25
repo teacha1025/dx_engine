@@ -28,23 +28,17 @@ namespace dx_engine {
 		}
 	}
 	int logger::init() {
-		auto ccc = std::chrono::system_clock::now();
 		if (!flag) return 0;
 		SetApplicationLogFileName(filename.c_str());
 		if (original) { 
 			SetOutApplicationLogValidFlag(TRUE);
-			add("log init");
 			return 0;
 		}
 		SetOutApplicationLogValidFlag(FALSE);
-		auto ddd = std::chrono::system_clock::now();
 		//namespace chrono = std::chrono;
-		//chrono::sys_seconds now_sec = chrono::floor<chrono::seconds>(chrono::system_clock::now()); // 秒単位
-
-		//chrono::local_seconds lt = chrono::zoned_seconds{ "Asia/Tokyo", now_sec }.get_local_time();
+		//chrono::local_seconds lt = chrono::zoned_seconds{ "Asia/Tokyo", chrono::floor<chrono::seconds>(chrono::system_clock::now()) }.get_local_time();
 
 		auto e = fopen_s(&fp, filename.c_str(), "w");
-		auto eee = std::chrono::system_clock::now();
 		if (e != 0) {
 			while (true) {
 				OutputDebugString("ログファイルの作成に失敗");
@@ -57,7 +51,7 @@ namespace dx_engine {
 					if (e != 0) continue;
 					else {
 						//add("起動時刻 " + std::format("{:%Y/%m/%d %X}  Lib version: {:x}", lt, dx_engine::ENGINE));
-						add(std::format("起動Lib version: {}", dx_engine::ENGINE_S));
+						add(std::format("起動 Lib version: {}", dx_engine::ENGINE_S));
 						return 0;
 					}
 				}
@@ -69,12 +63,7 @@ namespace dx_engine {
 		}
 		else {
 			//add(std::format("起動時刻 {:%Y/%m/%d %X}  Lib version: {}", lt, dx_engine::ENGINE_S));
-			add(std::format("起動Lib version: {}",dx_engine::ENGINE_S));
-			auto fff = std::chrono::system_clock::now();
-			auto c = std::chrono::duration_cast<std::chrono::microseconds>(fff- ccc);
-			auto d = std::chrono::duration_cast<std::chrono::microseconds>(fff- ddd);
-			auto e = std::chrono::duration_cast<std::chrono::microseconds>(fff- eee);
-			add(std::format("c={},d={},e={}", c.count(), d.count(), e.count()));
+			add(std::format("起動 Lib version: {}",dx_engine::ENGINE_S));
 			return 0;
 		}
 

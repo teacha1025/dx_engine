@@ -2,7 +2,7 @@
 #include "device_base.h"
 namespace dx_engine {
 	namespace detail {
-		class _mouse : public _device_base {
+		class _mouse : public input_base {
 		public:
 			_mouse(const unsigned int Code);
 			_mouse() {}

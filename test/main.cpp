@@ -6,7 +6,7 @@ define N = 60.0;
 
 void init() {
 	dx_engine::log.set(true, true);
-	window.fullscreen(false);
+	window.fullscreen(true);
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
@@ -19,82 +19,49 @@ void init() {
 
 class testscene : public scene<> {
 private:
-	text testtext;
 	uint counter = 0;
-	task updater{ c_update()};
-	clock::stopwatch sw;
-	uint i = 0;
 public:
 	SCENE_CONSTRUCTOR(testscene)
 
 	virtual void init() override {
-		//sw.restart();
-	}
-
-	task c_update() {
-		uint i = 0;
-		while (1) {
-			testtext = i;
-			co_yield coroutines::wait(60);
-			i++;
-		}
+		counter = 0;
 	}
 
 	virtual void draw() override {
-		rect({ 32,32 }).at(window.size() / 2).colored(pallet::red).draw();
-		testtext.colored(pallet::red).at({0,160}).draw();
+		rect({ 32,32 }).at({ counter % 1280,counter / 980 }).colored(pallet::red).draw();
+		console << counter;
+		console << std::format("scene:{}", id());
 	}
 
 	virtual void update() override {
-		//updater.next();
-		/*if (systems.keyboard.Return.down()) {
-			sw.restart();
-			i = 0;
-		}
-		auto v = i++ / N - sw.get_sec();
-		console << v << v / sw.get_sec();*/
-
+		counter++;
 		if (systems.keyboard.Num2.down()) {
-			change_scene(2);
+			change_scene(2, 60, false);
 		}
-
-		
 	}
 };
 
 class testscene2 : public scene<> {
 private:
-	text testtext;
 	uint counter = 0;
-	task updater{ c_update() };
 public:
 	SCENE_CONSTRUCTOR(testscene2)
 
 	virtual void init() override {
-
-	}
-
-	task c_update() {
-		uint i = 0;
-		while (1) {
-			testtext = i;
-			co_yield coroutines::wait(60);
-			i++;
-		}
+		counter = 0;
 	}
 
 	virtual void draw() override {
-		//rect({ 32,32 }).at(window.size() / 2).colored(pallet::red).draw();
-		circle(32).at(window.size() / 2.0f).colored(pallet::white).fill(false).draw();
-		testtext.colored(pallet::green).at({0,160}).draw();
+		rect({ 32,32 }).at({ counter % 1280,counter / 980 }).colored(pallet::green).draw();
+		console << counter;
+		console << std::format("scene:{}", id());
 	}
 
 	virtual void update() override {
-		updater.next();
-
 		if (systems.keyboard.Num1.down()) {
-			change_scene(1,40);
+			change_scene(1,40, true);
 		}
+		counter++;
 	}
 };
 
@@ -134,11 +101,15 @@ struct save_struct {
 };
 
 int main() {
-	
+	scene_manager scenemanager;
+	scenemanager.add<testscene>(1);
+	scenemanager.add<testscene2>(2);
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		
 		console << std::format("{:5.2f}fps", systems.fps());
+
+		scenemanager.update();
 	}
 
 	return 0;
