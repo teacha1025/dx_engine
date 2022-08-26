@@ -44,6 +44,7 @@ namespace dx_engine {
 			else {
 				SetDrawScreen(DX_SCREEN_BACK);
 			}
+			SetBackgroundColor(SCAST(int, bg.r), SCAST(int, bg.g), SCAST(int, bg.b));
 		}
 		void _window::init() {
 			
@@ -67,15 +68,14 @@ namespace dx_engine {
 				}
 				SetWindowPosition(RectX, RectY);
 				if (_screentype == fullscreen_type::fullscreen_dotbydot || _screentype == fullscreen_type::fullscreen_full || _screentype == fullscreen_type::fullscreen_flexible) {
-					SetGraphMode(_size.x, _size.y, 32);
+					//SetGraphMode(_size.x, _size.y, 32);
 					ChangeWindowMode(FALSE);
-					SetDrawScreen(DX_SCREEN_BACK);
 				}
 				else {
 					ChangeWindowMode(TRUE);
 					SetWindowStyleMode(1);
-					SetGraphMode(_monitor_size.x, _monitor_size.y, 32);
 				}
+				SetGraphMode(_monitor_size.x, _monitor_size.y, 32);
 				/*switch (_screentype) {
 				case fullscreen_type::borderless_dotbydot: {
 
@@ -110,7 +110,7 @@ namespace dx_engine {
 				SetDrawScreen(DX_SCREEN_BACK);
 			}
 			
-			SetBackgroundColor(SCAST(int, bg.r), SCAST(int, bg.g), SCAST(int, bg.b));
+			
 			
 			
 			SetWindowTextDX(_title.c_str());
@@ -126,7 +126,7 @@ namespace dx_engine {
 					SetDrawScreen(DX_SCREEN_BACK);
 					ClearDrawScreen();
 					DrawBox(0, 0, _monitor_size.x, _monitor_size.y, 0, TRUE);
-					DrawRotaGraph(_monitor_size.x / 2, _monitor_size.y / 2, 1.0f, 0.0f, _mainscreen, FALSE, FALSE);
+					DrawRotaGraph(_monitor_size.x / 2, _monitor_size.y / 2, _rate, 0.0f, _mainscreen, FALSE, FALSE);
 					SetDrawScreen(_mainscreen);
 					break;
 				}
@@ -150,7 +150,7 @@ namespace dx_engine {
 					SetDrawScreen(DX_SCREEN_BACK);
 					ClearDrawScreen();
 					DrawBox(0, 0, _monitor_size.x, _monitor_size.y, 0, TRUE);
-					DrawRotaGraph(_monitor_size.x / 2, _monitor_size.y / 2, 1.0f, 0.0f, _mainscreen, FALSE, FALSE);
+					DrawRotaGraph(_monitor_size.x / 2, _monitor_size.y / 2, _rate, 0.0f, _mainscreen, FALSE, FALSE);
 					SetDrawScreen(_mainscreen);
 					break;
 				}

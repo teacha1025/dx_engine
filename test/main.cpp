@@ -7,11 +7,11 @@ define N = 60.0;
 
 void init() {
 	dx_engine::log.set(true, false);
-	window.fullscreen(false);
+	window.fullscreen(true, fullscreen_type::borderless_dotbydot);
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
-	window.extends(systems.monitor_size().x / 1920.0f);
+	window.extends(1);
 	//file.load("resource.dat");
 
 	//systems.vsync(false);

@@ -14,6 +14,15 @@
 #include "range.h"
 
 namespace dx_engine {
+
+	enum class fullscreen_type {
+		borderless_dotbydot,	//ボーダーレスウィンドウ　DOTbyDOT
+		borderless_full,		//ボーダーレスウィンドウ　最大表示
+		borderless_flexible,	//ボーダーレスウィンドウ　画面全体に引き延ばす
+		fullscreen_dotbydot,	//フルスクリーン　DOTbyDOT
+		fullscreen_full,		//フルスクリーン　最大表示
+		fullscreen_flexible,	//フルスクリーン　画面全体に引き延ばす
+	};
 	namespace detail {
 
 		class _system final {
@@ -62,14 +71,7 @@ namespace dx_engine {
 			~_system();
 		};
 
-		enum class fullscreen_type {
-			borderless_dotbydot,	//ボーダーレスウィンドウ　DOTbyDOT
-			borderless_full,		//ボーダーレスウィンドウ　最大表示
-			borderless_flexible,	//ボーダーレスウィンドウ　画面全体に引き延ばす
-			fullscreen_dotbydot,	//フルスクリーン　DOTbyDOT
-			fullscreen_full,		//フルスクリーン　最大表示
-			fullscreen_flexible,	//フルスクリーン　画面全体に引き延ばす
-		};
+		
 
 		class _window final {
 		private:
