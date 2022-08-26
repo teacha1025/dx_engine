@@ -6,7 +6,7 @@ using namespace dx_engine;
 define N = 60.0;
 
 void init() {
-	dx_engine::log.set(true, true);
+	dx_engine::log.set(true, false);
 	window.fullscreen(false);
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
@@ -27,7 +27,6 @@ public:
 
 	virtual void init() override {
 		counter = 0;
-		aaa = systems.keyboard.A | systems.keyboard.B;
 	}
 
 	virtual void draw() override {
@@ -40,15 +39,6 @@ public:
 		counter++;
 		if (systems.keyboard.Num2.down()) {
 			change_scene(2, 60, false);
-		}
-		if (aaa.press()) {
-			console << "ab";
-		}
-		if (systems.keyboard.A.press()) {
-			console << "A";
-		}
-		if (systems.keyboard.B.press()) {
-			console << "B";
 		}
 	}
 };

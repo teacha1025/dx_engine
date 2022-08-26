@@ -106,7 +106,7 @@ namespace dx_engine {
 				console.update(window.size());
 			}
 
-			return ProcessMessage() == 0 && ScreenFlip() == 0 && ClearDrawScreen() == 0;
+			return ProcessMessage() == 0 && window.update();
 		}
 
 		float _system::delta_sec() const {

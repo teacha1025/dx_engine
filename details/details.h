@@ -62,6 +62,15 @@ namespace dx_engine {
 			~_system();
 		};
 
+		enum class fullscreen_type {
+			borderless_dotbydot,	//ボーダーレスウィンドウ　DOTbyDOT
+			borderless_full,		//ボーダーレスウィンドウ　最大表示
+			borderless_flexible,	//ボーダーレスウィンドウ　画面全体に引き延ばす
+			fullscreen_dotbydot,	//フルスクリーン　DOTbyDOT
+			fullscreen_full,		//フルスクリーン　最大表示
+			fullscreen_flexible,	//フルスクリーン　画面全体に引き延ばす
+		};
+
 		class _window final {
 		private:
 			point<uint> _size = { 1280, 960 };
@@ -69,11 +78,15 @@ namespace dx_engine {
 			float _rate;
 			std::string _title;
 			color bg;
+			fullscreen_type _screentype;
+
+			int _mainscreen;
+			point<int> _monitor_size, _letterbox_size;
 		public:
 			void background(const color& bg);
 			void title(const std::string& title);
 
-			void fullscreen(bool flag);
+			void fullscreen(bool flag, fullscreen_type type = fullscreen_type::borderless_dotbydot);
 			bool fullscreen() const;
 
 			void size(const point<uint>& size);
@@ -82,7 +95,10 @@ namespace dx_engine {
 			void extends(float rate);
 			float extends() const;
 
+			bool update();
+
 			void init();
+			void init2();
 		};
 
 		

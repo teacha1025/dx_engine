@@ -20,8 +20,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			dx_engine::log.critical("DxLib‚Ì‰Šú‰»‚É¸”s");
 			return -1;
 		}
-
-		SetDrawScreen(DX_SCREEN_BACK);
+		dx_engine::window.init2();
 		dx_engine::log.info("DxLib‚Ì‰Šú‰»Š®—¹");
 		dx_engine::console.init(dx_engine::window.size());
 
