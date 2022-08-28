@@ -1,13 +1,17 @@
 #if 1
 #include "dx_engine.h"
 
+namespace dx_engine {
+
+}
+
 using namespace dx_engine;
 
 define N = 60.0;
 
 void init() {
 	dx_engine::log.set(true, false);
-	window.fullscreen(true, fullscreen_type::borderless_dotbydot);
+	window.fullscreen(false, fullscreen_type::borderless_dotbydot);
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
@@ -17,15 +21,20 @@ void init() {
 	//systems.vsync(false);
 	//systems.max_fps(N);
 }
-
+#define KEY systems.keyboard
 class testscene : public scene<> {
 private:
 	uint counter = 0;
-	inputs aaa;
+
+	inputs a, b;
+	
+	inputs aaa = (KEY.X | KEY.Z) & (KEY.N | KEY.M) & (KEY.S & KEY.T | KEY.U);
 public:
 	SCENE_CONSTRUCTOR(testscene)
 
 	virtual void init() override {
+		a = KEY.A;
+		b = a;
 		counter = 0;
 	}
 
@@ -40,9 +49,21 @@ public:
 		if (systems.keyboard.Num2.down()) {
 			change_scene(2, 60, false);
 		}
+		if (aaa.press()) {
+			console << "test inputs";
+		}
+		if (a.press()) {
+			console << "a";
+		}
+		if (b.press()) {
+			console << "b";
+		}
+		if ((KEY.A & KEY.D | KEY.B & KEY.C).press()) {
+			console << "aaa";
+		}
 	}
 };
-
+#undef KEY
 class testscene2 : public scene<> {
 private:
 	uint counter = 0;
@@ -110,7 +131,6 @@ int main() {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		
 		console << std::format("{:5.2f}fps", systems.fps());
-
 		scenemanager.update();
 	}
 

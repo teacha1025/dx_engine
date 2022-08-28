@@ -7,9 +7,43 @@ namespace dx_engine {
 	extern logger log;
 }
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd) {
+#ifndef DISABLE_SEH_DETECT
 	_set_se_translator([](unsigned int code, _EXCEPTION_POINTERS* ep) -> void {
-		throw std::exception(std::to_string(code).c_str());
+		std::string exp = "";
+		switch (code){
+		case EXCEPTION_FLT_DIVIDE_BY_ZERO:
+		case EXCEPTION_INT_DIVIDE_BY_ZERO:
+			exp = "0による除算";
+			break;
+		case EXCEPTION_ACCESS_VIOLATION:
+			exp = "アクセス違反";
+			break;
+		case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
+			exp = "範囲外アクセス";
+			break;
+		case EXCEPTION_INT_OVERFLOW:
+		case EXCEPTION_FLT_OVERFLOW:
+			exp = "オーバーフロー";
+			break;
+		case EXCEPTION_FLT_UNDERFLOW:
+			exp = "アンダーフロー";
+			break;
+		case EXCEPTION_INVALID_HANDLE:
+			exp = "無効なハンドル";
+			break;
+		case EXCEPTION_STACK_OVERFLOW:
+			exp = "スタックオーバーフロー";
+			break;
+		case 0xE06D7363:
+			exp = "C++ Exception";
+			break;
+		default:
+			exp = "unknown";
+			break;
+		}
+		throw std::exception(std::format("SEH code:0x{:X}  {}", code, exp).c_str());
 		});
+#endif
 	try{
 		init();
 		dx_engine::log.init();
@@ -25,7 +59,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		dx_engine::console.init(dx_engine::window.size());
 
 		auto ret = main();
-		dx_engine::log.info("終了");
+		dx_engine::log.info(std::format("終了 コード:{}", ret));
 		return 0;
 	}
 	catch (std::exception e) {

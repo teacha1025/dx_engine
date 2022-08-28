@@ -17,6 +17,7 @@ namespace dx_engine {
 
 	logger::logger() {
 		_startup_count = std::chrono::system_clock::now();
+		fp = nullptr;
 	}
 	logger::~logger() {
 		if (!flag && original) return;
@@ -35,8 +36,8 @@ namespace dx_engine {
 			return 0;
 		}
 		SetOutApplicationLogValidFlag(FALSE);
-		//namespace chrono = std::chrono;
-		//chrono::local_seconds lt = chrono::zoned_seconds{ "Asia/Tokyo", chrono::floor<chrono::seconds>(chrono::system_clock::now()) }.get_local_time();
+		namespace chrono = std::chrono;
+		chrono::local_seconds lt = chrono::zoned_seconds{ "Asia/Tokyo", chrono::floor<chrono::seconds>(chrono::system_clock::now()) }.get_local_time();
 
 		auto e = fopen_s(&fp, filename.c_str(), "w");
 		if (e != 0) {
@@ -50,8 +51,8 @@ namespace dx_engine {
 					e = fopen_s(&fp, filename.c_str(), "w");
 					if (e != 0) continue;
 					else {
-						//add("起動時刻 " + std::format("{:%Y/%m/%d %X}  Lib version: {:x}", lt, dx_engine::ENGINE));
-						add(std::format("起動 Lib version: {}", dx_engine::ENGINE_S));
+						add(std::format("起動時刻 {:%Y/%m/%d %X}  Lib version: {}", lt, dx_engine::ENGINE_S));
+						//add(std::format("起動 Lib version: {}", dx_engine::ENGINE_S));
 						return 0;
 					}
 				}
@@ -62,8 +63,8 @@ namespace dx_engine {
 			}
 		}
 		else {
-			//add(std::format("起動時刻 {:%Y/%m/%d %X}  Lib version: {}", lt, dx_engine::ENGINE_S));
-			add(std::format("起動 Lib version: {}",dx_engine::ENGINE_S));
+			add(std::format("起動時刻 {:%Y/%m/%d %X}  Lib version: {}", lt, dx_engine::ENGINE_S));
+			//add(std::format("起動 Lib version: {}",dx_engine::ENGINE_S));
 			return 0;
 		}
 

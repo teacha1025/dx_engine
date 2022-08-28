@@ -45,7 +45,7 @@ namespace dx_engine {
 
 				auto h = split(head, '\"', false);
 				int c = 0;
-				for (uint i = 0; i < h.size(); i += 2) {
+				for (size_t i = 0; i < h.size(); i += 2) {
 					std::string sb;
 					if (i + 2 > h.size()) {
 						sb = body.substr(c);
@@ -95,7 +95,7 @@ namespace dx_engine {
 
 					auto h = split(head, '\"', false);
 					int c = 0;
-					for (uint i = 0; i < h.size(); i += 2) {
+					for (size_t i = 0; i < h.size(); i += 2) {
 						std::string sb;
 						if (i + 2 > h.size()) {
 							sb = body.substr(c);

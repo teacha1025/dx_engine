@@ -249,7 +249,7 @@ namespace dx_engine {
 			}
 
 			point<int> mouse::position() const {
-				point<int> p;
+				point<int> p{};
 				GetMousePoint(&p.x, &p.y);
 
 				return { p.x, p.y };

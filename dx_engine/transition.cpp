@@ -31,7 +31,7 @@ namespace dx_engine {
 	double B_base(int i, int m, double _t, const std::vector<float>& knot_vector) {
 		double w1 = 0.0f, w2 = 0.0f;
 		if (m == 0) {
-			if (knot_vector[i] <= _t && _t <= knot_vector[i + 1]) {
+			if (knot_vector[i] <= _t && _t <= knot_vector[(size_t)(i + 1)]) {
 				return 1.0f;
 			}
 			else {
@@ -39,8 +39,8 @@ namespace dx_engine {
 			}
 		}
 		else {
-			w1 = (_t - knot_vector[i]) / (knot_vector[i + m] - knot_vector[i]) * B_base(i, m - 1, _t, knot_vector);
-			w2 = (knot_vector[i + m + 1] - _t) / (knot_vector[i + m + 1] - knot_vector[i + 1]) * B_base(i + 1, m - 1, _t, knot_vector);
+			w1 = (_t - knot_vector[i]) / (knot_vector[(size_t)(i + 1)] - knot_vector[i]) * B_base(i, m - 1, _t, knot_vector);
+			w2 = (knot_vector[(size_t)(i + m + 1)] - _t) / (knot_vector[(size_t)(i + m + 1)] - knot_vector[(size_t)(i + 1)]) * B_base(i + 1, m - 1, _t, knot_vector);
 
 			w1 = isnan(w1) ? 0.0f : w1;
 			w2 = isnan(w2) ? 0.0f : w2;
@@ -177,7 +177,7 @@ namespace dx_engine {
 			}
 
 			point<double> p{ 0,0 };
-			for (int j = 0; j < cp.size(); j++) {
+			for (int j = 0; j < (int)cp.size(); j++) {
 				p += cp[j] * B_base(j, _degree, _t, knot_vector);
 			}
 

@@ -6,6 +6,7 @@
 #include <cassert>
 #include "pallet.h"
 #include "details.h"
+#include "exception.h"
 
 #define SCENE_CONSTRUCTOR(cls) cls()=default;cls(const data_s& data){ constructor(data); init();}
 
@@ -44,8 +45,8 @@ namespace dx_engine {
 			return _id;
 		}
 
-		void change_scene(const identifier& _id, const unsigned int& fadeinout_count = 60) const {
-			_scn_mng->change(_id, fadeinout_count);
+		void change_scene(const identifier& _id, const unsigned int& fadeinout_count = 60, bool make_new_next_scene = false) const {
+			_scn_mng->change(_id, fadeinout_count, make_new_next_scene);
 		}
 
 		data_ptr data() const {
@@ -92,11 +93,13 @@ namespace dx_engine {
 		using identifier = unsigned int;
 		using scene_ptr = std::shared_ptr<scene<data>>;
 		using data_ptr = std::shared_ptr<data>;
+		using factor = std::function<scene_ptr()>;
 		std::map<identifier, scene_ptr> _scenehash;
+		std::map<identifier, factor> _factorhash;
 
 		data_ptr _pdata;
-		identifier _current_id;
-		identifier _next_id;
+		identifier _current_id = UINT_MAX;
+		identifier _next_id = UINT_MAX;
 		scene_ptr _p_current_scene;
 		scene_ptr _p_next_scene;
 
@@ -144,39 +147,60 @@ namespace dx_engine {
 		}
 
 		void set(const identifier& _id) {
-			assert(_id != UINT_MAX);
+			if (_id == UINT_MAX) {
+				throw EXCEPT("Cannot register UINT_MAX as Scene ID.");
+			}
+			if (!_scenehash.contains(_id)) {
+				throw EXCEPT(std::format("Scene ID :{} is not registered.", _id));
+			}
 			_current_id = _id;
 			_p_current_scene = _scenehash[_id];
 		}
 
-		void change(const identifier& _id, const unsigned int& FadeInOutCount = 60) {
-			assert(_id != UINT_MAX);
+		void change(const identifier& _id, const unsigned int& FadeInOutCount = 60, bool make_new_next_scene = false) {
+			if (_id == UINT_MAX) {
+				throw EXCEPT("Cannot register UINT_MAX as Scene ID.");
+			}
+			if (!_scenehash.contains(_id)) {
+				throw EXCEPT(std::format("Scene ID :{} is not registered.", _id));
+			}
 			_next_id = _id;
-			_p_next_scene = _scenehash[_id];
+			_p_next_scene = make_new_next_scene ? _factorhash[_id]() : _scenehash[_id];
 			_fade_count = FadeInOutCount;
 			_scene_state = fadeout;
 		}
 
 		template<class scenes_t>
 		void add(const identifier& _id) {
-			assert(_id != UINT_MAX);
+			if (_id == UINT_MAX) {
+				throw EXCEPT("Cannot register UINT_MAX as Scene ID.");
+			}
 			typename scenes_t::data_s scene_data_t(this, _pdata, _id);
 
 			auto make_scene_ptr = [=]() {
 				return std::make_shared<scenes_t>(scene_data_t);
 			};
 
-			auto r = _scenehash.find(_id);
-			if (r != _scenehash.end()) {
+			auto it = _scenehash.find(_id);
+			if (it != _scenehash.end()) {
 				_scenehash[_id] = make_scene_ptr();
+				_factorhash[_id] = make_scene_ptr;
 			}
 			else {
-				_scenehash.insert(std::make_pair(_id, make_scene_ptr()));
+				_scenehash.emplace(_id, make_scene_ptr());
+				_factorhash.emplace(_id, make_scene_ptr);
+			}
+
+			if (!_p_current_scene) {
+				set(_id);
 			}
 		}
 
 
 		void update() {
+			if (!_p_current_scene) {
+				throw EXCEPT("Scene Ptr is null.");
+			}
 			switch (_scene_state) {
 			case none: {
 				_fade_counter = 0;
