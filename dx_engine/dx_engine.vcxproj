@@ -229,6 +229,7 @@
     <ClInclude Include="..\details\console.h" />
     <ClInclude Include="..\details\coroutines.h" />
     <ClInclude Include="..\details\csv.h" />
+    <ClInclude Include="..\details\def.h" />
     <ClInclude Include="..\details\details.h" />
     <ClInclude Include="..\details\device.h" />
     <ClInclude Include="..\details\device_base.h" />
@@ -244,6 +245,7 @@
     <ClInclude Include="..\details\mouse.h" />
     <ClInclude Include="..\details\pallet.h" />
     <ClInclude Include="..\details\point.h" />
+    <ClInclude Include="..\details\random.h" />
     <ClInclude Include="..\details\range.h" />
     <ClInclude Include="..\details\scene.h" />
     <ClInclude Include="..\details\shape.h" />
