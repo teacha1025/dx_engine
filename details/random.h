@@ -1,6 +1,9 @@
 #pragma once
 #include <random>
 #include "def.h"
+#include "color.h"
+#include "point.h"
+#include "range.h"
 
 
 namespace dx_engine {
@@ -13,16 +16,18 @@ namespace dx_engine {
 			random_core();
 			void set_seed(int seed);
 
-			template<std::integral T>
+			template<std::_Integer_like T>
 			T get(T min, T max) {
-				std::uniform_int_distribution<T> rand(min, max);
-				return rand(mt);
+				std::uniform_int_distribution<long long> rand((long long)min, (long long)max);
+				return (T)rand(mt);
 			}
 			template<std::floating_point T>
 			T get(T min, T max) {
 				std::uniform_real_distribution<T> rand(min, max);
 				return rand(mt);
 			}
+
+			bool prob(double p);
 		};
 		extern random_core rnd_core;
 	}
@@ -49,10 +54,23 @@ namespace dx_engine {
 			return detail::rnd_core.get<T>(0, max);
 		}
 
-		template<>
-		bool get<bool>(double p) {
-			double v = get<T>(0.0, 1.0);
-			return v <= p ? true : false;
+		bool probability(double p);
+
+		color colors(bool alpha = false);
+
+		template<Number T>
+		point<T> points(const point<T>& min, const point<T>& max) {
+			return point<T>{get<T>(min.x, max.x), get<T>(min.x, max.x)};
+		}
+
+		template<Number T>
+		point<T> points(const point<T>& max) {
+			return point<T>{get<T>(0, max.x), get<T>(0, max.x)};
+		}
+
+		template<auto minimum, decltype(minimum) maximum>
+		decltype(minimum) get(range<minimum, maximum> v) {
+			return get<decltype(minimum)>(minimum, maximum);
 		}
 	}
 }

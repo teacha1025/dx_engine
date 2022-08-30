@@ -9,7 +9,22 @@ namespace dx_engine {
 		void random_core::set_seed(int seed) {
 			mt = std::mt19937(seed);
 		}
+		bool random_core::prob(double p) {
+			std::bernoulli_distribution rnd(p);
+			return rnd(mt);
+		}
 
 		random_core rnd_core;
+	}
+
+	namespace random {
+		bool probability(double p) {
+			return detail::rnd_core.prob(p);
+		}
+
+		color colors(bool alpha) {
+			byte a = alpha ? 255 : get <byte>(0, 255);
+			return color{ get<byte>(0,255), get<byte>(0,255) ,get<byte>(0,255), a };
+		}
 	}
 }

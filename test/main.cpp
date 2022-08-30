@@ -128,19 +128,20 @@ int main() {
 	scenemanager.add<testscene>(1);
 	scenemanager.add<testscene2>(2);
 	using random_type = bool;
-	std::array<random_type, 5> rnd;
+	std::array<random_type, 10> rnd;
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		
 		console >> std::format("{:5.2f}fps", systems.fps());
 		scenemanager.update();
-
+		range<0, 5> r;
+		
 		if (systems.keyboard.Return.down()) {
-			for (auto&& i : step(5)) {
-				rnd[i] = random::get(0.7);
+			for (auto&& i : step(10)) {
+				rnd[i] = random::probability(0.5);
 			}
 		}
-		for (auto&& i : step(5)) {
+		for (auto&& i : step(10)) {
 			console << rnd[i];
 		}
 	}
