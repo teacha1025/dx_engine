@@ -210,6 +210,7 @@
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mouse.cpp" />
+    <ClCompile Include="random.cpp" />
     <ClCompile Include="rect.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="string.cpp" />

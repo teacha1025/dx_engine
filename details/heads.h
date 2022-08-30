@@ -37,6 +37,7 @@
 #include "functions.h"
 #include "transition.h"
 #include "csv.h"
+#include "random.h"
 
 
 
@@ -45,5 +46,6 @@ namespace dx_engine {
 	extern detail::_window window;
 	extern detail::_console console;
 	extern detail::_file file;
+	extern detail::random_core rnd_core;
 	extern logger log;
 }

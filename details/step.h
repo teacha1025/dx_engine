@@ -50,7 +50,7 @@ namespace dx_engine {
 	}
 
 	template <detail::Integer T>
-	detail::step<T> step(T number, T interval = 1) {
-		return detail::step<T>(number, interval);
+	detail::step<T> step(T number) {
+		return detail::step<T>(number, 1);
 	}
 }
