@@ -15,7 +15,7 @@ void init() {
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
-	window.extends(1);
+	window.extends(systems.monitor_size().x / 1920.0);
 	//file.load("resource.dat");
 
 	//systems.vsync(false);
@@ -131,9 +131,11 @@ int main() {
 	std::array<random_type, 10> rnd;
 
 	rect slider_rect{ point<uint>{32, 400} };
-	gui::slider<uint> slder(rect{ point<uint>{32, 400} }, {64,64},pallet::blue, 0, 255);
-	uint blue = 0;
-	slder.value(blue);
+	gui::slider<double> slder(rect{ point<uint>{600, 32} }, {64,128},pallet::blue, 0, 4);
+	double blue = 0;
+
+	gui::slider<uint> slder_r(rect{ point<uint>{600, 32} }, { 64,192 }, pallet::red, 0, 4);
+	uint red = 0;
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		
@@ -150,8 +152,10 @@ int main() {
 			console << rnd[i];
 		}
 
-		slder();
-		console << slder.value();
+		slder(blue);
+		slder_r(red);
+		console << blue;
+		console << red;
 	}
 
 	return 0;

@@ -1,3 +1,4 @@
+#include <time.h>
 #include "../details/random.h"
 
 namespace dx_engine {

@@ -107,6 +107,7 @@ namespace dx_engine {
 		protected:
 
 		public:
+			button() = default;
 			button(const shape& object, const std::string& t, bool enabled = true) {
 				this->button_object = object;
 				this->set_text(t);
@@ -128,18 +129,27 @@ namespace dx_engine {
 		class slider {
 		private:
 			T _min, _max;
-			button<rect> _bar;
+			rect _bar;
 			rect _fill_rect;
 			T _val;
 			point<uint> _position;
 			uint _length;
 
 			bool _mouse_down = false;
+			template <std::integral T>
+			T round(double v, T i) {
+				return std::round(v);
+			}
+			template <std::floating_point T>
+			T round(double v, T i) {
+				return v;
+			}
 		protected:
 
 		public:
 			slider(rect bar_rect, const point<uint>& pos, const color& fill_color = pallet::black, T min = 0.0, T max = 1.0) {
-				_bar = button<rect>(bar_rect.centered({ 0,bar_rect.size().y / 2.0 }).at(pos));
+				bar_rect.centered({ 0,bar_rect.size().y / 2.0 }).at(pos);
+				_bar = bar_rect;
 				_position = pos;
 				_length = bar_rect.size().x;
 				_min = min;
@@ -147,30 +157,40 @@ namespace dx_engine {
 				_val = (max + min) / 2.0;
 
 				_fill_rect = rect{};
-				_fill_rect.resize({bar_rect.size().x / 2.0, bar_rect.size().y}).centered({0,bar_rect.size().y / 2.0}).at(pos).colored(fill_color);
-				_bar.set_function_normal([&](rect, text) {this->_mouse_down = false; });
-				_bar.set_function_hovered([&](rect, text) {this->_mouse_down = false; });
-				_bar.set_function_pressed([&](rect, text) {this->_mouse_down = true; });
+				_fill_rect.resize({ bar_rect.size().x / 2.0, bar_rect.size().y }); _fill_rect.centered({ 0,bar_rect.size().y / 2.0 }).at(pos).colored(fill_color);
 			}
 
-			bool operator () () {
-
-				if (_mouse_down) {
-					auto d = systems.mouse.position().x - _position.x;
+			bool operator () (T& value) {
+				
+				if (systems.mouse.Left.down() && collision(_bar, systems.mouse.position())) {
+					_mouse_down = true;
+				}
+				if (systems.mouse.Left.press() && _mouse_down) {
+					uint d = 0;
+					if (systems.mouse.position().x > _position.x) {
+						d = std::clamp(systems.mouse.position().x - _position.x, 0u, (uint)_bar.size().x);
+					}
 					auto p = (double)d / _length;
-					_val = std::clamp((T)(p * (_max - _min) + _min), _min, _max);
+					_val = std::clamp((T)(round(p * (_max - _min) + _min, (T)0)), _min, _max);
+					value = _val;
+					auto sp = (double)(_val - _min) / (_max - _min);
+					_fill_rect.resize({ _bar.size().x * sp, _fill_rect.size().y});
+
+					_bar.draw();
+					_fill_rect.draw();
 					return true;
+				}
+				else {
+					_mouse_down = false;
+					auto sp = (double)(_val - _min) / (_max - _min);
+					_fill_rect.resize({ _bar.size().x * sp, _fill_rect.size().y });
+					_val = value;
+					_bar.draw();
+					_fill_rect.draw();
 				}
 				return false;
 			}
 
-			T value() const {
-				return _val;
-			}
-
-			void value(T v) {
-				_val = std::clamp(v, _min, _max);
-			}
 		};
 	}
 }
