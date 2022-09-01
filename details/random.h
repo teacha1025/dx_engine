@@ -12,7 +12,7 @@ namespace dx_engine {
 		private:
 			std::mt19937 mt;
 		public:
-			int seed = -1;
+			int seed;
 			random_core();
 			void set_seed(int seed);
 

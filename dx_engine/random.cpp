@@ -18,6 +18,10 @@ namespace dx_engine {
 	}
 
 	namespace random {
+		int seed() {
+			return detail::rnd_core.seed;
+		}
+
 		bool probability(double p) {
 			return detail::rnd_core.prob(p);
 		}
