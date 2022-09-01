@@ -123,39 +123,121 @@ struct save_struct {
 	}
 };
 
+void GradBox(point<int> p1, point<int> p2, color c1, color c2, color c3, color c4)
+{
+	VERTEX2D Vertex[6];
+
+	// 左上の頂点の情報をセット( 1ポリゴン目の第1頂点 )
+	Vertex[0].pos.x = (float)p1.x;
+	Vertex[0].pos.y = (float)p1.y;
+	Vertex[0].pos.z = 0.0f;
+	Vertex[0].rhw = 1.0f;
+	Vertex[0].dif.r = c1.r;
+	Vertex[0].dif.g = c1.g;
+	Vertex[0].dif.b = c1.b;
+	Vertex[0].dif.a = c1.a;
+	Vertex[0].u = 0.0f;
+	Vertex[0].v = 0.0f;
+
+	// 右上の頂点の情報をセット( 1ポリゴン目の第2頂点 )
+	Vertex[1].pos.x = (float)p2.x;
+	Vertex[1].pos.y = (float)p1.y;
+	Vertex[1].pos.z = 0.0f;
+	Vertex[1].rhw = 1.0f;
+	Vertex[1].dif.r = c2.r;
+	Vertex[1].dif.g = c2.g;
+	Vertex[1].dif.b = c2.b;
+	Vertex[1].dif.a = c2.a;
+	Vertex[1].u = 0.0f;
+	Vertex[1].v = 0.0f;
+
+	// 左下の頂点の情報をセット( 1ポリゴン目の第3頂点 )
+	Vertex[2].pos.x = (float)p1.x;
+	Vertex[2].pos.y = (float)p2.y;
+	Vertex[2].pos.z = 0.0f;
+	Vertex[2].rhw = 1.0f;
+	Vertex[2].dif.r = c3.r;
+	Vertex[2].dif.g = c3.g;
+	Vertex[2].dif.b = c3.b;
+	Vertex[2].dif.a = c3.a;
+	Vertex[2].u = 0.0f;
+	Vertex[2].v = 0.0f;
+
+	// 右下の頂点の情報をセット( 2ポリゴン目の第1頂点 )
+	Vertex[3].pos.x = (float)p2.x;
+	Vertex[3].pos.y = (float)p2.y;
+	Vertex[3].pos.z = 0.0f;
+	Vertex[3].rhw = 1.0f;
+	Vertex[3].dif.r = c4.r;
+	Vertex[3].dif.g = c4.g;
+	Vertex[3].dif.b = c4.b;
+	Vertex[3].dif.a = c4.a;
+	Vertex[3].u = 0.0f;
+	Vertex[3].v = 0.0f;
+
+	// 2ポリゴン目の第2頂点は左下の頂点なのでコピー
+	Vertex[4] = Vertex[2];
+
+	// 2ポリゴン目の第3頂点は右上の頂点なのでコピー
+	Vertex[5] = Vertex[1];
+
+	// ポリゴンを2個描画
+	if (DrawPolygon2D(Vertex, 2, DX_NONE_GRAPH, FALSE)) {
+		console << "error";
+	}
+}
+
 int main() {
 	scene_manager scenemanager;
 	scenemanager.add<testscene>(1);
 	scenemanager.add<testscene2>(2);
-	using random_type = bool;
-	std::array<random_type, 10> rnd;
 
+	color clr = pallet::white;
+	hsv hclr = pallet::white;
 	rect slider_rect{ point<uint>{32, 400} };
-	gui::slider<double> slder(rect{ point<uint>{600, 32} }, {64,128},pallet::blue, 0, 4);
-	double blue = 0;
+	gui::slider<byte> slider_r(rect{ point<uint>{600, 32} }, { 16,128},pallet::red, 0, 255);
+	gui::slider<byte> slider_g(rect{ point<uint>{600, 32} }, { 16,192 }, pallet::green, 0, 255);
+	gui::slider<byte> slider_b(rect{ point<uint>{600, 32} }, { 16,256 }, pallet::blue, 0, 255);
+	gui::slider<byte> slider_a(rect{ point<uint>{600, 32} }, { 16,320 }, pallet::white, 0, 255);
 
-	gui::slider<uint> slder_r(rect{ point<uint>{600, 32} }, { 64,192 }, pallet::red, 0, 4);
-	uint red = 0;
+	gui::slider<int> slider_h(rect{ point<uint>{600, 32} }, { 640,128 }, pallet::red, 0, 360);
+	gui::slider<double> slider_s(rect{ point<uint>{600, 32} }, { 640,192 }, pallet::green, 0, 1.0);
+	gui::slider<double> slider_v(rect{ point<uint>{600, 32} }, { 640,256 }, pallet::blue, 0, 1.0);
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		
 		console >> std::format("{:5.2f}fps", systems.fps());
-		scenemanager.update();
-		range<0, 5> r;
-		
-		if (systems.keyboard.Return.down()) {
-			for (auto&& i : step(10)) {
-				rnd[i] = random::probability(0.5);
-			}
-		}
-		for (auto&& i : step(10)) {
-			console << rnd[i];
-		}
+		//scenemanager.update();
+		bool frgb = false, fhsv = false;
 
-		slder(blue);
-		slder_r(red);
-		console << blue;
-		console << red;
+		if(slider_r(clr.r))frgb=true;
+		if(slider_g(clr.g))frgb=true;
+		if(slider_b(clr.b))frgb=true;
+		if(slider_a(clr.a))frgb=true;
+
+		if(slider_h(hclr.h))fhsv=true;
+		if(slider_s(hclr.s))fhsv=true;
+		if(slider_v(hclr.v))fhsv=true;
+
+		if (frgb) hclr = clr;
+		if (fhsv) clr = hclr;
+
+		console << std::format("r:{},g:{},b:{}", clr.r, clr.g, clr.b);
+		console << std::format("h:{},s:{},v:{}", hclr.h, hclr.s, hclr.v);
+
+		circle(64).at({640, 480}).blend(blend::alpha, clr.a).colored(clr).draw();
+		//circle(64).at(systems.mouse.position()).blend(blend::alpha, clr.a).colored(hclr).draw();
+
+		
+		//circle(6).at({ 320, 640 }).blend(blend::alpha, 64).colored(pallet::black).fill(false).thick(5).draw();
+		//circle(6).at({ 320, 640 }).blend(blend::none, 255).colored(pallet::white).fill(false).thick(3).draw();
+
+		for (auto i : step(6)) {
+			GradBox({ 320 + i * 30, 700 }, { 320 + (i + 1) * 30, 956 }, hsv(i * 60, 1, 1), hsv((i + 1) * 60, 1, 1), hsv(i * 60, 1, 1), hsv((i + 1) * 60, 1, 1));
+
+		}
+		GradBox({ 320, 700 }, { 500, 828 }, color(255,255,255), color(255, 255, 255), color(255, 255, 255, 0), color(255, 255, 255, 0));
+		GradBox({ 320, 828 }, { 500, 956 }, color(255, 255, 255, 0), color(255, 255, 255, 0), color(0, 0, 0, 255), color(0, 0, 0, 255));
 	}
 
 	return 0;

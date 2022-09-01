@@ -9,6 +9,8 @@ namespace dx_engine {
 
 		void _window::title(const std::string& title) {
 			_title = title;
+
+			SetWindowTextDX(_title.c_str());
 		}
 
 		point<UINT> _window::size() const {
@@ -113,7 +115,7 @@ namespace dx_engine {
 			
 			
 			
-			SetWindowTextDX(_title.c_str());
+			
 		}
 
 
