@@ -123,5 +123,54 @@ namespace dx_engine {
 				return this->released_onshape();
 			}
 		};
+
+		template<typename T = double>
+		class slider {
+		private:
+			T _min, _max;
+			button<rect> _bar;
+			rect _fill_rect;
+			T _val;
+			point<uint> _position;
+			uint _length;
+
+			bool _mouse_down = false;
+		protected:
+
+		public:
+			slider(rect bar_rect, const point<uint>& pos, const color& fill_color = pallet::black, T min = 0.0, T max = 1.0) {
+				_bar = button<rect>(bar_rect.centered({ 0,bar_rect.size().y / 2.0 }).at(pos));
+				_position = pos;
+				_length = bar_rect.size().x;
+				_min = min;
+				_max = max;
+				_val = (max + min) / 2.0;
+
+				_fill_rect = rect{};
+				_fill_rect.resize({bar_rect.size().x / 2.0, bar_rect.size().y}).centered({0,bar_rect.size().y / 2.0}).at(pos).colored(fill_color);
+				_bar.set_function_normal([&](rect, text) {this->_mouse_down = false; });
+				_bar.set_function_hovered([&](rect, text) {this->_mouse_down = false; });
+				_bar.set_function_pressed([&](rect, text) {this->_mouse_down = true; });
+			}
+
+			bool operator () () {
+
+				if (_mouse_down) {
+					auto d = systems.mouse.position().x - _position.x;
+					auto p = (double)d / _length;
+					_val = std::clamp((T)(p * (_max - _min) + _min), _min, _max);
+					return true;
+				}
+				return false;
+			}
+
+			T value() const {
+				return _val;
+			}
+
+			void value(T v) {
+				_val = std::clamp(v, _min, _max);
+			}
+		};
 	}
 }

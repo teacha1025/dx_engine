@@ -129,6 +129,11 @@ int main() {
 	scenemanager.add<testscene2>(2);
 	using random_type = bool;
 	std::array<random_type, 10> rnd;
+
+	rect slider_rect{ point<uint>{32, 400} };
+	gui::slider<uint> slder(rect{ point<uint>{32, 400} }, {64,64},pallet::blue, 0, 255);
+	uint blue = 0;
+	slder.value(blue);
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		
@@ -144,6 +149,9 @@ int main() {
 		for (auto&& i : step(10)) {
 			console << rnd[i];
 		}
+
+		slder();
+		console << slder.value();
 	}
 
 	return 0;
