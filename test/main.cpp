@@ -205,7 +205,7 @@ int main() {
 	gui::slider<double> slider_v(rect{ point<uint>{600, 32} }, { 640,256 }, pallet::blue, 0, 1.0);
 
 	gui::pulldown pldwn({ "A","BB","CCC","‚ ‚¢‚¤‚¦‚¨" }, { 1000, 64 });
-	uint plid = 0;
+	uint plid = 2;
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		

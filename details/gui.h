@@ -206,13 +206,20 @@ namespace dx_engine {
 			};
 			button<rect> _menu_button;
 
+			point<int> _position;
+
 			std::vector<element> _element;
+			text _arrow;
 			uint _id = 0;
+
+			float _box_w, _box_h;
 
 			bool _isopen = false;
 		public:
 			pulldown() = default;
 			pulldown(const std::vector<std::string>& elems, const point<int>& pos);
+
+			~pulldown();
 
 			bool operator ()(uint& id);
 			bool operator ()(text& text);
