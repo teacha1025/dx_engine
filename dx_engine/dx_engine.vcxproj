@@ -205,6 +205,7 @@
     <ClCompile Include="event.cpp" />
     <ClCompile Include="file.cpp" />
     <ClCompile Include="functions.cpp" />
+    <ClCompile Include="gui.cpp" />
     <ClCompile Include="key.cpp" />
     <ClCompile Include="line.cpp" />
     <ClCompile Include="logger.cpp" />

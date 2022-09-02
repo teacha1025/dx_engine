@@ -203,6 +203,9 @@ int main() {
 	gui::slider<int> slider_h(rect{ point<uint>{600, 32} }, { 640,128 }, pallet::red, 0, 360);
 	gui::slider<double> slider_s(rect{ point<uint>{600, 32} }, { 640,192 }, pallet::green, 0, 1.0);
 	gui::slider<double> slider_v(rect{ point<uint>{600, 32} }, { 640,256 }, pallet::blue, 0, 1.0);
+
+	gui::pulldown pldwn({ "A","BB","CCC","‚ ‚¢‚¤‚¦‚¨" }, { 1000, 64 });
+	uint plid = 0;
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		
@@ -224,6 +227,7 @@ int main() {
 
 		console << std::format("r:{},g:{},b:{}", clr.r, clr.g, clr.b);
 		console << std::format("h:{},s:{},v:{}", hclr.h, hclr.s, hclr.v);
+		console << plid;
 
 		circle(64).at({640, 480}).blend(blend::alpha, clr.a).colored(clr).draw();
 		//circle(64).at(systems.mouse.position()).blend(blend::alpha, clr.a).colored(hclr).draw();
@@ -238,6 +242,8 @@ int main() {
 		}
 		GradBox({ 320, 700 }, { 500, 828 }, color(255,255,255), color(255, 255, 255), color(255, 255, 255, 0), color(255, 255, 255, 0));
 		GradBox({ 320, 828 }, { 500, 956 }, color(255, 255, 255, 0), color(255, 255, 255, 0), color(0, 0, 0, 255), color(0, 0, 0, 255));
+
+		pldwn(plid);
 	}
 
 	return 0;

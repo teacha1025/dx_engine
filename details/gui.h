@@ -196,5 +196,26 @@ namespace dx_engine {
 			}
 
 		};
+
+		class pulldown {
+		private:
+			struct element {
+				button<rect> _button;
+				uint _id;
+				text _text;
+			};
+			button<rect> _menu_button;
+
+			std::vector<element> _element;
+			uint _id = 0;
+
+			bool _isopen = false;
+		public:
+			pulldown() = default;
+			pulldown(const std::vector<std::string>& elems, const point<int>& pos);
+
+			bool operator ()(uint& id);
+			bool operator ()(text& text);
+		};
 	}
 }
