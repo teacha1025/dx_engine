@@ -1,6 +1,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <unordered_map>
 #include "DxLib.h"
 #include "../details/def.h"
 #include "../details/text.h"
@@ -16,14 +17,37 @@ namespace dx_engine {
 		setsize();
 	}
 
+	struct font_data {
+		std::string fontname;
+		dx_engine::uint size;
+		dx_engine::uint thick;
+		dx_engine::font_type type;
+		uint edgesize;
+		bool italic;
+
+		bool operator == (const font_data& d) {
+			return fontname == d.fontname && size == d.size && thick == d.thick && type == d.type && edgesize == d.edgesize && italic == d.italic;
+		}
+	};
+	std::vector<std::pair<font_data, int>> font_list;
 	void text::set_font(const std::string& fontname, dx_engine::uint size, dx_engine::uint thick, dx_engine::font_type type, uint edgesize, bool italic) {
 		if (fontname == "") {
 			_fonthandle = 0;
 		}
 		else {
+			auto i = 0;
+			for (auto& l : font_list) {
+				if (l.first == font_data{ fontname, size, thick, type, edgesize, italic }) {
+					_fonthandle = font_list.at(i).second;
+					setsize();
+					return;
+				}
+				i++;
+			}
 			_fonthandle = CreateFontToHandle(fontname.c_str(), size, thick, SCAST(int, type), -1, edgesize, SCAST(int, italic));
+			font_list.emplace_back(std::pair{ font_data{ fontname,size,thick,type,edgesize,italic }, _fonthandle });
+			setsize();
 		}
-		setsize();
 	}
 
 	text& text::centered(const point<float>& center) {

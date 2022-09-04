@@ -9,7 +9,7 @@ namespace dx_engine {
 			define padding = 6.0f;
 			define font_size = 11u;
 			if (elems.empty()) {
-				_arrow.set_font("游ゴシック", font_size, 1u, font_type::anti_aliasing);
+				_arrow.set_font("游ゴシック", 8u, 1u, font_type::anti_aliasing);
 				_arrow = " ▼";
 				rect elm_rec({ 24 + padding * 2.0f + _arrow.size().x,font_size + padding * 2.0f });
 				elm_rec.centered({ 0,0 });
@@ -18,7 +18,7 @@ namespace dx_engine {
 				_menu_button = button(elm_rec, "", false);
 			}
 			else {
-				text txt;
+				static text txt;
 				txt.set_font("游ゴシック", font_size, 1u, font_type::anti_aliasing);
 				uint id = 0;
 				_box_w = 0, _box_h = font_size + padding * 2.0f;
