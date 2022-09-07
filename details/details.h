@@ -77,7 +77,7 @@ namespace dx_engine {
 		private:
 			point<uint> _size = { 1280, 960 };
 			bool _fullscreen = false, _vsync = false;
-			float _rate;
+			float _rate = 1.0f;
 			std::string _title;
 			color bg;
 			fullscreen_type _screentype;

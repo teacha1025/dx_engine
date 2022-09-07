@@ -1,7 +1,9 @@
 #include "DxLib.h"
 #include "../details/details.h"
+#include "../details/logger.h"
 
 namespace dx_engine {
+	extern logger log;
 	namespace detail {
 		void _window::size(const point<UINT>& size) {
 			_size = size;
@@ -41,6 +43,9 @@ namespace dx_engine {
 		void _window::init2() {
 			if (_fullscreen) {
 					_mainscreen = MakeScreen(_size.x, _size.y);
+					if (_mainscreen <= 0) {
+						log.error("mainscreen is invalid.");
+					}
 					SetDrawScreen(_mainscreen);
 			}
 			else {
