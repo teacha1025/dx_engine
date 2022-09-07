@@ -29,7 +29,16 @@ namespace dx_engine {
 		void update_index();
 
 	public:
+		/// <summary>
+		/// デフォルトコンストラクタ
+		/// </summary>
 		animation() = default;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="div"></param>
 		animation(const std::string& path, const point<uint>& div);
 		animation(const texture& tex);
 
