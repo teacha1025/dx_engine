@@ -2,7 +2,7 @@
 // 
 // 		ＤＸライブラリ		Windows専用関数プロトタイプ宣言用ヘッダファイル
 // 
-// 				Ver 3.23 
+// 				Ver 3.23d
 // 
 // -------------------------------------------------------------------------------
 
@@ -481,6 +481,7 @@ extern	int			SetEnableWASAPIFlag(                 int Flag, int IsExclusive DEFA
 #ifndef DX_NON_ASIO
 extern	int			SetEnableASIOFlag(                   int Flag, int BufferSize DEFAULTPARAM( = -1 ) , int SamplePerSec DEFAULTPARAM( = 44100 ) ) ;													// サウンドの再生にASIOを使用するかどうかを設定する( Flag  TRUE:使用する  FALSE:使用しない( デフォルト ), BufferSize 再生バッファのサイズ、小さいほど遅延が少なくなりますが、処理が間に合わずにブツブツノイズが発生する可能性も高くなります( -1 でデフォルト値 ), SamplePerSec サンプリングレート )
 #endif // DX_NON_ASIO
+extern	int			SetEnableMMEwaveOutFlag(             int Flag, int BufferSamples DEFAULTPARAM( = -1 ) , int SamplePerSec DEFAULTPARAM( = 44100 ) ) ;												// サウンドの再生にマルチメディアAPIの waveOut を使用するかどうかを設定する( Flag  TRUE:使用する  FALSE:使用しない( デフォルト ), BufferSamples 再生バッファのサイズ、小さいほど遅延が少なくなりますが、処理が間に合わずにブツブツノイズが発生する可能性も高くなります( -1 でデフォルト値 ), SamplePerSec サンプリングレート )
 
 // 情報取得系関数
 extern	const void*	GetDSoundObj(                        void ) ;	/* 戻り値を IDirectSound * にキャストして下さい */																					// ＤＸライブラリが使用している DirectSound オブジェクトを取得する
