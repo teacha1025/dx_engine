@@ -22,19 +22,49 @@ namespace dx_engine {
 			void t_analyze();
 			//friend melon_core;
 		public:
+			/// <summary>
+			/// フォルダの読み込み
+			/// </summary>
+			/// <param name="path">フォルダのパス</param>
 			void load(const std::string& path);
 
+			/// <summary>
+			/// ファイルのデータの取得
+			/// </summary>
+			/// <param name="path">ファイルのパス</param>
+			/// <param name="reload">ファイルの再読み込みをするか(デフォルトではfalse)</param>
+			/// <returns>ファイルのデータ</returns>
 			std::string get(const std::string& path, bool reload = false);
+			/// <summary>
+			/// ファイルが含まれているかを探索する
+			/// </summary>
+			/// <param name="path">ファイルのパス</param>
+			/// <returns>含まれているか</returns>
 			bool contain(const std::string& path);
 
+			/// <summary>
+			/// アーカイブを使用しているかを取得
+			/// </summary>
+			/// <returns>使用しているか</returns>
 			bool is_use() const;
 
+			/// <summary>
+			/// ファイルデータを取得 get関数と同様
+			/// </summary>
+			/// <param name="path">ファイルのパス</param>
+			/// <returns>ファイルのデータ</returns>
 			std::string operator [] (const std::string& path);
 		};
 	}
 	extern detail::_file file;
 
 	namespace file_io {
+		/// <summary>
+		/// ファイルを書き出す
+		/// </summary>
+		/// <param name="path">ファイルのパス</param>
+		/// <param name="data">書き出すデータ</param>
+		/// <param name="mode">書き出すモード</param>
 		void export_file(const std::string& path, const std::string& data, std::ios::ios_base::openmode mode = std::ios::trunc);
 
 		//template <class T, class Archive>
@@ -42,6 +72,13 @@ namespace dx_engine {
 		//	data.serialize(archive);
 		//};
 
+		/// <summary>
+		/// ファイルをバイナリとして書き出す
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="path"></param>
+		/// <param name="data"></param>
+		/// <param name="encrypt"></param>
 		template <class T>
 		void export_binary(const std::string& path, T& data, bool encrypt = true) {
 			std::stringstream ss;

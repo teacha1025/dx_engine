@@ -15,20 +15,43 @@ namespace dx_engine {
 			unsigned int _press_count = 0;
 			device_state _state = device_state::release;
 		public:
+			/// <summary>
+			/// 押された時間の取得
+			/// </summary>
+			/// <returns>キーやボタンが押されたフレーム数</returns>
 			unsigned int count() const;
 
+			/// <summary>
+			/// 押されているかどうかの取得
+			/// </summary>
+			/// <returns>押されているかどうか</returns>
 			bool press() const;
 
+			/// <summary>
+			/// 離されているのかどうかの取得
+			/// </summary>
+			/// <returns>離されているかどうか</returns>
 			bool release() const;
 
+			/// <summary>
+			/// 離されたかどうかの取得
+			/// </summary>
+			/// <returns>離された瞬間かどうか</returns>
 			bool up() const;
 
+			/// <summary>
+			/// 押されたかどうかの取得
+			/// </summary>
+			/// <returns>押された瞬間かどうか</returns>
 			bool down() const;
 		};
 		class _key;
 		class _mouse;
 	}
 	
+	/// <summary>
+	/// 様々な入力の組み合わせを持つ入力クラス
+	/// </summary>
 	class inputs {
 	public:
 		
@@ -54,14 +77,35 @@ namespace dx_engine {
 
 	public:
 		inputs() = default;
+		
+		/// <summary>
+			/// 押された時間の取得
+			/// </summary>
+			/// <returns>キーやボタンが押されたフレーム数</returns>
 		unsigned int count() const;
 
+		/// <summary>
+		/// 押されているかどうかの取得
+		/// </summary>
+		/// <returns>押されているかどうか</returns>
 		bool press() const;
 
+		/// <summary>
+		/// 離されているのかどうかの取得
+		/// </summary>
+		/// <returns>離されているかどうか</returns>
 		bool release() const;
 
+		/// <summary>
+		/// 離されたかどうかの取得
+		/// </summary>
+		/// <returns>離された瞬間かどうか</returns>
 		bool up() const;
 
+		/// <summary>
+		/// 押されたかどうかの取得
+		/// </summary>
+		/// <returns>押された瞬間かどうか</returns>
 		bool down() const;
 
 		inputs operator | (detail::_key& r) const;
@@ -71,9 +115,21 @@ namespace dx_engine {
 		inputs operator & (detail::_mouse& r) const;
 		inputs operator & (inputs r) const;
 
+		/// <summary>
+		/// キーボードから入力を作成
+		/// </summary>
+		/// <param name="key">キー</param>
 		inputs(detail::_key& key);
+		/// <summary>
+		/// マウスのボタンから入力を作成
+		/// </summary>
+		/// <param name="mouse">マウスのボタン</param>
 		inputs(detail::_mouse& mouse);
-		inputs(const inputs& mouse);
+		/// <summary>
+		/// ほかの入力から入力を作成
+		/// </summary>
+		/// <param name="input">ほかの入力</param>
+		inputs(const inputs& input);
 	};
 	
 	
