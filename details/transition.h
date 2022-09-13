@@ -44,7 +44,20 @@ namespace dx_engine {
 	}
 
 	namespace lerp {
+		/// <summary>
+		/// ベジェ補間
+		/// </summary>
+		/// <param name="cp">制御点の配列</param>
+		/// <param name="t">割合[0.0-1.0]</param>
+		/// <returns>tにおける座標</returns>
 		point<double> bezier(std::vector<point<double>> cp, const range<0.0, 1.0>& t);
+		/// <summary>
+		/// B-スプライン補間
+		/// </summary>
+		/// <param name="cp">制御店の配列</param>
+		/// <param name="t">割合</param>
+		/// <param name="degree">度合</param>
+		/// <returns>tにおける座標</returns>
 		point<double> b_spline(std::vector<point<double>> cp, double t, int degree);
 	}
 }

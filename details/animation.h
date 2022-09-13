@@ -85,8 +85,7 @@ namespace dx_engine {
 		/// <summary>
 		/// Œ´“_‚ğ’†S‚ÉŠg‘å‚·‚é
 		/// </summary>
-		/// <param name="rate"></param>
-		/// <returns></returns>
+		/// <param name="rate">”{—¦</param>
 		animation& extended(double rate);
 		/// <summary>
 		/// ¶‰E”½“]‚³‚¹‚é‚©‚ğİ’è‚·‚é
