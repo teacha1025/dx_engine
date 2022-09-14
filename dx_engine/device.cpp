@@ -5,6 +5,7 @@
 
 namespace dx_engine {
 	namespace detail {
+		extern point<uint> window_top_pos;
 		namespace device {
 			keyboard::keyboard() {
 				A = _key(KEY_INPUT_A);
@@ -251,7 +252,7 @@ namespace dx_engine {
 			point<int> mouse::position() const {
 				point<int> p{};
 				GetMousePoint(&p.x, &p.y);
-
+				p -= window_top_pos;
 				return { p.x, p.y };
 			}
 

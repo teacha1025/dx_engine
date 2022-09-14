@@ -210,6 +210,7 @@ int main() {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		
 		console >> std::format("{:5.2f}fps", systems.fps());
+		console << systems.mouse.position();
 		//scenemanager.update();
 		bool frgb = false, fhsv = false;
 
