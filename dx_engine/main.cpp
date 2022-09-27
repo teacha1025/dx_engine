@@ -1,4 +1,5 @@
 #include <DxLib.h>
+#include <future>
 #include "../details/heads.h"
 
 extern void init();
@@ -58,7 +59,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		dx_engine::log.info("DxLibの初期化完了");
 		dx_engine::console.init(dx_engine::window.size());
 
-		auto ret = main();
+		auto main_thread = std::async(std::launch::async, main);
+		auto ret = main_thread.get();
 		dx_engine::log.info(std::format("終了 コード:{}", ret));
 		return 0;
 	}

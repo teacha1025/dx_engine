@@ -254,6 +254,7 @@
     <ClInclude Include="..\details\step.h" />
     <ClInclude Include="..\details\text.h" />
     <ClInclude Include="..\details\texture.h" />
+    <ClInclude Include="..\details\thread.h" />
     <ClInclude Include="..\details\transition.h" />
     <ClInclude Include="..\details\vector.h" />
     <ClInclude Include="..\libs\dx_engine.h" />

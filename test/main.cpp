@@ -11,7 +11,7 @@ define N = 60.0;
 
 void init() {
 	dx_engine::log.set(true, false);
-	window.fullscreen(true, fullscreen_type::borderless_dotbydot);
+	//window.fullscreen(true, fullscreen_type::borderless_dotbydot);
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
