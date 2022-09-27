@@ -107,6 +107,7 @@ namespace dx_engine {
 		protected:
 
 		public:
+			button() = default;
 			button(const shape& object, const std::string& t, bool enabled = true) {
 				this->button_object = object;
 				this->set_text(t);
@@ -122,6 +123,106 @@ namespace dx_engine {
 				f(this->button_object, this->txt);
 				return this->released_onshape();
 			}
+		};
+
+		template<typename T = double>
+		class slider {
+		private:
+			T _min, _max;
+			rect _bar;
+			rect _fill_rect;
+			T _val;
+			point<int> _position;
+			int _length;
+
+			bool _mouse_down = false;
+			template <std::integral T>
+			T round(double v, T i) {
+				return std::round(v);
+			}
+			template <std::floating_point T>
+			T round(double v, T i) {
+				return v;
+			}
+
+			
+		protected:
+
+		public:
+			slider(rect bar_rect, const point<int>& pos, const color& fill_color = pallet::black, T min = 0.0, T max = 1.0) {
+				define EDGE_SIZE = 3u;
+
+				bar_rect.centered({ 0,bar_rect.size().y / 2.0 }).at(pos);
+				_bar = bar_rect;
+				_position = pos; _position.x += EDGE_SIZE;
+				_length = bar_rect.size().x - EDGE_SIZE * 2;
+				_min = min;
+				_max = max;
+				_val = (max + min) / 2.0;
+
+				_fill_rect = rect{};
+				_fill_rect.resize({ _length / 2.0, bar_rect.size().y - EDGE_SIZE * 2 }); _fill_rect.centered({ 0,_fill_rect.size().y / 2.0 }).at(_position).colored(fill_color);
+			}
+
+			bool operator () (T& value) {
+				
+				if (systems.mouse.Left.down() && collision(_bar, systems.mouse.position())) {
+					_mouse_down = true;
+				}
+				if (systems.mouse.Left.press() && _mouse_down) {
+					uint d = 0;
+					if (systems.mouse.position().x > _position.x) {
+						d = std::clamp(systems.mouse.position().x - _position.x, 0, _length);
+					}
+					auto p = (double)d / _length;
+					_val = std::clamp((T)(round(p * (_max - _min) + _min, (T)0)), _min, _max);
+					value = _val;
+					auto sp = (double)(_val - _min) / (_max - _min);
+					_fill_rect.resize({ _length * sp, _fill_rect.size().y});
+
+					_bar.draw();
+					_fill_rect.draw();
+					return true;
+				}
+				else {
+					_val = value;
+					_mouse_down = false;
+					auto sp = (double)(_val - _min) / (_max - _min);
+					_fill_rect.resize({ _length * sp, _fill_rect.size().y });
+					_bar.draw();
+					_fill_rect.draw();
+				}
+				return false;
+			}
+
+		};
+
+		class pulldown {
+		private:
+			struct element {
+				button<rect> _button;
+				uint _id;
+				text _text;
+			};
+			button<rect> _menu_button;
+
+			point<int> _position;
+
+			std::vector<element> _element;
+			text _arrow;
+			uint _id = 0;
+
+			float _box_w, _box_h;
+
+			bool _isopen = false;
+		public:
+			pulldown() = default;
+			pulldown(const std::vector<std::string>& elems, const point<int>& pos);
+
+			~pulldown();
+
+			bool operator ()(uint& id);
+			bool operator ()(text& text);
 		};
 	}
 }
