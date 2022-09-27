@@ -5,6 +5,7 @@
 namespace dx_engine {
 	extern logger log;
 	namespace detail {
+		point<uint> window_top_pos = { 0,0 };
 		void _window::size(const point<UINT>& size) {
 			_size = size;
 		}
@@ -73,6 +74,26 @@ namespace dx_engine {
 					_letterbox_size.x = 0;
 					_letterbox_size.y = (_monitor_size.y - (_monitor_size.x * _size.y / _size.x)) / 2;
 				}
+				switch (_screentype) {
+				case fullscreen_type::fullscreen_dotbydot:
+				case fullscreen_type::borderless_dotbydot: {
+					window_top_pos = (_monitor_size - _size) / 2;
+					DrawRotaGraph(_monitor_size.x / 2, _monitor_size.y / 2, _rate, 0.0f, _mainscreen, FALSE, FALSE);
+					break;
+				}
+				case fullscreen_type::fullscreen_full: 
+				case fullscreen_type::borderless_full: {
+					window_top_pos = _letterbox_size;
+					break;
+				}
+				case fullscreen_type::fullscreen_flexible: 
+				case fullscreen_type::borderless_flexible: {
+					window_top_pos = {0,0};
+					DrawExtendGraph(0, 0, _monitor_size.x, _monitor_size.y, _mainscreen, FALSE);
+					break;
+				}
+				}
+				
 				SetWindowPosition(RectX, RectY);
 				if (_screentype == fullscreen_type::fullscreen_dotbydot || _screentype == fullscreen_type::fullscreen_full || _screentype == fullscreen_type::fullscreen_flexible) {
 					//SetGraphMode(_size.x, _size.y, 32);
@@ -116,11 +137,6 @@ namespace dx_engine {
 				ChangeWindowMode(TRUE);
 				SetDrawScreen(DX_SCREEN_BACK);
 			}
-			
-			
-			
-			
-			
 		}
 
 
