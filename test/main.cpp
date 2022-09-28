@@ -206,13 +206,23 @@ int main() {
 
 	gui::pulldown pldwn({ "A","BB","CCC","‚ ‚¢‚¤‚¦‚¨" }, { 1000, 64 });
 	uint plid = 2;
+
+	std::function<void(void)> f = [&]() {clock::stopwatch sw; sw.restart(); while (sw.get_sec() <= 10) {}; return; };
+
+	int id = thread_manager.add(f);
+
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		
 		console >> std::format("{:5.2f}fps", systems.fps());
 		console << systems.mouse.position();
+
+		if (thread_manager.get(id)) {
+			console << "a";
+		}
+
 		//scenemanager.update();
-		bool frgb = false, fhsv = false;
+		/*bool frgb = false, fhsv = false;
 
 		if(slider_r(clr.r))frgb=true;
 		if(slider_g(clr.g))frgb=true;
@@ -244,7 +254,7 @@ int main() {
 		GradBox({ 320, 700 }, { 500, 828 }, color(255,255,255), color(255, 255, 255), color(255, 255, 255, 0), color(255, 255, 255, 0));
 		GradBox({ 320, 828 }, { 500, 956 }, color(255, 255, 255, 0), color(255, 255, 255, 0), color(0, 0, 0, 255), color(0, 0, 0, 255));
 
-		pldwn(plid);
+		pldwn(plid);*/
 	}
 
 	return 0;

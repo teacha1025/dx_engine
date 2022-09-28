@@ -3,6 +3,7 @@
 #include "../details/def.h"
 #include "../details/details.h"
 #include "../details/console.h"
+#include "../details/thread.h"
 
 #pragma comment(lib, "pdh.lib")
 
@@ -100,6 +101,8 @@ namespace dx_engine {
 
 			keyboard.update();
 			mouse.update();
+
+			thread_manager.update();
 
 			console.set(debug_mode);
 			if (debug_mode) {

@@ -6,6 +6,7 @@ extern void init();
 extern int main();
 namespace dx_engine {
 	extern logger log;
+	detail::thread thread_manager;
 }
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd) {
 #ifndef DISABLE_SEH_DETECT
@@ -47,6 +48,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 #endif
 	try{
 		init();
+		SetMultiThreadFlag(TRUE);
 		dx_engine::log.init();
 
 		dx_engine::window.init();
@@ -59,8 +61,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		dx_engine::log.info("DxLibの初期化完了");
 		dx_engine::console.init(dx_engine::window.size());
 
-		auto main_thread = std::async(std::launch::async, main);
-		auto ret = main_thread.get();
+		//auto main_thread = std::async(std::launch::deferred, main);
+		/*while (true) {
+			if (main_thread.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready) {
+				break;
+			}
+		}*/
+		auto ret = /*main_thread.get()*/main();
 		dx_engine::log.info(std::format("終了 コード:{}", ret));
 		return 0;
 	}
