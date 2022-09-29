@@ -17,20 +17,31 @@ namespace dx_engine {
 		class shape : public draw_object {
 		protected:
 			point<double> _position{}, _center{};
-			double _angle = 0;
+			double _angle = 0, _rate = 1.0;
 			float _thick = 1.0f;
 			color _color;
 
 			bool _fill_flag = true;
 		public:
+			//virtual shape centered(const dx_engine::point<double>& center)&&;
+			//virtual shape rotateed(double angle)&&;
+			//virtual shape colored(const color& color)&&;
+			//virtual shape blend(dx_engine::blend mode, range<0, 255> param)&&;
+			//virtual shape filter(dx_engine::filter mode)&&;
+			//virtual shape at(const dx_engine::point<double>& position)&&;
+			//virtual shape fill(bool flag)&&;
+			//virtual shape thick(float thick)&&;
+			//virtual shape extended(double rate)&&;
+
 			virtual shape& centered(const dx_engine::point<double>& center);
 			virtual shape& rotateed(double angle);
 			virtual shape& colored(const color& color);
 			virtual shape& blend(dx_engine::blend mode, range<0, 255> param);
-			virtual shape& filter(filter mode);
+			virtual shape& filter(dx_engine::filter mode);
 			virtual shape& at(const dx_engine::point<double>& position);
 			virtual shape& fill(bool flag);
 			virtual shape& thick(float thick);
+			virtual shape& extended(double rate);
 
 			virtual point<double> position() const;
 			virtual point<double> center() const;
@@ -76,7 +87,7 @@ namespace dx_engine {
 		line& thick(float thick);
 		line& round(bool flag);
 
-		void draw();
+		void draw() override;
 		std::vector<point<double>> position() const;
 	};
 

@@ -4,6 +4,44 @@
 
 namespace dx_engine {
 	namespace detail {
+		/*shape shape::centered(const point<double>& center)&& {
+			_center = center;
+			return std::move(*this);
+		}
+		shape shape::rotateed(double angle)&& {
+			_angle = angle;
+			return std::move(*this);
+		}
+		shape shape::colored(const color& color)&& {
+			_color = color;
+			return std::move(*this);
+		}
+		shape shape::blend(dx_engine::blend mode, range<0, 255> param) &&{
+			_blend = mode;
+			_blendparam = param;
+			return std::move(*this);
+		}
+		shape shape::filter(dx_engine::filter mode) &&{
+			_filter = mode;
+			return std::move(*this);
+		}
+		shape shape::at(const point<double>& position) &&{
+			_position = position;
+			return std::move(*this);
+		}
+		shape shape::fill(bool flag)&& {
+			_fill_flag = flag;
+			return std::move(*this);
+		}
+		shape shape::thick(float thick)&& {
+			_thick = thick;
+			return std::move(*this);
+		}
+		shape shape::extended(double rate)&& {
+			_rate = rate;
+			return std::move(*this);
+		}*/
+
 		shape& shape::centered(const point<double>& center) {
 			_center = center;
 			return *this;
@@ -35,6 +73,10 @@ namespace dx_engine {
 		}
 		shape& shape::thick(float thick) {
 			_thick = thick;
+			return *this;
+		}
+		shape& shape::extended(double rate) {
+			_rate = rate;
 			return *this;
 		}
 

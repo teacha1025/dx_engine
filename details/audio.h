@@ -27,12 +27,23 @@ namespace dx_engine {
 		/// パンの設定
 		/// </summary>
 		/// <param name="panpal">音源の位置[-1.0f, 1.0f] +側は右、－側は左</param>
-		audio& pan(range<-1.0f, 1.0f> panpal);
+		audio pan(range<-1.0f, 1.0f> panpal)&&;
 		/// <summary>
 		/// 音量の設定
 		/// </summary>
 		/// <param name="value">音量[0.0f-1.0f]</param>
-		audio& volume(range<0.0f, 1.0f> value);
+		audio volume(range<0.0f, 1.0f> value)&&;
+
+		/// <summary>
+		/// パンの設定
+		/// </summary>
+		/// <param name="panpal">音源の位置[-1.0f, 1.0f] +側は右、－側は左</param>
+		audio& pan(range<-1.0f, 1.0f> panpal)&;
+		/// <summary>
+		/// 音量の設定
+		/// </summary>
+		/// <param name="value">音量[0.0f-1.0f]</param>
+		audio& volume(range<0.0f, 1.0f> value)&;
 
 		/// <summary>
 		/// 音声の再生を開始

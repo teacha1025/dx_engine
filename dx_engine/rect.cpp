@@ -24,8 +24,13 @@ namespace dx_engine {
 	void rect::draw() {
 		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
 		SetDrawMode(SCAST(int, _filter));
+		auto temp_size = _size, temp_center = _center;
+		_size *= _rate;
+		_center *= _rate;
 		auto [p1, p2, p3, p4] = verteces();
 		DrawQuadrangleAA(SCAST(float, p1.x), SCAST(float, p1.y), SCAST(float, p2.x), SCAST(float, p2.y), SCAST(float, p3.x), SCAST(float, p3.y), SCAST(float, p4.x), SCAST(float, p4.y), _color.to_int(), _fill_flag, _thick);
+		_size = temp_size;
+		_center = temp_center;
 	}
 
 	std::tuple<point<double>, point<double>, point<double>, point<double>> rect::verteces() const {

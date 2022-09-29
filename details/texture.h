@@ -57,49 +57,98 @@ namespace dx_engine {
 		/// テクスチャの原点を設定
 		/// </summary>
 		/// <param name="center">原点とする座標</param>
-		texture& centered(const dx_engine::point<double>& center);
+		texture centered(const dx_engine::point<double>& center)&&;
 		/// <summary>
 		/// 原点を中心として回転させる
 		/// </summary>
 		/// <param name="angle">回転角度</param>
-		texture& rotateed(double angle);
+		texture rotateed(double angle)&&;
 		/// <summary>
 		/// ブレンドの設定する
 		/// </summary>
 		/// <param name="mode">ブレンドの種類</param>
 		/// <param name="param">ブレンドの度合い[0-255]</param>
-		texture& blend(dx_engine::blend mode, range<0, 255> param);
+		texture blend(dx_engine::blend mode, range<0, 255> param)&&;
 		/// <summary>
 		/// フィルターの設定をする
 		/// </summary>
 		/// <param name="mode">フィルターの種類</param>
-		texture& filter(dx_engine::filter mode);
+		texture filter(dx_engine::filter mode)&&;
 		/// <summary>
 		/// 原点を中心としてその座標に移動する
 		/// </summary>
 		/// <param name="position">座標</param>
-		texture& at(const dx_engine::point<double>& position);
+		texture at(const dx_engine::point<double>& position)&&;
 		/// <summary>
 		/// 原点を中心に拡大する
 		/// </summary>
 		/// <param name="rate">倍率</param>
 		/// <returns></returns>
-		texture& extended(double rate);
+		texture extended(double rate)&&;
 		/// <summary>
 		/// 左右反転させるかを設定する
 		/// </summary>
 		/// <param name="flag">trueなら左右反転する</param>
-		texture& turned(bool flag);
+		texture turned(bool flag)&&;
 		/// <summary>
 		/// 上下反転させるかを設定する
 		/// </summary>
 		/// <param name="flag">trueなら上下反転する</param>
-		texture& fliped(bool flag);
+		texture fliped(bool flag)&&;
 		/// <summary>
 		/// テクスチャを透過するか設定する
 		/// </summary>
 		/// <param name="flag">trueなら透過する</param>
-		texture& trans(bool flag);
+		texture trans(bool flag)&&;
+
+
+		/// <summary>
+		/// テクスチャの原点を設定
+		/// </summary>
+		/// <param name="center">原点とする座標</param>
+		texture& centered(const dx_engine::point<double>& center)&;
+		/// <summary>
+		/// 原点を中心として回転させる
+		/// </summary>
+		/// <param name="angle">回転角度</param>
+		texture& rotateed(double angle)&;
+		/// <summary>
+		/// ブレンドの設定する
+		/// </summary>
+		/// <param name="mode">ブレンドの種類</param>
+		/// <param name="param">ブレンドの度合い[0-255]</param>
+		texture& blend(dx_engine::blend mode, range<0, 255> param)&;
+		/// <summary>
+		/// フィルターの設定をする
+		/// </summary>
+		/// <param name="mode">フィルターの種類</param>
+		texture& filter(dx_engine::filter mode)&;
+		/// <summary>
+		/// 原点を中心としてその座標に移動する
+		/// </summary>
+		/// <param name="position">座標</param>
+		texture& at(const dx_engine::point<double>& position)&;
+		/// <summary>
+		/// 原点を中心に拡大する
+		/// </summary>
+		/// <param name="rate">倍率</param>
+		/// <returns></returns>
+		texture& extended(double rate)&;
+		/// <summary>
+		/// 左右反転させるかを設定する
+		/// </summary>
+		/// <param name="flag">trueなら左右反転する</param>
+		texture& turned(bool flag)&;
+		/// <summary>
+		/// 上下反転させるかを設定する
+		/// </summary>
+		/// <param name="flag">trueなら上下反転する</param>
+		texture& fliped(bool flag)&;
+		/// <summary>
+		/// テクスチャを透過するか設定する
+		/// </summary>
+		/// <param name="flag">trueなら透過する</param>
+		texture& trans(bool flag)&;
 
 		/// <summary>
 		/// テクスチャの場所を返す

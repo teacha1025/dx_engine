@@ -1,5 +1,6 @@
 #pragma once
 #include <numbers>
+#include <cstdint>
 
 #ifndef SCAST
 #define SCAST(t, v) static_cast<t>((v))
@@ -10,9 +11,9 @@
 #endif
 
 namespace dx_engine {
-	using uint = unsigned int;
-	using ulong = unsigned long;
-	using ulonglong = unsigned long long;
+	using uint = uint32_t;
+	using ulong = uint32_t;
+	using ulonglong = uint64_t;
 
 	define PI = std::numbers::pi;
 	define PI_F = std::numbers::pi_v<float>;
@@ -88,8 +89,8 @@ namespace dx_engine {
 	define YOTTA_F = (float)YOTTA;
 
 
-	define ENGINE = 0x00109;
-	define ENGINE_S = "1.09";
+	define ENGINE = 0x0010a;
+	define ENGINE_S = "1.0a";
 
 
 }

@@ -112,40 +112,79 @@ namespace dx_engine {
 
 
 
-	texture& texture::centered(const dx_engine::point<double>& center) {
+	texture texture::centered(const dx_engine::point<double>& center)&& {
+		_center = center;
+		return std::move(*this);
+	}
+	texture texture::rotateed(double angle)&& {
+		_angle = angle;
+		return std::move(*this);
+	}
+	texture texture::blend(dx_engine::blend mode, range<0, 255> param)&& {
+		_blend = mode;
+		_blendparam = param;
+		return std::move(*this);
+	}
+	texture texture::filter(dx_engine::filter mode)&& {
+		_filter = mode;
+		return std::move(*this);
+	}
+	texture texture::at(const dx_engine::point<double>& position)&& {
+		_position = position;
+		return std::move(*this);
+	}
+	texture texture::extended(double rate)&& {
+		_rate = rate;
+		return std::move(*this);
+	}
+	texture texture::turned(bool flag)&& {
+		_isturn = flag;
+		return std::move(*this);
+	}
+	texture texture::fliped(bool flag)&& {
+		_isflip = flag;
+		return *this;
+		return std::move(*this);
+	}
+	texture texture::trans(bool flag)&& {
+		_istrans = flag;
+		return std::move(*this);
+	}
+
+	texture& texture::centered(const dx_engine::point<double>& center)& {
 		_center = center;
 		return *this;
 	}
-	texture& texture::rotateed(double angle) {
+	texture& texture::rotateed(double angle)& {
 		_angle = angle;
 		return *this;
 	}
-	texture& texture::blend(dx_engine::blend mode, range<0, 255> param) {
+	texture& texture::blend(dx_engine::blend mode, range<0, 255> param)& {
 		_blend = mode;
 		_blendparam = param;
 		return *this;
 	}
-	texture& texture::filter(dx_engine::filter mode) {
+	texture& texture::filter(dx_engine::filter mode)& {
 		_filter = mode;
 		return *this;
 	}
-	texture& texture::at(const dx_engine::point<double>& position) {
+	texture& texture::at(const dx_engine::point<double>& position)& {
 		_position = position;
 		return *this;
 	}
-	texture& texture::extended(double rate) {
+	texture& texture::extended(double rate)& {
 		_rate = rate;
 		return *this;
 	}
-	texture& texture::turned(bool flag) {
+	texture& texture::turned(bool flag)& {
 		_isturn = flag;
 		return *this;
 	}
-	texture& texture::fliped(bool flag) {
+	texture& texture::fliped(bool flag)& {
 		_isflip = flag;
 		return *this;
 	}
-	texture& texture::trans(bool flag) {
+	texture& texture::trans(bool flag)& {
 		_istrans = flag;
 		return *this;
 	}

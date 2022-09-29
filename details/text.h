@@ -46,7 +46,7 @@ namespace dx_engine {
 		std::string& get();
 
 		void set_font(const std::string& fontname = "", dx_engine::uint size = 16, dx_engine::uint thick = 1, dx_engine::font_type type = font_type::normal, uint edgesize = -1, bool italic = false);
-		virtual void draw() override;
+		void draw();
 
 		text operator = (const std::string& str);
 		text operator = (const char* str);

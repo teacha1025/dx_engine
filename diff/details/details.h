@@ -45,27 +45,92 @@ namespace dx_engine {
 			double _cpu_usage = 0;
 		public:
 #ifdef _DEBUG
+			/// <summary>
+			/// デバッグモードかどうか (デフォルトはDebugモードではtrue, Releaseモードではfalse)
+			/// </summary>
 			bool debug_mode = true;
 #else
+			/// <summary>
+			/// デバッグモードかどうか (デフォルトはDebugモードではtrue, Releaseモードではfalse)
+			/// </summary>
 			bool debug_mode = false;
 #endif
 			_system();
 
+			/// <summary>
+			/// キーボード
+			/// </summary>
 			device::keyboard keyboard;
+
+			/// <summary>
+			/// マウス
+			/// </summary>
 			device::mouse mouse;
+
+			/// <summary>
+			/// エンジンのアップデート　毎フレーム呼び出す
+			/// </summary>
+			/// <returns>フレームを続けるか</returns>
 			bool update();
+
+			/// <summary>
+			/// 前フレームとの差
+			/// </summary>
+			/// <returns>前フレームから何秒経ったか(float)</returns>
 			float delta_sec() const;
+
+			/// <summary>
+			/// 前フレームとの差
+			/// </summary>
+			/// <returns>前フレームから何秒経ったか(double)</returns>
 			double delta_sec_d() const;
+
+			/// <summary>
+			/// フレームレートの計算
+			/// </summary>
+			/// <returns>現在のフレームレート</returns>
 			float fps() const;
+
+			/// <summary>
+			/// 垂直同期の設定
+			/// </summary>
+			/// <param name="flag">垂直同期を使用するか</param>
 			void vsync(bool flag);
+
+			/// <summary>
+			/// フレームレートの最大値を設定　現在無効
+			/// </summary>
+			/// <param name="value">最大値</param>
 			void max_fps(float value);
 
+			/// <summary>
+			/// プロセスメモリの情報を取得
+			/// </summary>
+			/// <returns>プロセスメモリの情報</returns>
 			PROCESS_MEMORY_COUNTERS_EX process_memory_info() const;
+
+			/// <summary>
+			/// メモリの情報を取得
+			/// </summary>
+			/// <returns>メモリの情報</returns>
 			MEMORYSTATUSEX memory_info() const;
 
+			/// <summary>
+			/// CPU使用量の計算
+			/// </summary>
+			/// <returns>CPU使用量</returns>
 			double processor_usage() const;
+
+			/// <summary>
+			/// システムの情報を取得
+			/// </summary>
+			/// <returns>システムの情報</returns>
 			SYSTEM_INFO system_info() const;
 
+			/// <summary>
+			/// モニターサイズの取得
+			/// </summary>
+			/// <returns>モニターサイズ</returns>
 			point<uint> monitor_size() const;
 
 			~_system();

@@ -188,38 +188,41 @@ void GradBox(point<int> p1, point<int> p2, color c1, color c2, color c3, color c
 }
 
 int main() {
-	scene_manager scenemanager;
-	scenemanager.add<testscene>(1);
-	scenemanager.add<testscene2>(2);
+	//scene_manager scenemanager;
+	//scenemanager.add<testscene>(1);
+	//scenemanager.add<testscene2>(2);
 
-	color clr = pallet::white;
-	hsv hclr = pallet::white;
-	rect slider_rect{ point<uint>{32, 400} };
-	gui::slider<byte> slider_r(rect{ point<uint>{600, 32} }, { 16,128},pallet::red, 0, 255);
-	gui::slider<byte> slider_g(rect{ point<uint>{600, 32} }, { 16,192 }, pallet::green, 0, 255);
-	gui::slider<byte> slider_b(rect{ point<uint>{600, 32} }, { 16,256 }, pallet::blue, 0, 255);
-	gui::slider<byte> slider_a(rect{ point<uint>{600, 32} }, { 16,320 }, pallet::white, 0, 255);
+	//color clr = pallet::white;
+	//hsv hclr = pallet::white;
+	//rect slider_rect{ point<uint>{32, 400} };
+	//gui::slider<byte> slider_r(rect{ point<uint>{600, 32} }, { 16,128},pallet::red, 0, 255);
+	//gui::slider<byte> slider_g(rect{ point<uint>{600, 32} }, { 16,192 }, pallet::green, 0, 255);
+	//gui::slider<byte> slider_b(rect{ point<uint>{600, 32} }, { 16,256 }, pallet::blue, 0, 255);
+	//gui::slider<byte> slider_a(rect{ point<uint>{600, 32} }, { 16,320 }, pallet::white, 0, 255);
 
-	gui::slider<int> slider_h(rect{ point<uint>{600, 32} }, { 640,128 }, pallet::red, 0, 360);
-	gui::slider<double> slider_s(rect{ point<uint>{600, 32} }, { 640,192 }, pallet::green, 0, 1.0);
-	gui::slider<double> slider_v(rect{ point<uint>{600, 32} }, { 640,256 }, pallet::blue, 0, 1.0);
+	//gui::slider<int> slider_h(rect{ point<uint>{600, 32} }, { 640,128 }, pallet::red, 0, 360);
+	//gui::slider<double> slider_s(rect{ point<uint>{600, 32} }, { 640,192 }, pallet::green, 0, 1.0);
+	//gui::slider<double> slider_v(rect{ point<uint>{600, 32} }, { 640,256 }, pallet::blue, 0, 1.0);
 
-	gui::pulldown pldwn({ "A","BB","CCC","‚ ‚¢‚¤‚¦‚¨" }, { 1000, 64 });
-	uint plid = 2;
+	//gui::pulldown pldwn({ "A","BB","CCC","‚ ‚¢‚¤‚¦‚¨" }, { 1000, 64 });
+	//uint plid = 2;
 
-	std::function<void(void)> f = [&]() {clock::stopwatch sw; sw.restart(); while (sw.get_sec() <= 10) {}; return; };
+	//auto f = [&]() {clock::stopwatch sw; sw.restart(); while (sw.get_sec() <= 10) {}; return; };
 
-	int id = thread_manager.add(f);
+	//int id = thread_manager.add(f);
 
+	double rate = 1.0;
+	rect r({ 256,192 });
+	r.at(window.size() / 2.0).colored(pallet::gray).blend(blend::none, 255).centered({ 92,92 });
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		
 		console >> std::format("{:5.2f}fps", systems.fps());
 		console << systems.mouse.position();
 
-		if (thread_manager.get(id)) {
-			console << "a";
-		}
+		//if (thread_manager.get(id)) {
+		//	console << "a";
+		//}
 
 		//scenemanager.update();
 		/*bool frgb = false, fhsv = false;
@@ -255,6 +258,13 @@ int main() {
 		GradBox({ 320, 828 }, { 500, 956 }, color(255, 255, 255, 0), color(255, 255, 255, 0), color(0, 0, 0, 255), color(0, 0, 0, 255));
 
 		pldwn(plid);*/
+
+		r.extended(rate).rotateed(rate * 2).draw();
+		circle(8).colored(pallet::white).blend(blend::none, 255).at(window.size() / 2.0).draw();
+		circle(32).colored(pallet::black).centered({ -8,-8 }).rotateed(rate * 2).blend(blend::none, 255).at(window.size() / 2.0 - point<double>{256, 256}).draw();
+		circle(8).colored(pallet::white).blend(blend::none, 255).at(window.size() / 2.0 - point<double>{256, 256}).draw();
+		rate += 0.001;
+		rate = fmod(rate, 2.0);
 	}
 
 	return 0;

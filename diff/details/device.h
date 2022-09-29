@@ -563,6 +563,9 @@ namespace dx_engine {
 				///</summary>
 				_key Z;
 
+				/// <summary>
+				/// キーボードの更新 普通は使用しない
+				/// </summary>
 				void update();
 			};
 
@@ -572,19 +575,45 @@ namespace dx_engine {
 			public:
 				mouse();
 
+				/// <summary>
+				/// 左ボタン
+				/// </summary>
 				_mouse Left;
+
+				/// <summary>
+				/// 中ボタン
+				/// </summary>
 				_mouse Middle;
+
+				/// <summary>
+				/// 右ボタン
+				/// </summary>
 				_mouse Right;
+
 				_mouse Button4;
 				_mouse Button5;
 				_mouse Button6;
 				_mouse Button7;
 				_mouse Button8;
 
+				/// <summary>
+				/// マウスカーソルの位置を取得
+				/// </summary>
+				/// <returns>カーソルの位置</returns>
 				point<int> position() const;
+
+				/// <summary>
+				/// マウスカーソルの位置を設定
+				/// </summary>
+				/// <param name="p">カーソルの位置</param>
 				void position(const point<int>& p);
+
 				//LPSTR type() const;
 				//void type(LPSTR type);
+
+				/// <summary>
+				/// マウスの更新 普通は使用しない
+				/// </summary>
 				void update();
 			};
 		}

@@ -19,7 +19,26 @@ namespace dx_engine {
 		ChangePanSoundMem((int)(_pan * 255), _handle);
 	}
 
-	audio& audio::pan(range<-1.0f, 1.0f> panpal) {
+	audio audio::pan(range<-1.0f, 1.0f> panpal)&& {
+		if (_pan != panpal.get()) {
+			_pan = panpal;
+			ChangeVolumeSoundMem((int)(_volume * (235 + (abs(_pan)) * 20)), _handle);
+			ChangePanSoundMem((int)(_pan * 255), _handle);
+		}
+
+		return std::move(*this);
+	}
+	audio audio::volume(range<0.0f, 1.0f> value)&& {
+		if (_volume != value.get()) {
+			_volume = value;
+			ChangeVolumeSoundMem((int)(_volume * (235 + (abs(_pan)) * 20)), _handle);
+			ChangePanSoundMem((int)(_pan * 255), _handle);
+		}
+
+		return std::move(*this);
+	}
+
+	audio& audio::pan(range<-1.0f, 1.0f> panpal)& {
 		if (_pan != panpal.get()) {
 			_pan = panpal;
 			ChangeVolumeSoundMem((int)(_volume * (235 + (abs(_pan)) * 20)), _handle);
@@ -28,7 +47,7 @@ namespace dx_engine {
 
 		return *this;
 	}
-	audio& audio::volume(range<0.0f, 1.0f> value) {
+	audio& audio::volume(range<0.0f, 1.0f> value)& {
 		if (_volume != value.get()) {
 			_volume = value;
 			ChangeVolumeSoundMem((int)(_volume * (235 + (abs(_pan)) * 20)), _handle);

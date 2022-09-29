@@ -25,7 +25,11 @@ namespace dx_engine {
 	void circle::draw() {
 		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
 		SetDrawMode(SCAST(int, _filter));
+		auto r = _r * _rate;
+		auto c = _center * _rate;
 
-		DrawCircleAA(SCAST(float, _position.x - _center.x), SCAST(float, _position.y - _center.y), SCAST(float, _r), (int)(_r * 3), _color.to_int(), _fill_flag, _thick);
+		auto p = vector::rotate_at(_position, c, _angle);
+
+		DrawCircleAA(SCAST(float, p.x - c.x), SCAST(float, p.y - c.y), SCAST(float, r), (int)(r * 3), _color.to_int(), _fill_flag, _thick);
 	}
 }
