@@ -15,13 +15,30 @@ namespace dx_engine {
 	}
 
 	void animation::add(uint id, const std::vector<uint>& order, uint interval, bool loop) {
-		_data.insert(std::make_pair(id, detail::animation_data{ ._interval = interval, ._loop = loop, ._order = order }));
+		if (_data.contains(id)) {
+			_data[id] = detail::animation_data{ ._interval = interval, ._loop = loop, ._order = order };
+		}
+		else {
+			_data.insert(std::make_pair(id, detail::animation_data{ ._interval = interval, ._loop = loop, ._order = order }));
+		}
 	}
 
 	void animation::set(uint id, bool reset_count) {
 		_id = id;
 		if (reset_count) {
 			_count = 0;
+		}
+	}
+
+	void animation::reset_interval(uint id, uint interval) {
+		if (_data.contains(id)) {
+			_data[id]._interval = interval;
+		}
+	}
+
+	void animation::reset_order(uint id, const std::vector<uint>& order) {
+		if (_data.contains(id)) {
+			_data[id]._order = order;
 		}
 	}
 
