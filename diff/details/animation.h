@@ -50,7 +50,7 @@ namespace dx_engine {
 		/// アニメーションの定義を追加する
 		/// </summary>
 		/// <param name="id">アニメーションのID</param>
-		/// <param name="order">アニメーションする画像の番号(左上から右に向かって0,1,2,....)</param>
+		/// <param name="order">アニメーションする画像の順序の番号(左上から右に向かって0,1,2,....)</param>
 		/// <param name="interval">画像切り替えのフレーム数</param>
 		/// <param name="loop">ループするかどうか</param>
 		void add(uint id, const std::vector<uint>& order, uint interval, bool loop = false);
@@ -60,6 +60,18 @@ namespace dx_engine {
 		/// <param name="id">アニメーションID</param>
 		/// <param name="reset_count">画像を一番初めに戻すか</param>
 		void set(uint id, bool reset_count = true);
+		/// <summary>
+		/// アニメーションの画像切り替えのフレーム数を変更する
+		/// </summary>
+		/// <param name="id">アニメーションID</param>
+		/// <param name="interval">画像切り替えのフレーム数</param>
+		void reset_interval(uint id, uint interval);
+		/// <summary>
+		/// アニメーションの画像切り替えの順序を変更する
+		/// </summary>
+		/// <param name="id">アニメーションID</param>
+		/// <param name="order">アニメーションする画像の順序の番号(左上から右に向かって0,1,2,....)</param>
+		void reset_order(uint id, const std::vector<uint>& order);
 
 		/// <summary>
 		/// 原点とする座標を設定する

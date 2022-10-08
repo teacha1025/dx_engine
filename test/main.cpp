@@ -210,7 +210,10 @@ int main() {
 	//auto f = [&]() {clock::stopwatch sw; sw.restart(); while (sw.get_sec() <= 10) {}; return; };
 
 	//int id = thread_manager.add(f);
-
+	animation anm("test2.bmp", { 4,3 });
+	anm.add(0, { 0,1,2,3 }, 15, true);
+	anm.add(1, { 8,9 }, 15, true);
+	anm.set(0);
 	double rate = 1.0;
 	rect r({ 256,192 });
 	r.at(window.size() / 2.0).colored(pallet::gray).blend(blend::none, 255).centered({ 92,92 });
@@ -258,13 +261,19 @@ int main() {
 		GradBox({ 320, 828 }, { 500, 956 }, color(255, 255, 255, 0), color(255, 255, 255, 0), color(0, 0, 0, 255), color(0, 0, 0, 255));
 
 		pldwn(plid);*/
-
-		r.extended(rate).rotateed(rate * 2).draw();
-		circle(8).colored(pallet::white).blend(blend::none, 255).at(window.size() / 2.0).draw();
-		circle(32).colored(pallet::black).centered({ -8,-8 }).rotateed(rate * 2).blend(blend::none, 255).at(window.size() / 2.0 - point<double>{256, 256}).draw();
-		circle(8).colored(pallet::white).blend(blend::none, 255).at(window.size() / 2.0 - point<double>{256, 256}).draw();
-		rate += 0.001;
-		rate = fmod(rate, 2.0);
+		if (systems.keyboard.Num0.down()) {
+			anm.set(0, false);
+		}
+		if (systems.keyboard.Num1.down()) {
+			anm.set(1,false);
+		}
+		anm.blend(blend::none, 255).at(window.size() / 2.0f).play();
+		//r.extended(rate).rotateed(rate * 2).draw();
+		//circle(8).colored(pallet::white).blend(blend::none, 255).at(window.size() / 2.0).draw();
+		//circle(32).colored(pallet::black).centered({ -8,-8 }).rotateed(rate * 2).blend(blend::none, 255).at(window.size() / 2.0 - point<double>{256, 256}).draw();
+		//circle(8).colored(pallet::white).blend(blend::none, 255).at(window.size() / 2.0 - point<double>{256, 256}).draw();
+		//rate += 0.001;
+		//rate = fmod(rate, 2.0);
 	}
 
 	return 0;

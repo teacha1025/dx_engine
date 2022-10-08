@@ -27,6 +27,7 @@ namespace dx_engine {
 		_id = id;
 		if (reset_count) {
 			_count = 0;
+			_index = 0;
 		}
 	}
 
@@ -85,6 +86,7 @@ namespace dx_engine {
 					}
 				}
 			}
+			_index %= _data.at(_id)._order.size();
 			_count++;
 		}
 	}
@@ -99,6 +101,7 @@ namespace dx_engine {
 	void animation::play() {
 		if (_data.contains(_id) && !_end) {
 			update_index();
+			if (_end) return;
 			_tex[_data.at(_id)._order.at(_index)].draw();
 
 		}

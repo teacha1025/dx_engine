@@ -199,6 +199,10 @@ namespace dx_engine {
 			ClearDrawScreen();
 			return f;
 		}
+
+		int _window::back_screen() const {
+			return _fullscreen ? _mainscreen : DX_SCREEN_BACK;
+		}
 	}
 
 	detail::_window window;
