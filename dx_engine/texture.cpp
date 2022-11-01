@@ -227,4 +227,8 @@ namespace dx_engine {
 		SetDrawMode(SCAST(int, _filter));
 		DrawModiGraphF(SCAST(float, position.at(0).x), SCAST(float, position.at(0).y), SCAST(float, position.at(1).x), SCAST(float, position.at(1).y), SCAST(float, position.at(2).x), SCAST(float, position.at(2).y), SCAST(float, position.at(3).x), SCAST(float, position.at(3).y), _handle, _istrans);
 	}
+
+	point<double> texture::size() const {
+		return _size;
+	}
 }
