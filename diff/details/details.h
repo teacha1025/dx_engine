@@ -166,6 +166,8 @@ namespace dx_engine {
 
 			void init();
 			void init2();
+
+			int back_screen() const;
 		};
 
 		
