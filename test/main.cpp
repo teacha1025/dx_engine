@@ -267,6 +267,8 @@ int main() {
 		if (systems.keyboard.Num1.down()) {
 			anm.set(1,false);
 		}
+		r.at(systems.mouse.position());
+		r.draw();
 		anm.blend(blend::none, 255).at(window.size() / 2.0f).play();
 		//r.extended(rate).rotateed(rate * 2).draw();
 		//circle(8).colored(pallet::white).blend(blend::none, 255).at(window.size() / 2.0).draw();
