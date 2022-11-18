@@ -2,7 +2,7 @@
 // 
 // 		ＤＸライブラリ		ヘッダファイル
 // 
-// 				Ver 3.23d
+// 				Ver 3.24 
 // 
 // -------------------------------------------------------------------------------
 
@@ -12,9 +12,9 @@
 #include "DxCompileConfig.h"
 
 // ＤＸライブラリのバージョン
-#define DXLIB_VERSION 0x323d
-#define DXLIB_VERSION_STR_T _T( "3.23d" )
-#define DXLIB_VERSION_STR_W    L"3.23d"
+#define DXLIB_VERSION 0x3240
+#define DXLIB_VERSION_STR_T _T( "3.24 " )
+#define DXLIB_VERSION_STR_W    L"3.24 "
 
 // 設定 -----------------------------------------------------------------------
 
@@ -53,7 +53,7 @@
 #define MAX_MUSIC_NUM								(256)				// 同時に持てるミュージックハンドルの最大数
 #define MAX_MOVIE_NUM								(100)				// 同時に持てるムービーハンドルの最大数
 #define MAX_MASK_NUM								(32768)				// 同時に持てるマスクハンドルの最大数
-#define MAX_FONT_NUM								(40)				// 同時に持てるフォントハンドルの最大数
+#define MAX_FONT_NUM								(256)				// 同時に持てるフォントハンドルの最大数
 #define MAX_INPUT_NUM								(256)				// 同時に持てる文字列入力ハンドルの最大数
 #define MAX_SOCKET_NUM								(8192)				// 同時に持てる通信ハンドルの最大数
 #define MAX_LIGHT_NUM								(4096)				// 同時に持てるライトハンドルの最大数
@@ -245,7 +245,32 @@
 #define DX_BLENDMODE_SPINE_ADDITIVE					(29)			// Spine のブレンドモード Additive 用
 #define DX_BLENDMODE_SPINE_MULTIPLY					(30)			// Spine のブレンドモード Multiply 用
 #define DX_BLENDMODE_SPINE_SCREEN					(31)			// Spine のブレンドモード Screen 用
-#define DX_BLENDMODE_NUM							(32)			// ブレンドモードの数
+#define DX_BLENDMODE_CUSTOM							(32)			// カスタムブレンドモード
+#define DX_BLENDMODE_NUM							(33)			// ブレンドモードの数
+
+// カスタムブレンドモード用のブレンド要素タイプ
+// Rs = 描画元のR   Rg = 描画元のG   Rb = 描画元のB   Ra = 描画元のA
+// Rd = 描画先のR   Rd = 描画先のG   Rd = 描画先のB   Rd = 描画先のA
+#define DX_BLEND_ZERO								(0)				// R = 0         G = 0         B = 0         A = 0
+#define DX_BLEND_ONE								(1)				// R = 255       G = 255       B = 255       A = 255
+#define DX_BLEND_SRC_COLOR							(2)				// R = Rs        G = Gs        B = Gs        A = As
+#define DX_BLEND_INV_SRC_COLOR						(3)				// R = 255 - Rs  G = 255 - Gs  B = 255 - Gs  A = 255 - As
+#define DX_BLEND_SRC_ALPHA							(4)				// R = As        G = As        B = As        A = As
+#define DX_BLEND_INV_SRC_ALPHA						(5)				// R = 255 - As  G = 255 - As  B = 255 - As  A = 255 - As
+#define DX_BLEND_DEST_COLOR							(6)				// R = Rd        G = Gd        B = Bd        A = Ad
+#define DX_BLEND_INV_DEST_COLOR						(7)				// R = 255 - Rd  G = 255 - Gd  B = 255 - Bd  A = 255 - Ad
+#define DX_BLEND_DEST_ALPHA							(8)				// R = Ad        G = Ad        B = Ad        A = Ad
+#define DX_BLEND_INV_DEST_ALPHA						(9)				// R = 255 - Ad  G = 255 - Ad  B = 255 - Ad  A = 255 - Ad
+#define DX_BLEND_SRC_ALPHA_SAT						(10)			// R = f         G = f         B = f         A = 255        f = min( As, 255 - Ad )
+#define DX_BLEND_NUM								(11)			// ブレンド要素タイプの数
+
+// カスタムブレンドモード用のブレンド処理タイプ
+#define DX_BLENDOP_ADD								(0)				// ブレンドソース1とブレンドソース2を加算
+#define DX_BLENDOP_SUBTRACT							(1)				// ブレンドソース1からブレンドソース2を減算
+#define DX_BLENDOP_REV_SUBTRACT						(2)				// ブレンドソース2からブレンドソース2を減算
+#define DX_BLENDOP_MIX								(3)				// ブレンドソース1とブレンドソース2の最小値
+#define DX_BLENDOP_MAX								(4)				// ブレンドソース1とブレンドソース2の最大値
+#define DX_BLENDOP_NUM								(5)				// ブレンド処理タイプの数
 
 // DrawGraphF 等の浮動小数点値で座標を指定する関数における座標タイプ
 #define DX_DRAWFLOATCOORDTYPE_DIRECT3D9				(0)				// Direct3D9タイプ( -0.5f の補正を行わないとテクスチャのピクセルが綺麗にマップされないタイプ )
@@ -1094,9 +1119,10 @@
 #define DX_TOUCHINPUT_TOOL_TYPE_ERASER					(4)			// 消しゴム
 
 // フルスクリーン解像度モード定義
-#define DX_FSRESOLUTIONMODE_DESKTOP					(0)				// モニターの画面モードをデスクトップ画面と同じにしてＤＸライブラリ画面を拡大して表示するモード
-#define DX_FSRESOLUTIONMODE_NATIVE					(1)				// モニターの解像度をＤＸライブラリ画面の解像度に合わせるモード
-#define DX_FSRESOLUTIONMODE_MAXIMUM					(2)				// モニターの解像度を最大にしてＤＸライブラリ画面を拡大して表示するモード
+#define DX_FSRESOLUTIONMODE_BORDERLESS_WINDOW		(0)				// 仮想フルスクリーンモード( 実際にはフルスクリーンモードにせず、ボーダーレスウィンドウをデスクトップ画面いっぱいに拡大して仮想的にフルスクリーンモードを実現するモード )
+#define DX_FSRESOLUTIONMODE_DESKTOP					(1)				// モニターの画面モードをデスクトップ画面と同じにしてＤＸライブラリ画面を拡大して表示するモード
+#define DX_FSRESOLUTIONMODE_NATIVE					(2)				// モニターの解像度をＤＸライブラリ画面の解像度に合わせるモード
+#define DX_FSRESOLUTIONMODE_MAXIMUM					(3)				// モニターの解像度を最大にしてＤＸライブラリ画面を拡大して表示するモード
 
 // フルスクリーン拡大モード定義
 #define DX_FSSCALINGMODE_BILINEAR					(0)				// バイリニアモード( ピクセルが滲んでピクセルとピクセルの区切りがはっきりしない )
@@ -2544,7 +2570,7 @@ extern	int			ChangeStreamFunctionW(				const STREAMDATASHREDTYPE2W *StreamThread
 
 // 補助関係関数
 extern int			ConvertFullPath(					const TCHAR *Src,                   TCHAR *Dest, const TCHAR *CurrentDir DEFAULTPARAM( = NULL )                                              ) ;	// フルパスではないパス文字列をフルパスに変換する( CurrentDir はフルパスである必要がある(語尾に『\』があっても無くても良い) )( CurrentDir が NULL の場合は現在のカレントディレクトリを使用する )
-extern int			ConvertFullPathWithStrLen(			const TCHAR *Src, size_t SrcLength, TCHAR *Dest, const TCHAR *CurrentDir DEFAULTPARAM( = NULL ), size_t CurrentDirLength DEFAULTPARAM( = 0 ) ) ;	// フルパスではないパス文字列をフルパスに変換する( CurrentDir はフルパスである必要がある(語尾に『\』があっても無くても良い) )( CurrentDir が NULL の場合は現在のカレントディレクトリを使用する )
+extern int			ConvertFullPathWithStrLen(			const TCHAR *Src, size_t SrcLength, TCHAR *Dest, const TCHAR *CurrentDir DEFAULTPARAM( = NULL ), size_t CurrentDirLength DEFAULTPARAM( = 0 ) ) ;
 
 
 
@@ -2981,6 +3007,8 @@ extern	int			SetDrawMode(						int DrawMode ) ;												// 描画モードを設定す
 extern	int			GetDrawMode(						void ) ;														// 描画モードを取得する
 extern	int			SetDrawBlendMode(					int BlendMode, int BlendParam ) ;								// 描画ブレンドモードを設定する
 extern	int			GetDrawBlendMode(					int *BlendMode, int *BlendParam ) ;								// 描画ブレンドモードを取得する
+extern	int			SetDrawCustomBlendMode(				int BlendEnable, int SrcBlendRGB /* DX_BLEND_SRC_COLOR 等 */, int DestBlendRGB /* DX_BLEND_SRC_COLOR 等 */, int BlendOpRGB /* DX_BLENDOP_ADD 等 */, int SrcBlendA /* DX_BLEND_SRC_COLOR 等 */, int DestBlendA /* DX_BLEND_SRC_COLOR 等 */, int BlendOpA /* DX_BLENDOP_ADD 等 */, int BlendParam ) ;		// カスタムブレンドモードを設定する
+extern	int			GetDrawCustomBlendMode(				int *BlendEnable, int *SrcBlendRGB, int *DestBlendRGB, int *BlendOpRGB, int *SrcBlendA, int *DestBlendA, int *BlendOpA, int *BlendParam ) ;																																								// カスタムブレンドモードを取得する
 extern	int			SetDrawAlphaTest(					int TestMode, int TestParam ) ;									// 描画時のアルファテストの設定を行う( TestMode:テストモード( DX_CMP_GREATER等 -1でデフォルト動作に戻す )  TestParam:描画アルファ値との比較に使用する値( 0～255 ) )
 extern	int			GetDrawAlphaTest(					int *TestMode, int *TestParam ) ;								// 描画時のアルファテストの設定を取得する( TestMode:テストモード( DX_CMP_GREATER等 -1でデフォルト動作に戻す )  TestParam:描画アルファ値との比較に使用する値( 0～255 ) )
 extern	int			SetBlendGraph(						int BlendGraph, int BorderParam, int BorderRange ) ;			// ( SetBlendGraphParam の BlendType = DX_BLENDGRAPHTYPE_WIPE の処理を行う旧関数 )描画処理時に描画する画像とブレンドするαチャンネル付き画像をセットする( BlendGraph を -1 でブレンド機能を無効 )
@@ -3109,6 +3137,7 @@ extern	int				SetGraphMode(								int ScreenSizeX, int ScreenSizeY, int ColorBi
 extern	int				SetUserScreenImage(							void *Image, int PixelFormat /* DX_USER_SCREEN_PIXEL_FORMAT_R5G6B5 等 */ ) ;	// 画面のメモリイメージをセットする( DxLib_Init の前で呼ぶ必要がある( DxLib_Init の前に一度でも呼んでいれば、DxLib_Init 後は Image のアドレスのみの変更目的で呼ぶことは可能 )、PixelFormat に DX_USER_SCREEN_PIXEL_FORMAT_R5G6B5 又は DX_USER_SCREEN_PIXEL_FORMAT_X8R8G8B8 の二つ以外を指定した場合はＤＸライブラリの描画関数は一切使用できなくなります )
 extern	int				SetFullScreenResolutionMode(				int ResolutionMode /* DX_FSRESOLUTIONMODE_NATIVE 等 */ ) ;						// フルスクリーン解像度モードを設定する
 extern	int				GetFullScreenResolutionMode(				int *ResolutionMode, int *UseResolutionMode ) ;									// フルスクリーン解像度モードを取得する( UseResolutionMode は実際に使用されている解像度モード( 例えば DX_FSRESOLUTIONMODE_NATIVE を指定していてもモニタが指定の解像度に対応していない場合は UseResolutionMode が DX_FSRESOLUTIONMODE_DESKTOP や DX_FSRESOLUTIONMODE_MAXIMUM になります ) )
+extern	int				GetUseFullScreenResolutionMode(				void ) ;																		// フルスクリーン解像度モードを取得する( GetFullScreenResolutionMode の UseResolutionMode で取得できる値を返す関数 )
 extern	int				SetFullScreenScalingMode(					int ScalingMode /* DX_FSSCALINGMODE_NEAREST 等 */ , int FitScaling DEFAULTPARAM( = FALSE ) ) ;	// フルスクリーンモード時の画面拡大モードを設定する
 extern	int				SetEmulation320x240(						int Flag ) ;																	// ６４０ｘ４８０の画面で３２０ｘ２４０の画面解像度にするかどうかを設定する、６４０ｘ４８０以外の解像度では無効( TRUE:有効  FALSE:無効 )
 extern	int				SetZBufferSize(								int ZBufferSizeX, int ZBufferSizeY ) ;											// 画面用のＺバッファのサイズを設定する
@@ -5180,7 +5209,9 @@ extern	float		MV1GetAttachAnimTotalTime(			int MHandle, int AttachIndex ) ;					
 extern	int			MV1SetAttachAnimBlendRate(			int MHandle, int AttachIndex, float Rate DEFAULTPARAM( = 1.0f ) ) ;					// アタッチしているアニメーションのブレンド率を設定する
 extern	float		MV1GetAttachAnimBlendRate(			int MHandle, int AttachIndex ) ;													// アタッチしているアニメーションのブレンド率を取得する
 extern	int			MV1SetAttachAnimBlendRateToFrame(	int MHandle, int AttachIndex, int FrameIndex, float Rate, int SetChild DEFAULTPARAM( = TRUE ) ) ;	// アタッチしているアニメーションのブレンド率を設定する( フレーム単位 )
-extern	float		MV1GetAttachAnimBlendRateToFrame(	int MHandle, int AttachIndex, int FrameIndex ) ;									// アタッチしているアニメーションのブレンド率を設定する( フレーム単位 )
+extern	float		MV1GetAttachAnimBlendRateToFrame(	int MHandle, int AttachIndex, int FrameIndex ) ;									// アタッチしているアニメーションのブレンド率を取得する( フレーム単位 )
+extern	int			MV1SetAttachAnimTimeToFrame(		int MHandle, int AttachIndex, int FrameIndex, float Time, int SetChild DEFAULTPARAM( = TRUE ) ) ;	// アタッチしているアニメーションの再生時間を設定する( フレーム単位 )( Time にマイナスの値を渡すと設定を解除 )
+extern	float		MV1GetAttachAnimTimeToFrame(		int MHandle, int AttachIndex, int FrameIndex ) ;									// アタッチしているアニメーションの再生時間を取得する( フレーム単位 )
 extern	int			MV1GetAttachAnim(					int MHandle, int AttachIndex ) ;													// アタッチしているアニメーションのアニメーションインデックスを取得する
 extern	int			MV1SetAttachAnimUseShapeFlag(		int MHandle, int AttachIndex, int UseFlag ) ;										// アタッチしているアニメーションのシェイプを使用するかどうかを設定する( UseFlag  TRUE:使用する( デフォルト )  FALSE:使用しない )
 extern	int			MV1GetAttachAnimUseShapeFlag(		int MHandle, int AttachIndex ) ;													// アタッチしているアニメーションのシェイプを使用するかどうかを取得する
@@ -5499,7 +5530,9 @@ extern	int			Live2D_Model_Draw(				int Live2DModelHandle ) ;												// Live2
 
 extern	int			Live2D_Model_StartMotion(				int Live2DModelHandle, const TCHAR *group,						int no ) ;							// Live2D のモデルの指定のモーションを再生する
 extern	int			Live2D_Model_StartMotionWithStrLen(		int Live2DModelHandle, const TCHAR *group, size_t groupLength,	int no ) ;							// Live2D のモデルの指定のモーションを再生する
+extern	int			Live2D_Model_GetLastPlayMotionNo(		int Live2DModelHandle ) ;																			// Live2D のモデルで最後に再生したモーションのグループ内の番号を取得する
 extern	int			Live2D_Model_IsMotionFinished(			int Live2DModelHandle ) ;																			// Live2D のモデルのモーション再生が終了しているかを取得する( 戻り値  TRUE:再生が終了している  FALSE:再生中 )
+extern	float		Live2D_Model_GetMotionPlayTime(			int Live2DModelHandle ) ;																			// Live2D のモデルのモーション再生時間を取得する
 extern	int			Live2D_Model_SetExpression(				int Live2DModelHandle, const TCHAR *expressionID ) ;												// Live2D のモデルの指定の表情モーションを設定する
 extern	int			Live2D_Model_SetExpressionWithStrLen(	int Live2DModelHandle, const TCHAR *expressionID, size_t expressionIDLength ) ;						// Live2D のモデルの指定の表情モーションを設定する
 extern	int			Live2D_Model_HitTest(					int Live2DModelHandle, const TCHAR *hitAreaName,							float x, float y ) ;	// 指定の座標が Live2D のモデルの指定の当たり判定の矩形範囲内か判定する( TRUE:矩形範囲内  FALSE:矩形範囲外 )

@@ -11,7 +11,7 @@ define N = 60.0;
 
 void init() {
 	dx_engine::log.set(true, false);
-	//window.fullscreen(true, fullscreen_type::borderless_dotbydot);
+	window.fullscreen(true, fullscreen_type::borderless_dotbydot);
 	window.size({ 1280,960 });
 	window.background(pallet::lightskyblue);
 	window.title("TEST");
@@ -216,12 +216,28 @@ int main() {
 	anm.set(0);
 	double rate = 1.0;
 	rect r({ 256,192 });
+	text txt, txt2;
+	text::load_font_size(80);
+	txt.set_font("メイリオ");
+	txt2.set_font("メイリオ", 16, 1, font_type::normal, -1, false, true);
+	txt = "てすとテストTESTtestｔｅｓｔ";
+	txt2 = "てすとテストTESTtestｔｅｓｔ";
+	txt.at({ 0,0 });
+	txt2.at({ 0,0 });
 	r.at(window.size() / 2.0).colored(pallet::gray).blend(blend::none, 255).centered({ 92,92 });
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		
 		console >> std::format("{:5.2f}fps", systems.fps());
 		console << systems.mouse.position();
+		console << rate;
+
+		txt.extended(rate);
+		txt2.extended(rate);
+		//r.resize(txt.size());
+		//r.centered({ 0,0 }).at({ 0,0 }).draw();
+		txt.draw();
+		txt2.colored(pallet::red).draw();
 
 		//if (thread_manager.get(id)) {
 		//	console << "a";
@@ -261,21 +277,21 @@ int main() {
 		GradBox({ 320, 828 }, { 500, 956 }, color(255, 255, 255, 0), color(255, 255, 255, 0), color(0, 0, 0, 255), color(0, 0, 0, 255));
 
 		pldwn(plid);*/
-		if (systems.keyboard.Num0.down()) {
+		/*if (systems.keyboard.Num0.down()) {
 			anm.set(0, false);
 		}
 		if (systems.keyboard.Num1.down()) {
 			anm.set(1,false);
-		}
-		r.at(systems.mouse.position());
-		r.draw();
-		anm.blend(blend::none, 255).at(window.size() / 2.0f).play();
+		}*/
+		//r.at(systems.mouse.position());
+		//r.draw();
+		//anm.blend(blend::none, 255).at(window.size() / 2.0f).play();
 		//r.extended(rate).rotateed(rate * 2).draw();
 		//circle(8).colored(pallet::white).blend(blend::none, 255).at(window.size() / 2.0).draw();
 		//circle(32).colored(pallet::black).centered({ -8,-8 }).rotateed(rate * 2).blend(blend::none, 255).at(window.size() / 2.0 - point<double>{256, 256}).draw();
 		//circle(8).colored(pallet::white).blend(blend::none, 255).at(window.size() / 2.0 - point<double>{256, 256}).draw();
-		//rate += 0.001;
-		//rate = fmod(rate, 2.0);
+		rate += 0.002;
+		rate = fmod(rate, 5.0);
 	}
 
 	return 0;

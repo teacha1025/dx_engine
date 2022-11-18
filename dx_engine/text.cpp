@@ -7,6 +7,8 @@
 #include "../details/text.h"
 
 namespace dx_engine {
+	int text::FONT_LOAD_SIZE = 100;
+
 	text::text(const std::string& str) {
 		_str = str;
 		setsize();
@@ -24,28 +26,35 @@ namespace dx_engine {
 		dx_engine::font_type type;
 		uint edgesize;
 		bool italic;
+		bool light_mode;
 
 		bool operator == (const font_data& d) {
 			return fontname == d.fontname && size == d.size && thick == d.thick && type == d.type && edgesize == d.edgesize && italic == d.italic;
 		}
 	};
 	std::vector<std::pair<font_data, int>> font_list;
-	void text::set_font(const std::string& fontname, dx_engine::uint size, dx_engine::uint thick, dx_engine::font_type type, uint edgesize, bool italic) {
+	void text::set_font(const std::string& fontname, dx_engine::uint size, dx_engine::uint thick, dx_engine::font_type type, uint edgesize, bool italic, bool light_mode) {
+		_light_mode = light_mode;
+		if (light_mode) {
+			//_filter = filter::nearest;
+		}
 		if (fontname == "") {
 			_fonthandle = 0;
 		}
 		else {
+			_scale = !light_mode ? (double)size / FONT_LOAD_SIZE : 1.0;
+			const auto load_size = !light_mode ? FONT_LOAD_SIZE : size;
 			auto i = 0;
 			for (auto& l : font_list) {
-				if (l.first == font_data{ fontname, size, thick, type, edgesize, italic }) {
+				if (l.first == font_data{ fontname, load_size, (uint)(thick * _scale), type, edgesize, italic, light_mode }) {
 					_fonthandle = font_list.at(i).second;
 					setsize();
 					return;
 				}
 				i++;
 			}
-			_fonthandle = CreateFontToHandle(fontname.c_str(), size, thick, SCAST(int, type), -1, edgesize, SCAST(int, italic));
-			font_list.emplace_back(std::pair{ font_data{ fontname,size,thick,type,edgesize,italic }, _fonthandle });
+			_fonthandle = CreateFontToHandle(fontname.c_str(), load_size, thick, SCAST(int, type), -1, edgesize, SCAST(int, italic));
+			font_list.emplace_back(std::pair{ font_data{ fontname,load_size,(uint)(thick * _scale),type,edgesize,italic,light_mode }, _fonthandle });
 			setsize();
 		}
 	}
@@ -68,6 +77,14 @@ namespace dx_engine {
 		_filter = mode;
 		return *this;
 	}
+	text& text::extended(double rate) {
+		if (_rate != rate) {
+			_rate = rate;
+			setsize();
+		}
+
+		return *this;
+	}
 	text& text::at(const point<float>& position) {
 		_position = position;
 		return *this;
@@ -83,11 +100,12 @@ namespace dx_engine {
 		SetDrawBlendMode(SCAST(int, _blend), _blendparam);
 		SetDrawMode(SCAST(int, _filter));
 		auto p = _position - _center;
+		const auto draw_scale = _rate * _scale;
 		if (_fonthandle > 0) {
-			DrawStringFToHandle(p.x, p.y, _str.c_str(), _color.to_int(), _fonthandle, _edgecolor.to_int());
+			DrawExtendStringFToHandle(p.x, p.y, draw_scale, draw_scale, _str.c_str(), _color.to_int(), _fonthandle, _edgecolor.to_int());
 		}
 		else {
-			DrawStringF(p.x, p.y, _str.c_str(), _color.to_int(), _edgecolor.to_int());
+			DrawExtendStringF(p.x, p.y, draw_scale, draw_scale, _str.c_str(), _color.to_int(), _edgecolor.to_int());
 		}
 	}
 
@@ -103,7 +121,7 @@ namespace dx_engine {
 		else {
 			GetDrawStringSize(&x, &y, nullptr, _str.c_str(), (int)strlenDx(_str.c_str()));
 		}
-		_size = { SCAST(float, x), SCAST(float, y) };
+		_size = (point<float>{SCAST(float, x), SCAST(float, y)} * _rate);
 	}
 
 	text text::operator = (const std::string& str) {
@@ -116,7 +134,9 @@ namespace dx_engine {
 		setsize();
 		return *this;
 	}
-
+	void text::load_font_size(int size) {
+		FONT_LOAD_SIZE = size;
+	}
 
 	std::vector<std::string> split(const std::string& s, char split_char, bool is_contain_lastempty) {
 		std::vector<std::string> v;

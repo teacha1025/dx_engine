@@ -3,10 +3,10 @@
 
 namespace dx_engine {
 	namespace detail {
-		constexpr uint h = 16;
+		define h = 16u;
 		void _console::init(const point<uint>& windowsize) {
 			cr = cl = pallet::white;
-			f.set_font("メイリオ", h, 1u, font_type::anti_aliasing);
+			f.set_font("メイリオ", h, 1u, font_type::anti_aliasing, -1, false, true);
 			list.reserve(1 + h / windowsize.y);
 			r_list.reserve(1 + h / windowsize.y);
 		}
