@@ -213,6 +213,7 @@
     <ClCompile Include="mouse.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="rect.cpp" />
+    <ClCompile Include="script.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="text.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="..\details\random.h" />
     <ClInclude Include="..\details\range.h" />
     <ClInclude Include="..\details\scene.h" />
+    <ClInclude Include="..\details\script.h" />
     <ClInclude Include="..\details\shape.h" />
     <ClInclude Include="..\details\step.h" />
     <ClInclude Include="..\details\text.h" />

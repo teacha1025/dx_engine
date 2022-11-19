@@ -1,5 +1,5 @@
 #define NOMINMAX
-#include<DxLib.h>
+#include <DxLib.h>
 #include <stdlib.h>
 #include <iomanip>
 //#include <sstream>

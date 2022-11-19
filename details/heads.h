@@ -39,7 +39,7 @@
 #include "csv.h"
 #include "random.h"
 #include "thread.h"
-
+#include "script.h"
 
 
 namespace dx_engine {

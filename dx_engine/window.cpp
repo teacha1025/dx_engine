@@ -6,7 +6,6 @@ namespace dx_engine {
 	extern logger log;
 	namespace detail {
 		point<uint> window_top_pos = { 0,0 };
-		float window_extend = 1.0f;
 		void _window::size(const point<UINT>& size) {
 			_size = size;
 		}
@@ -56,9 +55,8 @@ namespace dx_engine {
 			SetBackgroundColor(SCAST(int, bg.r), SCAST(int, bg.g), SCAST(int, bg.b));
 		}
 		void _window::init() {
-#if DXLIB_VERSION < 0x32f
+			
 			if (_fullscreen) {
-
 				auto DisplayNum = GetDisplayNum();
 				int IsPrimary, RectX = 0, RectY = 0;
 				for (int i = 0; i < DisplayNum; i++) {
@@ -139,94 +137,6 @@ namespace dx_engine {
 				ChangeWindowMode(TRUE);
 				SetDrawScreen(DX_SCREEN_BACK);
 			}
-#else
-			if (_fullscreen) {
-
-				auto DisplayNum = GetDisplayNum();
-				int IsPrimary, RectX = 0, RectY = 0;
-				for (int i = 0; i < DisplayNum; i++) {
-					GetDisplayInfo(i, &RectX, &RectY, &_monitor_size.x, &_monitor_size.y, &IsPrimary);
-					if (IsPrimary == TRUE) {
-						break;
-					}
-				}
-				if (_monitor_size.x / (float)_size.x >= _monitor_size.y / (float)_size.y) {// ï`âÊâÊñ ÇÃî‰ó¶ÇÊÇËâ°Ç…í∑Ç¢Ç©ìØÇ∂èÍçá
-					_letterbox_size.y = 0;
-					_letterbox_size.x = (_monitor_size.x - (_monitor_size.y * _size.x / _size.y)) / 2;
-				}
-				else {// ï`âÊâÊñ ÇÃî‰ó¶ÇÊÇËècÇ…í∑Ç¢èÍçá
-					_letterbox_size.x = 0;
-					_letterbox_size.y = (_monitor_size.y - (_monitor_size.x * _size.y / _size.x)) / 2;
-				}
-				switch (_screentype) {
-					case fullscreen_type::fullscreen_dotbydot:
-					case fullscreen_type::borderless_dotbydot:
-					{
-						window_top_pos = (_monitor_size - _size) / 2;
-						DrawRotaGraph(_monitor_size.x / 2, _monitor_size.y / 2, _rate, 0.0f, _mainscreen, FALSE, FALSE);
-						break;
-					}
-					case fullscreen_type::fullscreen_full:
-					case fullscreen_type::borderless_full:
-					{
-						window_top_pos = _letterbox_size;
-						break;
-					}
-					case fullscreen_type::fullscreen_flexible:
-					case fullscreen_type::borderless_flexible:
-					{
-						window_top_pos = { 0,0 };
-						DrawExtendGraph(0, 0, _monitor_size.x, _monitor_size.y, _mainscreen, FALSE);
-						break;
-					}
-				}
-
-				SetWindowPosition(RectX, RectY);
-				if (_screentype == fullscreen_type::fullscreen_dotbydot || _screentype == fullscreen_type::fullscreen_full || _screentype == fullscreen_type::fullscreen_flexible) {
-					//SetGraphMode(_size.x, _size.y, 32);
-					ChangeWindowMode(FALSE);
-					SetFullScreenResolutionMode(DX_FSRESOLUTIONMODE_DESKTOP);
-				}
-				else {
-					ChangeWindowMode(TRUE);
-					SetWindowStyleMode(1);
-				}
-				SetGraphMode(_monitor_size.x, _monitor_size.y, 32);
-				/*switch (_screentype) {
-				case fullscreen_type::borderless_dotbydot: {
-
-					break;
-				}
-				case fullscreen_type::borderless_full: {
-
-					break;
-				}
-				case fullscreen_type::borderless_flexible: {
-
-					break;
-				}
-				case fullscreen_type::fullscreen_dotbydot: {
-
-					break;
-				}
-				case fullscreen_type::fullscreen_full: {
-
-					break;
-				}
-				case fullscreen_type::fullscreen_flexible: {
-
-					break;
-				}
-				}*/
-			}
-			else {
-				SetGraphMode(_size.x, _size.y, 32);
-				SetWindowSize((int)(_size.x * _rate), (int)(_size.y * _rate));
-				ChangeWindowMode(TRUE);
-				SetDrawScreen(DX_SCREEN_BACK);
-			}
-#endif
-			window_extend = _rate;
 		}
 
 

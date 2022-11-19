@@ -172,5 +172,11 @@ namespace dx_engine {
 		/// <param name="i">要素数</param>
 		/// <returns>分割画像のi番目のテクスチャ</returns>
 		texture operator [](const uint& i)const;
+
+		/// <summary>
+		/// テクスチャの大きさを返す
+		/// </summary>
+		/// <returns>テクスチャのピクセル数</returns>
+		point<double> size() const;
 	};
 }

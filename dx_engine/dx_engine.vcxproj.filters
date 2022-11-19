@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ヘッダー ファイル\script">
+      <UniqueIdentifier>{80e5ec23-567f-4a77-b148-821d3e4d34ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\script">
+      <UniqueIdentifier>{94c5cc17-54cc-4509-b0ac-7fe4619d129a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="system.cpp">
@@ -107,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="gui.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="script.cpp">
+      <Filter>ソース ファイル\script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="..\details\thread.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\details\script.h">
+      <Filter>ヘッダー ファイル\script</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
