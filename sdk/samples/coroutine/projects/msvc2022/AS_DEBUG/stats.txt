@@ -1,0 +1,275 @@
+
+Total count
+PopPtr     : 1
+PSF        : 98
+RET        : 1
+JMP        : 11
+JNP        : 11
+DECi       : 11
+PshVPtr    : 3
+CMPIi      : 11
+PopRPtr    : 1
+PshRPtr    : 2
+CALLSYS    : 96
+SUSPEND    : 39
+FREE       : 2
+STOREOBJ   : 1
+GETOBJ     : 2
+GETREF     : 1
+TYPEID     : 1
+SetV4      : 2
+CpyVtoV4   : 11
+CpyRtoV8   : 1
+WRTV4      : 1
+RDR4       : 11
+LDV        : 11
+PGA        : 25
+VAR        : 3
+i64TOi     : 1
+iTOi64     : 10
+FuncPtr    : 1
+PshV8      : 10
+RefCpyV    : 1
+AllocMem   : 1
+SetListSiz : 1
+PshListElm : 7
+SetListTyp : 2
+
+Never executed
+PshGPtr   
+PshC4     
+PshV4     
+SwapPtr   
+NOT       
+PshG4     
+LdGRdR4   
+CALL      
+JZ        
+JNZ       
+JS        
+JNS       
+JP        
+TZ        
+TNZ       
+TS        
+TNS       
+TP        
+TNP       
+NEGi      
+NEGf      
+NEGd      
+INCi16    
+INCi8     
+DECi16    
+DECi8     
+INCi      
+INCf      
+DECf      
+INCd      
+DECd      
+IncVi     
+DecVi     
+BNOT      
+BAND      
+BOR       
+BXOR      
+BSLL      
+BSRL      
+BSRA      
+COPY      
+PshC8     
+RDSPtr    
+CMPd      
+CMPu      
+CMPf      
+CMPi      
+CMPIf     
+CMPIu     
+JMPP      
+STR       
+CALLBND   
+ALLOC     
+LOADOBJ   
+REFCPY    
+CHKREF    
+GETOBJREF 
+PshNull   
+ClrVPtr   
+OBJTYPE   
+SetV8     
+ADDSi     
+CpyVtoV8  
+CpyVtoR4  
+CpyVtoR8  
+CpyVtoG4  
+CpyRtoV4  
+CpyGtoV4  
+WRTV1     
+WRTV2     
+WRTV8     
+RDR1      
+RDR2      
+RDR8      
+LDG       
+CmpPtr    
+iTOf      
+fTOi      
+uTOf      
+fTOu      
+sbTOi     
+swTOi     
+ubTOi     
+uwTOi     
+dTOi      
+dTOu      
+dTOf      
+iTOd      
+uTOd      
+fTOd      
+ADDi      
+SUBi      
+MULi      
+DIVi      
+MODi      
+ADDf      
+SUBf      
+MULf      
+DIVf      
+MODf      
+ADDd      
+SUBd      
+MULd      
+DIVd      
+MODd      
+ADDIi     
+SUBIi     
+MULIi     
+ADDIf     
+SUBIf     
+MULIf     
+SetG4     
+ChkRefS   
+ChkNullV  
+CALLINTF  
+iTOb      
+iTOw      
+SetV1     
+SetV2     
+Cast      
+uTOi64    
+fTOi64    
+dTOi64    
+fTOu64    
+dTOu64    
+i64TOf    
+u64TOf    
+i64TOd    
+u64TOd    
+NEGi64    
+INCi64    
+DECi64    
+BNOT64    
+ADDi64    
+SUBi64    
+MULi64    
+DIVi64    
+MODi64    
+BAND64    
+BOR64     
+BXOR64    
+BSLL64    
+BSRL64    
+BSRA64    
+CMPi64    
+CMPu64    
+ChkNullS  
+ClrHi     
+JitEntry  
+CallPtr   
+LoadThisR 
+DIVu      
+MODu      
+DIVu64    
+MODu64    
+LoadRObjR 
+LoadVObjR 
+JLowZ     
+JLowNZ    
+POWi      
+POWu      
+POWf      
+POWd      
+POWdi     
+POWi64    
+POWu64    
+Thiscall1 
+
+Sequences
+PopPtr    , VAR        : 1
+PSF       , PSF        : 24
+PSF       , CALLSYS    : 74
+RET       , JMP        : 1
+JMP       , JMP        : 1
+JMP       , SUSPEND    : 1
+JMP       , LDV        : 9
+JNP       , SUSPEND    : 11
+DECi      , CMPIi      : 11
+PshVPtr   , CALLSYS    : 3
+CMPIi     , JNP        : 11
+PopRPtr   , WRTV4      : 1
+PshRPtr   , PSF        : 1
+PshRPtr   , CALLSYS    : 1
+CALLSYS   , PSF        : 42
+CALLSYS   , JMP        : 8
+CALLSYS   , PshVPtr    : 1
+CALLSYS   , PshRPtr    : 2
+CALLSYS   , SUSPEND    : 13
+CALLSYS   , FREE       : 1
+CALLSYS   , STOREOBJ   : 1
+CALLSYS   , GETREF     : 1
+CALLSYS   , CpyVtoV4   : 10
+CALLSYS   , CpyRtoV8   : 1
+CALLSYS   , PGA        : 13
+CALLSYS   , SetListTyp : 2
+SUSPEND   , PSF        : 1
+SUSPEND   , JMP        : 1
+SUSPEND   , CALLSYS    : 10
+SUSPEND   , SUSPEND    : 11
+SUSPEND   , TYPEID     : 1
+SUSPEND   , SetV4      : 1
+SUSPEND   , LDV        : 2
+SUSPEND   , PGA        : 11
+SUSPEND   , AllocMem   : 1
+FREE      , RET        : 1
+FREE      , VAR        : 1
+STOREOBJ  , FREE       : 1
+GETOBJ    , CALLSYS    : 1
+GETOBJ    , GETOBJ     : 1
+GETREF    , CALLSYS    : 1
+TYPEID    , VAR        : 1
+SetV4     , SUSPEND    : 1
+SetV4     , PshListElm : 1
+CpyVtoV4  , SUSPEND    : 1
+CpyVtoV4  , iTOi64     : 10
+CpyRtoV8  , i64TOi     : 1
+WRTV4     , PshListElm : 1
+RDR4      , DECi       : 11
+LDV       , RDR4       : 11
+PGA       , PSF        : 20
+PGA       , PshVPtr    : 2
+PGA       , PshListElm : 3
+VAR       , GETOBJ     : 1
+VAR       , PGA        : 1
+VAR       , FuncPtr    : 1
+i64TOi    , CpyVtoV4   : 1
+iTOi64    , PshV8      : 10
+FuncPtr   , RefCpyV    : 1
+PshV8     , PSF        : 10
+RefCpyV   , PopPtr     : 1
+AllocMem  , SetListSiz : 1
+SetListSiz, PshListElm : 1
+PshListElm, PopRPtr    : 1
+PshListElm, CALLSYS    : 6
+SetListTyp, SetV4      : 1
+SetListTyp, PshListElm : 1
+LABEL     , SUSPEND    : 1

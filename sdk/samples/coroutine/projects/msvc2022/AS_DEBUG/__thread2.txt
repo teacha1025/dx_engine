@@ -1,0 +1,102 @@
+void thread2(dictionary@)
+
+Temps: 3, 4, 18, 19, 26
+
+Variables: 
+ 000: dictionary@ args
+ 001: int count
+ 011: string str
+ 003: double 
+ 004: const int 
+ 018: string 
+ 019: int 
+ 026: string 
+
+
+- 18,3 -
+               VarDecl  0
+    0  26 *    SUSPEND
+               VarDecl  1
+    1  26 *    PGA      8300472
+    3  27 *    PshVPtr  v0
+    4  28 *    CALLSYS  170           (dictionaryValue& dictionary::opIndex(const string&in))
+    6  26 *    PshRPtr
+    7  27 *    CALLSYS  151           (int64 dictionaryValue::opConv())
+    9  26 *    CpyRtoV8 v3
+   10  26 *    i64TOi   v4, v3
+   12  26 *    CpyVtoV4 v1, v4
+- 19,3 -
+   14  26 *    SUSPEND
+               VarDecl  2
+   15  26 *    TYPEID   0x400000c          'string'
+   17  27 *    VAR      v18
+   18  28 *    PGA      8300736
+   20  29 *    PshVPtr  v0
+   21  30 *    CALLSYS  170           (dictionaryValue& dictionary::opIndex(const string&in))
+   23  28 *    PshRPtr
+   24  29 *    PSF      v18
+   25  30 *    CALLSYS  19           (string::string())
+               ObjInfo  v18, 1
+   27  29 *    GETREF   1
+   28  29 *    CALLSYS  150           (void dictionaryValue::opConv(?&out))
+   30  26 *    PSF      v18
+   31  27 *    PSF      v11
+   32  28 *    CALLSYS  20           (string::string(const string&in))
+   34  26 *    PSF      v18
+   35  27 *    CALLSYS  21           (string::~string())
+- 20,3 -
+               ObjInfo  v18, 0
+               ObjInfo  v11, 1
+   37  26 *    SUSPEND
+            1:
+   38  26 *    LDV      v1
+   39  26 *    RDR4     v4
+   40  26 *    DECi
+   41  26 *    CMPIi    v4, 0
+   43  26 *    JNP      +40              (d:85)
+   45  26 *    SUSPEND
+- 22,5 -
+            {
+   46  26 *    SUSPEND
+   47  26 *    PGA      8300824
+   49  27 *    PSF      v18
+   50  28 *    PSF      v11
+   51  29 *    CALLSYS  26           (string string::opAdd(const string&in) const)
+               ObjInfo  v18, 1
+   53  26 *    CpyVtoV4 v4, v1
+   55  26 *    iTOi64   v3, v4
+   57  26 *    PshV8    v3
+   58  28 *    PSF      v26
+   59  29 *    PSF      v18
+   60  30 *    CALLSYS  42           (string string::opAdd(int64) const)
+               ObjInfo  v26, 1
+   62  26 *    PSF      v18
+   63  27 *    CALLSYS  21           (string::~string())
+               ObjInfo  v18, 0
+   65  26 *    PGA      8301352
+   67  27 *    PSF      v18
+   68  28 *    PSF      v26
+   69  29 *    CALLSYS  26           (string string::opAdd(const string&in) const)
+               ObjInfo  v18, 1
+   71  26 *    PSF      v26
+   72  27 *    CALLSYS  21           (string::~string())
+               ObjInfo  v26, 0
+   74  26 *    PSF      v18
+   75  27 *    CALLSYS  177           (void Print(string&in))
+   77  26 *    PSF      v18
+   78  27 *    CALLSYS  21           (string::~string())
+- 23,5 -
+               ObjInfo  v18, 0
+   80  26 *    SUSPEND
+   81  26 *    CALLSYS  178           (void yield())
+            }
+   83  26 *    JMP      -47              (d:38)
+- 25,2 -
+            2:
+   85  26 *    SUSPEND
+   86  26 *    PSF      v11
+   87  27 *    CALLSYS  21           (string::~string())
+               ObjInfo  v11, 0
+            0:
+   89  26 *    FREE     v0, 8302064
+   91  26 *    RET      1

@@ -1,0 +1,112 @@
+void main()
+
+Temps: 2, 3, 4, 5, 6, 13, 15, 22
+
+Variables: 
+ 001: int count
+ 002: int 
+ 003: (heap) dictionary 
+ 004: (heap) <dictionary> 
+ 005: (heap) coroutine@ 
+ 006: int 
+ 013: string 
+ 015: double 
+ 022: string 
+
+
+- 3,7 -
+    0  22 *    SUSPEND
+    1  22 *    JMP      +116              (d:119)
+            4:
+    3  22 *    SUSPEND
+- 5,5 -
+            {
+    4  22 *    SUSPEND
+               VarDecl  0
+    5  22 *    SetV4    v1, 0xa          (i:10, f:1.4013e-44)
+- 6,5 -
+    7  22 *    SUSPEND
+    8  22 *    AllocMem v4, 100
+   10  22 *    SetListSize v4, 0, 2
+   13  22 *    PshListElmnt v4, 4
+   15  23 *    CALLSYS  19           (string::string())
+   17  22 *    PGA      8300472
+   19  23 *    PshListElmnt v4, 4
+   21  24 *    CALLSYS  22           (string& string::opAssign(const string&in))
+   23  22 *    SetListType v4, 32, 4
+   26  22 *    SetV4    v2, 0x3          (i:3, f:4.2039e-45)
+   28  22 *    PshListElmnt v4, 36
+   30  23 *    PopRPtr
+   31  22 *    WRTV4    v2
+   32  22 *    PshListElmnt v4, 40
+   34  23 *    CALLSYS  19           (string::string())
+   36  22 *    PGA      8300736
+   38  23 *    PshListElmnt v4, 40
+   40  24 *    CALLSYS  22           (string& string::opAssign(const string&in))
+   42  22 *    SetListType v4, 68, 67108876
+   45  22 *    PshListElmnt v4, 72
+   47  23 *    CALLSYS  19           (string::string())
+   49  22 *    PGA      8301088
+   51  23 *    PshListElmnt v4, 72
+   53  24 *    CALLSYS  22           (string& string::opAssign(const string&in))
+   55  22 *    PshVPtr  v4
+   56  23 *    CALLSYS  154           (dictionary@ $list(int&in) { repeat { string, ? } })
+   58  22 *    STOREOBJ v3
+   59  22 *    FREE     v4, 8342648
+   61  22 *    VAR      v3
+   62  23 *    FuncPtr  0x7ec618          (func:void thread2(dictionary@))
+   64  24 *    RefCpyV  v5, 8180132
+   66  24 *    PopPtr
+   67  23 *    VAR      v5
+   68  24 *    GETOBJ   0
+   69  24 *    GETOBJ   1
+   70  24 *    CALLSYS  180           (void createCoRoutine(coroutine@, dictionary@))
+- 9,5 -
+   72  22 *    SUSPEND
+            5:
+   73  22 *    LDV      v1
+   74  22 *    RDR4     v2
+   75  22 *    DECi
+   76  22 *    CMPIi    v2, 0
+   78  22 *    JNP      +39              (d:119)
+   80  22 *    SUSPEND
+- 11,7 -
+            {
+   81  22 *    SUSPEND
+   82  22 *    PGA      8300296
+   84  23 *    PSF      v13
+   85  24 *    CALLSYS  20           (string::string(const string&in))
+               ObjInfo  v13, 1
+   87  22 *    CpyVtoV4 v6, v1
+   89  22 *    iTOi64   v15, v6
+   91  22 *    PshV8    v15
+   92  24 *    PSF      v22
+   93  25 *    PSF      v13
+   94  26 *    CALLSYS  42           (string string::opAdd(int64) const)
+               ObjInfo  v22, 1
+   96  22 *    PSF      v13
+   97  23 *    CALLSYS  21           (string::~string())
+               ObjInfo  v13, 0
+   99  22 *    PGA      8301352
+  101  23 *    PSF      v13
+  102  24 *    PSF      v22
+  103  25 *    CALLSYS  26           (string string::opAdd(const string&in) const)
+               ObjInfo  v13, 1
+  105  22 *    PSF      v22
+  106  23 *    CALLSYS  21           (string::~string())
+               ObjInfo  v22, 0
+  108  22 *    PSF      v13
+  109  23 *    CALLSYS  177           (void Print(string&in))
+  111  22 *    PSF      v13
+  112  23 *    CALLSYS  21           (string::~string())
+- 12,7 -
+               ObjInfo  v13, 0
+  114  22 *    SUSPEND
+  115  22 *    CALLSYS  178           (void yield())
+            }
+  117  22 *    JMP      -46              (d:73)
+            6:
+            }
+            3:
+            1:
+  119  22 *    JMP      -118              (d:3)
