@@ -15,11 +15,8 @@ namespace dx_engine {
 		std::string _str;
 		point<float> _position = { 0,0 }, _center = { 0,0 }, _size = { 0,0 };
 		color _color = pallet::black, _edgecolor = pallet::black;
-<<<<<<< HEAD
 		double _rate = 1.0, _scale = 1.0;
 		bool _light_mode = false;
-=======
->>>>>>> parent of c36c474 (1)
 
 		int _fonthandle = 0;
 

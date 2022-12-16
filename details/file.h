@@ -67,19 +67,24 @@ namespace dx_engine {
 		/// <param name="mode">書き出すモード</param>
 		void export_file(const std::string& path, const std::string& data, std::ios::ios_base::openmode mode = std::ios::trunc);
 
-		//template <class T, class Archive>
-		//concept seriarize = requires(T & data, Archive & archive) {
-		//	data.serialize(archive);
-		//};
+		class serializable {
+		public:
+			virtual void serialize() = 0;
+		};
+
+		template<class T>
+		concept serializable_c = requires (T & s) {
+			s.serialize();
+		};
 
 		/// <summary>
 		/// ファイルをバイナリとして書き出す
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="path"></param>
-		/// <param name="data"></param>
-		/// <param name="encrypt"></param>
-		template <class T>
+		/// <typeparam name="T">serialize関数を含むデータのクラス</typeparam>
+		/// <param name="path">書き出すファイルへのパス</param>
+		/// <param name="data">データ</param>
+		/// <param name="encrypt">暗号化するか</param>
+		template <serializable_c T>
 		void export_binary(const std::string& path, T& data, bool encrypt = true) {
 			std::stringstream ss;
 			std::string exports;
@@ -99,7 +104,14 @@ namespace dx_engine {
 			export_file(path, exports);
 		}
 
-		template <class T>
+		/// <summary>
+		/// ファイルをバイナリとして読み込む
+		/// </summary>
+		/// <typeparam name="T">serialize関数を含むデータのクラス</typeparam>
+		/// <param name="path">読み込むファイルへのパス</param>
+		/// <param name="data">データ</param>
+		/// <param name="encrypt">暗号化されているか</param>
+		template <serializable_c T>
 		void import_binary(const std::string& path, T& data, bool encrypt = true) {
 			std::stringstream ss;
 
@@ -117,6 +129,61 @@ namespace dx_engine {
 				ss << file[path];
 			}
 			cereal::BinaryInputArchive archive(ss);
+			archive(data);
+		}
+
+		/// <summary>
+		/// ファイルをjsonとして書き出す
+		/// </summary>
+		/// <typeparam name="T">serialize関数を含むデータのクラス</typeparam>
+		/// <param name="path">書き出すファイルへのパス</param>
+		/// <param name="data">データ</param>
+		/// <param name="encrypt">暗号化するか</param>
+		template <serializable_c T>
+		void export_json(const std::string& path, T& data, bool encrypt = true) {
+			std::stringstream ss;
+			std::string exports;
+			cereal::JSONOutputArchive archive(ss);
+			archive(data);
+			if (encrypt) {
+				auto dt = ss.str();
+				dt = MELON_ENCRYPT::encode(dt);
+
+				int ps = MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), NULL);
+				exports.resize(ps);
+				MELON_LZSS::LZSS_Encode(dt.data(), (int)dt.size(), exports.data());
+			}
+			else {
+				exports = ss.str();
+			}
+			export_file(path, exports);
+		}
+
+		/// <summary>
+		/// ファイルをjsonとして読み込む
+		/// </summary>
+		/// <typeparam name="T">serialize関数を含むデータのクラス</typeparam>
+		/// <param name="path">読み込むファイルへのパス</param>
+		/// <param name="data">データ</param>
+		/// <param name="encrypt">暗号化されているか</param>
+		template <serializable_c T>
+		void import_json(const std::string& path, T& data, bool encrypt = true) {
+			std::stringstream ss;
+
+			if (encrypt) {
+				std::string pln;
+
+				int ps = MELON_LZSS::LZSS_Decode(file[path].data(), NULL);
+				pln.resize(ps);
+				MELON_LZSS::LZSS_Decode(file[path].data(), pln.data());
+
+				pln = MELON_ENCRYPT::decode(pln);
+				ss << pln;
+			}
+			else {
+				ss << file[path];
+			}
+			cereal::JSONInputArchive archive(ss);
 			archive(data);
 		}
 	}

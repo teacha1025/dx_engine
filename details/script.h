@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include "../details/angelscript/angelscript.h"
 
 #define SCRIPT_ADD_CLASS_PROPERTY(engine, cls, type, prop) engine->RegisterObjectProperty(#cls, #type " " #prop, asOFFSET(cls, prop))
@@ -20,4 +20,4 @@ namespace dx_engine {
 		}
 		script_engine* get() { return _p_engine; }
 	};
-}
+}*/

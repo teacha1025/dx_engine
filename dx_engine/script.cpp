@@ -1,4 +1,4 @@
-#ifdef _DEBUG
+/*#ifdef _DEBUG
 #ifdef _M_X64
 #pragma comment(lib, "angelscript64d")
 #else
@@ -10,4 +10,4 @@
 #else
 #pragma comment(lib, "angelscript")
 #endif
-#endif
+#endif*/
