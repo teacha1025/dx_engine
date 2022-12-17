@@ -1,4 +1,4 @@
-#if 1
+#if 0
 #include "dx_engine.h"
 
 namespace dx_engine {
@@ -229,8 +229,8 @@ int main() {
 	rect r({ 256,192 });
 	r.at(window.size() / 2.0).colored(pallet::gray).blend(blend::none, 255).centered({ 92,92 });
 
-	script_manager script;
-	SCRIPT_ADD_CLASS_PROPERTY(script.get(), charactor, point<int>, pos);
+	//script_manager script;
+	//SCRIPT_ADD_CLASS_PROPERTY(script.get(), charactor, point<int>, pos);
 	while (systems.update()) {
 		window.title(std::format("Memory:{:.2f} MB / {:.2f} GB  Processor:{:#02.2f} %", systems.process_memory_info().PrivateUsage / (1024.0 * 1024.0), systems.memory_info().ullTotalPhys / (1024.0 * 1024.0 * 1024.0), systems.processor_usage()));
 		
@@ -240,7 +240,7 @@ int main() {
 		//if (thread_manager.get(id)) {
 		//	console << "a";
 		//}
-
+		//
 		//scenemanager.update();
 		/*bool frgb = false, fhsv = false;
 
@@ -419,7 +419,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	DxLib_End();
 	return 0;
 }
-#elif 1 //ボーダーレスウィンドウ
+#elif 0 //ボーダーレスウィンドウ
 #include"DxLib.h"
 
 #define SCREEN_W		(640)			//ゲーム自体の画面の横幅
@@ -577,7 +577,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	return 0;
 }
 //https://dxlib.xsrv.jp/cgi/patiobbs/patio.cgi?mode=view&no=4560
-#else
+#elif 0
 #include "DxLib.h"
 constexpr int size_x = 1900;
 constexpr int size_y = 1080;
@@ -652,4 +652,196 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// ソフトの終了
 	return 0;
 }
+#elif 1
+#include "dx_engine.h"
+# include <chrono>
+# include <type_traits>
+# include "CoroAsync/Task.hpp"
+# include "CoroAsync/Utility.hpp"
+
+using namespace std::literals::chrono_literals;
+using namespace dx_engine;
+
+void init() {
+	dx_engine::log.set(true, false);
+	//window.fullscreen(true, fullscreen_type::borderless_dotbydot);
+	window.size({ 1280,960 });
+	window.background(pallet::lightskyblue);
+	window.title("TEST");
+	window.extends(systems.monitor_size().x / 1920.0);
+	//file.load("resource.dat");
+
+	//systems.vsync(false);
+	//systems.max_fps(N);
+}
+point<float> make_vector(float v, float a) {
+	return point<float>{v* cos(a), v* sin(a)};
+}
+
+constexpr int wait(int f) {
+	return (int)(1000 * f / 60.0);
+}
+
+class enemy {
+public:
+	point<float> pos = {0,0};
+	float speed = 0, angle = radian_f(90), anglespeed = 0;
+	cra::Task<> move_t, wait_t;
+	int32_t count = -10, step = 0;
+
+	static std::vector<cra::Task<>> ary;
+	enemy() {
+		//ary.push_back(move());
+	}
+	void update() {
+		angle += anglespeed;
+		pos += make_vector(speed, angle);
+		//move_t.await_ready();
+		//auto move_t = move();
+		draw();
+		//if (!move_t.isReady()) {
+			console << count << step;
+			console << angle << speed;
+			console << pos;
+		//}
+		count++;
+		
+	}
+	void draw() {
+		rect({ 64,64 }).at(pos).colored(pallet::blue).draw();
+	}
+
+	cra::Task<> wait(int f) {
+		for (int i = 0; i < f; i++) {
+			co_await 1;
+		}
+	}
+
+	cra::Task<> move() {
+#if 0
+		while (true) {
+			switch (count) {
+			case 0: {//0
+				speed = 3;
+				anglespeed = radian_f(0);
+				step++;
+				co_await 1;
+				break;
+			}
+			case 90: {//1
+				speed = 2;
+				anglespeed = radian_f(-1);
+				step++;
+				co_await 1;
+				break;
+			}
+			case 180: {
+				speed = 3;
+				anglespeed = radian_f(0);
+				step++;
+				co_await 1;
+				break;
+			}
+			case 270: {
+				speed = 2;
+				anglespeed = radian_f(-1);
+				step++;
+				co_await 1;
+				break;
+			}
+			case 360: {
+				speed = 3;
+				anglespeed = radian_f(0);
+				step++;
+				co_return;
+				break;
+			}
+			default: {
+				co_await 1;
+				break;
+			}
+			}
+		}
+#elif 1
+		//while (true) {
+			speed = 3;
+			anglespeed = radian_f(0);
+			step++;
+			co_await ::wait(90);
+
+			speed = 2;
+			anglespeed = radian_f(-1);
+			step++;
+			co_await 1500ms;
+
+			speed = 3;
+			anglespeed = radian_f(0);
+			step++;
+			co_await 1500ms;
+
+			speed = 2;
+			anglespeed = radian_f(-1);
+			step++;
+			co_await 1500ms;
+
+			speed = 3;
+			anglespeed = radian_f(0);
+			step++;
+			co_return;
+		//}
+#else
+		speed = 3;
+		anglespeed = radian_f(0);
+		step++;
+		co_await 1500;
+		speed = 2;
+		anglespeed = radian_f(-1);
+		step++;
+		co_await 1500;
+
+		speed = 3;
+		anglespeed = radian_f(0);
+		step++;
+		co_await 1500;
+
+		speed = 2;
+		anglespeed = radian_f(-1);
+		step++;
+		co_await 1500;
+
+		speed = 3;
+		anglespeed = radian_f(0);
+		step++;
+		co_await 1500;
+#endif
+	}
+};
+std::vector<cra::Task<>> enemy::ary = {};
+cra::Task<> Main() {
+	std::vector<cra::Task<>> ary;
+	enemy e1, e2;
+	int c = 0;
+
+	while (systems.update()) {
+		if (c == 0) {
+			e1.move();
+		}
+		if (c == 60) {
+			e2.move();
+		}
+		e1.update();
+		if (c > 60) {
+			e2.update();
+		}
+		c++;
+		co_await 5ms;
+	}
+}
+
+int main() {
+	Main().wait();
+
+	return 0;
+}
+
 #endif
