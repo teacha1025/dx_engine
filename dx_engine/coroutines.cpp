@@ -1,6 +1,8 @@
 #include "../details/def.h"
 #include "../details/coroutines.h"
 
+
+#ifdef _DXENGINE_USE_OLD_COROUTINE
 namespace dx_engine {
 	namespace coroutines {
 		[[nodiscard]] task wait(uint frame) {
@@ -10,3 +12,6 @@ namespace dx_engine {
 		}
 	}
 }
+#else
+
+#endif

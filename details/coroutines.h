@@ -1,9 +1,12 @@
 #pragma once
 #include <coroutine>
 #include <memory>
-
+#include <type_traits>
+#include <CoroAsync/Task.hpp>
+#include <CoroAsync/Utility.hpp>
 #include "def.h"
 
+#ifdef _DXENGINE_USE_OLD_COROUTINE
 namespace dx_engine {
 	namespace coro_detail
 	{
@@ -220,3 +223,10 @@ namespace dx_engine {
 		[[nodiscard]] task wait(uint frame);
 	}
 }
+#else
+
+namespace dx_engine {
+	using task = cra::Task<>;
+}
+
+#endif

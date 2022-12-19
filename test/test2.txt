@@ -1,0 +1,16 @@
+angle,90
+speed,3
+anglespeed,0
+wait,90
+
+anglespeed,-1
+wait,90
+
+anglespeed,0
+wait,90
+
+anglespeed,-1
+wait,90
+
+anglespeed,0
+end

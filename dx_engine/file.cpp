@@ -144,6 +144,29 @@ namespace dx_engine {
 			return data[path];
 		}
 
+		std::vector<std::string> _file::get_line(const std::string& path, bool reload) {
+			std::vector<std::string> buf;
+			if (reload || !data.contains(path)) {
+				std::ifstream idata;
+				idata.open(path, std::ios::binary);
+				if (!idata) {
+					log.error("ファイル " + path + " は見つかりません");
+					return buf;
+				}
+				std::stringstream sdata;
+				sdata << idata.rdbuf();
+				if (data.contains(path)) {
+					data.at(path) = sdata.str();
+				}
+				else {
+					data.insert(std::make_pair(path, sdata.str()));
+				}
+			}
+			std::string plane = replace_string(data[path], "\r\n", "\n");
+			buf = split(plane, '\n', true);
+			return buf;
+		}
+
 		bool _file::contain(const std::string& path) {
 
 			if (!data.contains(path)) {

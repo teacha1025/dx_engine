@@ -655,12 +655,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #elif 1
 #include "dx_engine.h"
 # include <chrono>
-# include <type_traits>
-# include "CoroAsync/Task.hpp"
-# include "CoroAsync/Utility.hpp"
+
 
 using namespace std::literals::chrono_literals;
 using namespace dx_engine;
+
 
 void init() {
 	dx_engine::log.set(true, false);
@@ -686,18 +685,17 @@ class enemy {
 public:
 	point<float> pos = {0,0};
 	float speed = 0, angle = radian_f(90), anglespeed = 0;
-	cra::Task<> move_t, wait_t;
 	int32_t count = -10, step = 0;
+	std::vector<std::string> script;
 
-	static std::vector<cra::Task<>> ary;
-	enemy() {
-		//ary.push_back(move());
+	enemy(const std::string& path) {
+		auto f = file.get_line(path);
+		std::erase_if(f, [](const std::string& s) {return s == ""; });
+		script = f;
 	}
 	void update() {
 		angle += anglespeed;
 		pos += make_vector(speed, angle);
-		//move_t.await_ready();
-		//auto move_t = move();
 		draw();
 		//if (!move_t.isReady()) {
 			console << count << step;
@@ -711,13 +709,13 @@ public:
 		rect({ 64,64 }).at(pos).colored(pallet::blue).draw();
 	}
 
-	cra::Task<> wait(int f) {
+	task wait(int f) {
 		for (int i = 0; i < f; i++) {
 			co_await 1;
 		}
 	}
 
-	cra::Task<> move() {
+	task move() {
 #if 0
 		while (true) {
 			switch (count) {
@@ -763,7 +761,7 @@ public:
 			}
 		}
 #elif 1
-		//while (true) {
+		/*//while (true) {
 			speed = 3;
 			anglespeed = radian_f(0);
 			step++;
@@ -788,7 +786,28 @@ public:
 			anglespeed = radian_f(0);
 			step++;
 			co_return;
-		//}
+		//}*/
+
+		for (const auto& s : script) {
+			auto code = split(s, ",");
+			if (code.at(0) == "end") {
+				co_return;
+			}
+			float v = atof(code.at(1).c_str());
+			if (code.at(0) == "speed") {
+				speed = v;
+			}
+			else if (code.at(0) == "angle") {
+				angle = radian_f(v);
+			}
+			else if (code.at(0) == "anglespeed") {
+				anglespeed = radian_f(v);
+			}
+			else if (code.at(0) == "wait") {
+				co_await ::wait((int)v);
+			}
+			step++;
+		}
 #else
 		speed = 3;
 		anglespeed = radian_f(0);
@@ -816,18 +835,18 @@ public:
 #endif
 	}
 };
-std::vector<cra::Task<>> enemy::ary = {};
-cra::Task<> Main() {
-	std::vector<cra::Task<>> ary;
-	enemy e1, e2;
+
+task Main() {
+	std::vector<task> ary;
+	enemy e1("test.txt"), e2("test2.txt");
 	int c = 0;
 
 	while (systems.update()) {
 		if (c == 0) {
-			e1.move();
+			ary.push_back(e1.move());
 		}
 		if (c == 60) {
-			e2.move();
+			ary.push_back(e2.move());
 		}
 		e1.update();
 		if (c > 60) {

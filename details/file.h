@@ -35,6 +35,15 @@ namespace dx_engine {
 			/// <param name="reload">ファイルの再読み込みをするか(デフォルトではfalse)</param>
 			/// <returns>ファイルのデータ</returns>
 			std::string get(const std::string& path, bool reload = false);
+
+			/// <summary>
+			/// ファイルのデータを１行ずつ取得
+			/// </summary>
+			/// <param name="path">ファイルのパス</param>
+			/// <param name="reload">ファイルの再読み込みをするか(デフォルトではfalse)</param>
+			/// <returns>１行ずつに分かれたデータ</returns>
+			std::vector<std::string> get_line(const std::string& path, bool reload = false);
+
 			/// <summary>
 			/// ファイルが含まれているかを探索する
 			/// </summary>
