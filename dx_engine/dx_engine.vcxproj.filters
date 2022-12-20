@@ -19,6 +19,9 @@
     <Filter Include="ソース ファイル\script">
       <UniqueIdentifier>{94c5cc17-54cc-4509-b0ac-7fe4619d129a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\coroutine">
+      <UniqueIdentifier>{7d35998c-d62b-41db-a4a8-2f4364ee467d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="system.cpp">

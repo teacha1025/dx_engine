@@ -711,7 +711,7 @@ public:
 
 	task wait(int f) {
 		for (int i = 0; i < f; i++) {
-			co_await 1;
+			co_await ::wait(1);
 		}
 	}
 
@@ -804,7 +804,7 @@ public:
 				anglespeed = radian_f(v);
 			}
 			else if (code.at(0) == "wait") {
-				co_await ::wait((int)v);
+				co_await wait((int)v);
 			}
 			step++;
 		}

@@ -109,6 +109,8 @@ namespace dx_engine {
 				console.update(window.size());
 			}
 
+			_total_frame++;
+
 			return ProcessMessage() == 0 && window.update();
 		}
 
@@ -117,6 +119,10 @@ namespace dx_engine {
 		}
 		double _system::delta_sec_d() const {
 			return delta_msec / 1000.0;
+		}
+
+		ULONGLONG _system::total_frame() const {
+			return _total_frame;
 		}
 
 		float _system::fps() const {
