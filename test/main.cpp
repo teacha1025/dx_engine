@@ -654,8 +654,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 #elif 1
 #include "dx_engine.h"
-# include <chrono>
-
 
 using namespace std::literals::chrono_literals;
 using namespace dx_engine;
@@ -670,21 +668,23 @@ void init() {
 	window.extends(systems.monitor_size().x / 1920.0);
 	//file.load("resource.dat");
 
-	//systems.vsync(false);
+	systems.vsync(false);
 	//systems.max_fps(N);
 }
-point<float> make_vector(float v, float a) {
-	return point<float>{v* cos(a), v* sin(a)};
+point<double> make_vector(double v, double a) {
+	return point<double>{v* cos(a), v* sin(a)};
 }
 
 constexpr int wait(int f) {
 	return (int)(1000 * f / 60.0);
 }
-
+#ifndef debug_string
+#define debug_string(val) std::format("{}:{}",#val,val)
+#endif
 class enemy {
 public:
-	point<float> pos = {0,0};
-	float speed = 0, angle = radian_f(90), anglespeed = 0;
+	point<double> pos = {0,0};
+	double speed = 0, angle = 90.0, anglespeed = 0;
 	int32_t count = -10, step = 0;
 	std::vector<std::string> script;
 
@@ -694,13 +694,18 @@ public:
 		script = f;
 	}
 	void update() {
-		angle += anglespeed;
-		pos += make_vector(speed, angle);
+		angle += anglespeed * systems.delta_sec_d() * 60.0;
+		/*while (angle < 0) {
+			angle += 360.0;
+		}
+		angle = fmod(angle, 360.0);*/
+		pos += make_vector(speed*systems.delta_sec_d() * 60, radian(angle));
 		draw();
 		//if (!move_t.isReady()) {
-			console << count << step;
-			console << angle << speed;
-			console << pos;
+		console << debug_string(angle);
+		console << debug_string(anglespeed);
+		console << debug_string(speed);
+		console << debug_string(pos.to_string());
 		//}
 		count++;
 		
@@ -788,23 +793,30 @@ public:
 			co_return;
 		//}*/
 
-		for (const auto& s : script) {
+		for (auto& s : script) {
+			s = replace_string(s, " ", "");
 			auto code = split(s, ",");
 			if (code.at(0) == "end") {
 				co_return;
 			}
-			float v = atof(code.at(1).c_str());
+			double v = atof(code.at(1).c_str());
 			if (code.at(0) == "speed") {
 				speed = v;
 			}
 			else if (code.at(0) == "angle") {
-				angle = radian_f(v);
+				angle = v;
 			}
 			else if (code.at(0) == "anglespeed") {
-				anglespeed = radian_f(v);
+				anglespeed = v;
+				/*while (anglespeed < 0) {
+					anglespeed += 360.0;
+				}
+				anglespeed = fmod(anglespeed, 360.0);*/
 			}
 			else if (code.at(0) == "wait") {
-				co_await wait((int)v);
+				for (int i = 0; i < v; i++) {
+
+				}
 			}
 			step++;
 		}
@@ -842,6 +854,7 @@ task Main() {
 	int c = 0;
 
 	while (systems.update()) {
+		console >> systems.fps();
 		if (c == 0) {
 			ary.push_back(e1.move());
 		}
@@ -853,7 +866,7 @@ task Main() {
 			e2.update();
 		}
 		c++;
-		co_await 5ms;
+		co_await 0;
 	}
 }
 
@@ -862,5 +875,5 @@ int main() {
 
 	return 0;
 }
-
+#undef debug_string
 #endif
