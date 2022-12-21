@@ -654,6 +654,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 #elif 1
 #include "dx_engine.h"
+#include <queue>
 
 using namespace std::literals::chrono_literals;
 using namespace dx_engine;
@@ -669,7 +670,7 @@ void init() {
 	//file.load("resource.dat");
 
 	systems.vsync(false);
-	//systems.max_fps(N);
+	systems.max_fps(300);
 }
 point<double> make_vector(double v, double a) {
 	return point<double>{v* cos(a), v* sin(a)};
@@ -694,12 +695,12 @@ public:
 		script = f;
 	}
 	void update() {
-		angle += anglespeed * systems.delta_sec_d() * 60.0;
+		angle += anglespeed;
 		/*while (angle < 0) {
 			angle += 360.0;
 		}
 		angle = fmod(angle, 360.0);*/
-		pos += make_vector(speed*systems.delta_sec_d() * 60, radian(angle));
+		pos += make_vector(speed, radian(angle));
 		draw();
 		//if (!move_t.isReady()) {
 		console << debug_string(angle);
@@ -716,7 +717,7 @@ public:
 
 	task wait(int f) {
 		for (int i = 0; i < f; i++) {
-			co_await ::wait(1);
+			co_yield{};
 		}
 	}
 
@@ -815,7 +816,7 @@ public:
 			}
 			else if (code.at(0) == "wait") {
 				for (int i = 0; i < v; i++) {
-
+					co_yield{};
 				}
 			}
 			step++;
@@ -848,31 +849,41 @@ public:
 	}
 };
 
-task Main() {
+
+
+int main() {
+	//std::vector<std::pair<task,bool>> ary;
 	std::vector<task> ary;
+	auto s = sizeof(task);
 	enemy e1("test.txt"), e2("test2.txt");
 	int c = 0;
 
 	while (systems.update()) {
 		console >> systems.fps();
+		if (systems.keyboard.F1.down()) {
+			c = 0;
+			ary.clear();
+			ary.shrink_to_fit();
+			e1 = enemy("test.txt");
+			e2 = enemy("test2.txt");
+		}
 		if (c == 0) {
-			ary.push_back(e1.move());
+			//ary.emplace_back(std::make_pair(e1.move(), true));
+			ary.emplace_back(e1.move());
 		}
 		if (c == 60) {
-			ary.push_back(e2.move());
+			//ary.emplace_back(std::make_pair(e2.move(), true));
+			ary.emplace_back(e2.move());
 		}
 		e1.update();
 		if (c > 60) {
 			e2.update();
 		}
+		for (auto&& t : ary) {
+			t.next();
+		}
 		c++;
-		co_await 0;
 	}
-}
-
-int main() {
-	Main().wait();
-
 	return 0;
 }
 #undef debug_string
