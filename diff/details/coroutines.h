@@ -1,9 +1,10 @@
 #pragma once
 #include <coroutine>
 #include <memory>
-
 #include "def.h"
 
+#define _DXENGINE_USE_OLD_COROUTINE
+#ifdef _DXENGINE_USE_OLD_COROUTINE
 namespace dx_engine {
 	namespace coro_detail
 	{
@@ -97,7 +98,6 @@ namespace dx_engine {
 			coro_detail::_yield yield{ 0 };
 			std::shared_ptr<coro_detail::ITask> next;
 		};
-		//coroutine() = default;
 		coroutine(Handle h) :
 			coro(h)
 		{}
@@ -220,3 +220,12 @@ namespace dx_engine {
 		[[nodiscard]] task wait(uint frame);
 	}
 }
+#else
+#include <type_traits>
+#include <CoroAsync/Task.hpp>
+#include <CoroAsync/Utility.hpp>
+namespace dx_engine {
+	using task = cra::Task<>;
+}
+
+#endif

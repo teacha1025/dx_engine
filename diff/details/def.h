@@ -89,8 +89,8 @@ namespace dx_engine {
 	define YOTTA_F = (float)YOTTA;
 
 
-	define ENGINE = 0x0010b;
-	define ENGINE_S = "1.0b";
+	define ENGINE = 0x0010d
+	define ENGINE_S = "1.0d";
 
 
 }

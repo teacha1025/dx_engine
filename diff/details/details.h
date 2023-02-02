@@ -28,6 +28,7 @@ namespace dx_engine {
 		class _system final {
 		private:
 			ULONGLONG delta_msec = 0;
+			ULONGLONG _total_frame = 0;
 			float _fps = 0, _max_fps = HUGE_VALF;
 			bool _vsync = true;
 
@@ -84,6 +85,12 @@ namespace dx_engine {
 			/// </summary>
 			/// <returns>前フレームから何秒経ったか(double)</returns>
 			double delta_sec_d() const;
+
+			/// <summary>
+			/// アプリケーション開始からのフレーム数
+			/// </summary>
+			/// <returns></returns>
+			ULONGLONG total_frame() const;
 
 			/// <summary>
 			/// フレームレートの計算
